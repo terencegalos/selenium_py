@@ -1,0 +1,4 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102929,"Chrissy's Primitives, LLC.",4266 Laurel Springs Lane,Draper,Virginia,United States,24324,540 980 0909,Christine,Thompson,chrissyb@wildblue.net,The Packaging Source,11/10/2018,109.8
+102974,Bridgeway Scented Market & Decor,437 Ridge Rd,Jacksonville,North Carolina,United States,28540,9109345608,Tamara,Salvetti,tamara.salvetti@yahoo.com,The Packaging Source,11/12/2018,65.8
+103021,Claras Garden Florist,210 East Alder Street,Oakland,Maryland,United States,21550,240-488-1221,Emily,Berry,designer@clarasgardenflorist.com,The Packaging Source,11/14/2018,167

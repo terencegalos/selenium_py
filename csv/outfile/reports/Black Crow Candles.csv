@@ -1,0 +1,4 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103081,Happy Nest,1630 Home Avenue,Columbus,Indiana,United States,47201,8123712790,Andrea,Carlile,carlilefrog@gmail.com,Black Crow Candles,11/18/2018,501.25
+103090,Shadowbox Treasures,364 County Route 60,Waverly,New York,United States,14892,607-529-3427,Gail,West,gwest@stny.rr.com,Black Crow Candles,11/18/2018,441.25
+103112,Farmhouse Collections,3469 Fogel Road SE,Corydon,Indiana,United States,47112,812 968 3636,TAMMIE,KINNEY,farmhousecol@aol.com,Black Crow Candles,11/21/2018,101.5

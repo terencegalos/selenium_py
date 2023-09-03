@@ -1,0 +1,4 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103098,beason farms primitives & country decor,407 E Webster Ave,AVA,Missouri,United States,65608,417 683 3126,penny,beason,beasonfarmsprimitives@yahoo.com,Hanna's Handiworks,11/19/2018,107.1
+103111,backroads,"8 s Broadway, 8 s Broadway",herington,Kansas,United States,67449,785 258 8070,Chardy,Magnett,backroadsherington@gmail.com,Hanna's Handiworks,11/21/2018,457.6
+103136,Sebring florist inc,1072 Lakeview dr,Sebring,Florida,United States,33870,8633852499,Susan,Bible,Sebringflorist@gmail.com,Hanna's Handiworks Closeouts,11/23/2018,69

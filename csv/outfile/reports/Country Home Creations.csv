@@ -1,0 +1,3 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102977,simplee kountry,709 lavale terrace,lavale,Maryland,United States,21502,301-707-4154,sherrie,ricker,garypricker@yahoo.com,Country Home Creations,11/12/2018,114
+102990,Market 180,27 Sandy Hills Lane,Grand Forks,North Dakota,United States,58201,701 740 3559,Tamara,Hennessy,tamara@forksrealestate.com,Country Home Creations,11/13/2018,210

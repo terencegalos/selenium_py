@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103107,Spinning Wheel Antiques/with Year Round Christmas,7015 N 58th Ave,Glendale,Arizona,United States,85301,623 703 2071,Sara,Yarrow,syarrow8@gmail.com,Desperate Tin Signs,11/20/2018,379.8

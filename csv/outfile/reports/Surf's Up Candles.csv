@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103043,Funkie Junkies,204 e mckenzie st,punta gorda,Florida,United States,33950,941 575 9775,Hollie,Dustin,shopfunkiejunkies@gmail.com,Surf's Up Candles,11/16/2018,293.5

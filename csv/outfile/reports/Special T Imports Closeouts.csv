@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103121,MMC Gift Shop,1615 Maple Lane,Ashland,Wisconsin,United States,54806,715 685 5171,Lisa,Stephenson,lstephenson@ashlandmmc.com,Special T Imports Closeouts,11/21/2018,317.25

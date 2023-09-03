@@ -1,0 +1,3 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102950,Not Too Shabby,2605 hwy 238,auburn,Wyoming,United States,83111,3078869013,Karla,Jaques,nottooshabbywyo@gmail.com,Adams and Company,11/11/2018,259
+103022,Quality Carpet,356 Market Place Mall,Weston,West Virginia,United States,26452,304-669-2685,Quality,Carpet,triciaj@hughes.net,Adams and Company,11/14/2018,318

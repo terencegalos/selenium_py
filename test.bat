@@ -1,0 +1,31 @@
+@echo off
+set list_all=acg_selenium.py adamsco_selenium.py audreys_selenium.py blossombucket_selenium.py dci_selenium.py desma_selenium.py direct_intl_selenium.py hannashandiworks_selenium.py honeyhouse_selenium.py janmichaels_selenium.py kkinteriors_selenium.py kmi_selenium.py kraftklub_selenium.py pinecreek_selenium.py raghu_improved_selenium.py thecountryhouse_selenium.py viphome_selenium.py wholesale_home_decor_selenium.py
+set list=acg_selenium.py adamsco_selenium.py audreys_selenium.py blossombucket_selenium.py dci_selenium.py desma_selenium.py hannashandiworks_selenium.py honeyhouse_selenium.py janmichaels_selenium.py kkinteriors_selenium.py kmi_selenium.py kraftklub_selenium.py pinecreek_selenium.py raghu_improved_selenium.py thecountryhouse_selenium.py viphome_selenium.py wholesale_home_decor_selenium.py
+set slist=7988 8012 8008
+set vlist=vip
+set vendors=A_Cheerful_Giver A_Homestead_Shoppe A_Primitive_Glow Adams_and_Company Albert_Estate_LTD American_Dakota_Rugs Amish_Star Ann_Clark_Cookie_Cutters Artistic_Reflections Audreys_Your_Hearts_Delight Barn_Candles Beach_Frames Benson_Country_Packaging Bethany_Lowe Beyond_Borders Bittersweet_Springs_Metal Black_Crow_Candles Blackwater_Folk_Art Blossom_Bucket Brazos_Walking_Sticks Bright_Ideas Capabunga_Wine_Products Capitol_Imports Carson_Home_-_Flags Carson_Home_Accents Cedar_Mesa_Pottery Channel_Craft Chesapeake_Bay_-_JD_Yeatts Coast_Lamp_Mfg. Colonial_Thymes_Candles Colorful_Garden_Flags Concepts_in_Time Country_Home_Creations Cowgirl_Chocolates Craft_Outlet_-_Olde_Memories Darren_Gygi_Canvas_Art Deb_and_Co._Handmade_Ornaments Debry_Jewelry Delton_Products Delton_Products_Closeouts Designs_Combined Designs_Combined_Closeouts Desma_Group_Home_and_Gift Desperate_Tin_Signs Direct_International D-n-D_Ranch_Aromas DNK_Designs DNS_Designs Fiber_and_Water_Framed_Art Flameless_Candles Floral_Treasure Frog_on_a_Limb_Primitives_Soy_Candles Gooseberry_Patch_Cookbooks Hanna's_Handiworks Hanna's_Handiworks_Closeouts Heartwood_Hollow_Signs Homespice_Decor Honey_and_Me Honey_House_Naturals Impressions_on_Market JandJ_Wire JanMichael's_Crafts JanMichaels_Crafts_Closeouts JB_Naturals Jones'_Rustic_Signs Just_Jill_-_Border_Bytes KandK_Interiors KandK_Interiors_50_Off_Closeouts KandK_Jewelry KMI_International Kraft_Klub Kraft_Klub_Closeouts Kreative_Kraftwerks Lighthouse_Products Lillie_May_Naturals_Soap Lyons_Baskets Magic_Fairy_Candles McCall's_Candles Miller_Decor Mullberry_Home_Wholesale Northlight_Seasonal Objects_With_Purpose_Candles Olivia's_Heartland_Wholesale Passport_Candles PD_Home_and_Garden Pine_Creek_Four_Corners Pine_Valley_Pictures Pine_Valley_Plaques Primitives_at_Crow_Hollow Raggedy_Junction Raghu_-_Home_Collections Ragon_House_Collection Red_Horse_Signs Rose_of_Sharon_Home_Fragrances Rowe_Pottery Rustic_Treasures Sallyeander_Soaps Sea_Stones_Products Shea's_Wildflower_Company Simply_Vintage_Soy_Candles Special_T_Imports Special_T_Imports_Closeouts Star_Hollow_Candle_Co. Stony_Creek_at_Home Surf's_Up_Candles The_Country_House_Closeouts The_Country_House_Collection The_Crafters_Loft The_French_Bee The_Packaging_Source Uniquely_Coastal VHC_Brands_Victorian_Heart Vickie_Jeans_Creations VIP_International_Home_and_Garden Warm_Glow_Candles Whiskey_Mountain Wholesale_Home_decor_Harvest_Scents Wholesale_Home_Decor_Closeouts Wing_Tai_Trading Adams_and_Co_Closeouts Adventure_Marketing Blossom_Bucket_Closeouts Capitol_Discounted_Closeouts Carson_Home_Accents_Closeouts Cheasapeake_-JD_Yeatts_Closeouts CLM_Enterprise_Rugs Golden_Hill_Studios Hip_Signs_for_Cool_Folks Home_Collections_by_Raghu_Closeouts JJ_Potts_Garden North_Country_Wind_Bells Peaceful_Village_Jewelry VIP_Home_and_Garden_Discount_Closeouts Westmoreland ZAER_International
+REM set Arr[0]=First
+REM set Arr[1]=Second
+REM set Arr[2]=Third
+REM set Arr[3]=Fourth
+REM set x=0
+REM :Symloopn
+
+REM if defined Arr[%x%] (
+    REM call echo %%Arr[%x%]%%
+    REM set /a x+=1
+    REM GOTO :Symloop
+REM )
+REM echo The array length is %x%
+
+REM pause
+
+::python image_checker.py
+
+for %%a in (%vlist%) do ( 
+   REM call python scraper_selenium.py %%a 
+   call python upload.py %%a 
+   REM call python image_download.py %%a 
+)
+
+shutdown.exe /s /t 00

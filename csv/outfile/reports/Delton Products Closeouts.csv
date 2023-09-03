@@ -1,0 +1,4 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103052,Glotzbach Pharmacy,500 S Grant Ave,Fowler,Indiana,United States,47944,765-884-1520,Angie,Glotzbach,glotzbachpharmacy@gmail.com,Delton Products Closeouts,11/16/2018,122.48
+103078,John Haldoupis Designs,775 University Ave.,Rochester,New York,United States,14607,585-454-1260,John,John Haldoupis,bfjack@frontiernet.net,Delton Products Closeouts,11/18/2018,115.02
+103130,Piper Building Treasures,305 Main Street,Malvern,Iowa,United States,51551,217 430 6472,Kelley,Hatfield,piperbuildingtreasures1919@outlook.com,Delton Products Closeouts,11/22/2018,105.22

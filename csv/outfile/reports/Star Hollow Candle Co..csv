@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102969,PrimitiveMe,1214 South 2nd Street Suite B,Clearfield,Pennsylvania,United States,16830,8145779799,Mary,Gisewhite,primitiveme@verizon.net,Star Hollow Candle Co.,11/12/2018,206

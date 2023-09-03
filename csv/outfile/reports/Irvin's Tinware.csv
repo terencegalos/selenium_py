@@ -1,0 +1,3 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103117,"Colonial Creed, LLC",1440 Mount Zion Road,Masontown,West Virginia,United States,26542,304 288 7424,Jozy,Casteel,Thecolonialcreed@yahoo.com,Irvin's Tinware,11/21/2018,251.25
+103126,J AND S LANDSCAPING,127 JORDON HOLLOW ROAD,STANLEY,Virginia,United States,22851,540-778-1602,SHEILA,DAVIS,CABINFEVER127@EMBARQMAIL.COM,Irvin's Tinware,11/21/2018,110

@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103135,Sebring florist inc,1072 Lakeview dr,Sebring,Florida,United States,33870,8633852499,Susan,Bible,Sebringflorist@gmail.com,Floral Treasure,11/23/2018,262.8

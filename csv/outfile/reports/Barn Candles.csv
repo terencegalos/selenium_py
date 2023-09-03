@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103038,Rayven's Flowers and Gifts,139 N Bent St,Powell,Wyoming,United States,82435,3072020186,Rayven,Faxon,rayvensflowerswy@gmail.com,Barn Candles,11/15/2018,289

@@ -1,0 +1,3 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103108,Woolen Mill Primitives,26 Main Street,Dexter,Maine,United States,4930,207 270 1177,Lynn,Mckusick,lynnmckusick5@gmail.com,A Cheerful Giver,11/20/2018,144
+103132,Petals & Blooms LLC,9 Bank Street,St. Albans,Vermont,United States,5478,802 524 4146,Sarah,Minor,sarahminor422@gmail.com,A Cheerful Giver,11/23/2018,150

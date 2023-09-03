@@ -1,0 +1,5 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102907,Bijou Gift Boutique,844 parkway dr,Bluffton,Indiana,United States,46714,2608202760,Joy,Addington,addington5903@yahoo.com,DNS Designs,11/9/2018,119.32
+102965,2 Girls Decor and More,23640 Grindstone  Rd,Lebanon,Missouri,United States,65536,417-718-1300,Gail,Lobdell,gaillobdell@hotmail.com,DNS Designs,11/12/2018,165.9
+102971,SWEET PICKENS,4263 STATE RT 22,SALEM,New York,United States,12865,5182576842,geraldine,SULLIVAN,SULLY9696@HOTMAIL.COM,DNS Designs,11/12/2018,211.46
+103036,Country Charm,173 Main Street,Lander,Wyoming,United States,82520,307 335 5444,Tammy,Logue,Loguetammy@yahoo.com,DNS Designs,11/15/2018,175.82

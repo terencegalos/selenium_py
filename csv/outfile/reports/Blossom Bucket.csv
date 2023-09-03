@@ -1,0 +1,4 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102936,Cherished Offerings,450 Hickory Lane,Davis Junction,Illinois,United States,61020,815.298.8651,Sheri,Hilliard,imaradmt2@hotmail.com,Blossom Bucket,11/10/2018,58.5
+102942,swings and things,16 rte 125,kingston,New Hampshire,United States,3848,603 642 4500,donna,damphousse,donnasswings@aol.com,Blossom Bucket,11/11/2018,133.2
+102978,Quality Carpet,356 Market Place Mall,Weston,West Virginia,United States,26452,304-669-2685,Quality,Carpet,triciaj@hughes.net,Blossom Bucket,11/12/2018,181

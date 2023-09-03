@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102905,Studio m salon,1013 n orange st,Butler,Missouri,United States,64730,660 679 1169,Jayme,Mcelwain,Jmyrtle51@gmail.com,Northlight Seasonal,11/9/2018,1117

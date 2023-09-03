@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103136,Sebring florist inc,1072 Lakeview dr,Sebring,Florida,United States,33870,8633852499,Susan,Bible,Sebringflorist@gmail.com,Hanna's Handiworks Closeouts,11/23/2018,69

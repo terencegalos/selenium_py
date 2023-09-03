@@ -1,0 +1,3 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103066,Southern Salvations,1060 Hey 348 E,SYMSONIA,Kentucky,United States,42082,270 851 8510,Barbara,Henson,bnh2251@gmail.com,VIP International Home & Garden,11/17/2018,515.78
+103137,Sebring florist inc,1072 Lakeview dr,Sebring,Florida,United States,33870,8633852499,Susan,Bible,Sebringflorist@gmail.com,VIP International Home & Garden,11/23/2018,203.8

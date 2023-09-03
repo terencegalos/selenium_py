@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103103,Country Spice Keepsakes,913 North Main Street,Milan,Indiana,United States,47031,812 621 1548,Ada Jane,Vinup,ajvinup@yahoo.com,KMI International,11/19/2018,132.86

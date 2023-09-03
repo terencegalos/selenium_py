@@ -1,0 +1,3 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102897,"Chrissy's Primitives, LLC.",4266 Laurel Springs Lane,Draper,Virginia,United States,24324,540 980 0909,Christine,Thompson,chrissyb@wildblue.net,Wing Tai Trading,11/9/2018,987.35
+103007,Oak Creek Creations,400 Main Street,Volant,Pennsylvania,United States,16156,7243723354,Dana,Barr,oakcreekcreations@zoominternet.net,Wing Tai Trading,11/13/2018,125.04

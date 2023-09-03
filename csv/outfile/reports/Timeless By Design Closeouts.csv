@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103073,Unique Country Store,601 N Main St,Charles City,Iowa,United States,50616,319 269 7894,Shelley,Zweibohmer,shelleyzweibohmer@gmail.com,Timeless By Design Closeouts,11/17/2018,159.48

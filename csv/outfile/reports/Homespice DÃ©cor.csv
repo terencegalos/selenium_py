@@ -1,0 +1,4 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103079,Of Simpler Tymes,2074 Firwood Ave.,Santa Rosa,California,United States,95403,707)5788869,christina,krummes,devonpop@prodigy.net,Homespice Décor,11/18/2018,215
+103119,Lavendar and Lace,2701 William Penn Highway,Williamsburg,Pennsylvania,United States,16693,814-832-4609,Kathy,Boccardi-Dickinson,kboccardi@blairco.org,Homespice Décor,11/21/2018,300.64
+103133,Soul SidekicK Studio,203 E. Main Street,Lebanon,Ohio,United States,45036,303 589 5532,Marianne,ONeil,moneil@soulsidekick.com,Homespice Décor,11/23/2018,229.3

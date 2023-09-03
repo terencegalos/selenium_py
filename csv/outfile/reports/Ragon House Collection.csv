@@ -1,0 +1,5 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103056,Showme Bargains,405 North College,Princeton,Missouri,United States,64673,1-660-748-4488,Tammy,Miller,chuckntam@grundyec.net,Ragon House Collection,11/16/2018,473.5
+103061,"Colonial Creed, LLC",1440 Mount Zion Road,Masontown,West Virginia,United States,26542,304 288 7424,Jozy,Casteel,Thecolonialcreed@yahoo.com,Ragon House Collection,11/17/2018,1027.5
+103123,Daisy Farm Decor LLC,1371 Sheridan Ave,Cody,Wyoming,United States,82414,3075865411,Tamala,Tamala J Collins,lifeondaisyfarm@gmail.com,Ragon House Collection,11/21/2018,268
+103124,Quality Carpet,356 Market Place Mall,Weston,West Virginia,United States,26452,304-669-2685,Quality,Carpet,triciaj@hughes.net,Ragon House Collection,11/21/2018,253.5

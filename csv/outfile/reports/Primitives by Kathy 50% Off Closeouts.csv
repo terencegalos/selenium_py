@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103125,Phelps Mercantile,62 Ontario Street,Phelps,New York,United States,14532,315-548-5231,Alyssa,Hixson,bookkeeping@phelpsmercantile.com,Primitives by Kathy 50% Off Closeouts,11/21/2018,136.25

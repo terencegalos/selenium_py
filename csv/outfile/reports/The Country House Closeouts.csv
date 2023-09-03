@@ -1,0 +1,3 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103057,Homespun Treasures Inc,324 S Brady Street,Dubois,Pennsylvania,United States,15801,814-371-6700,Tina,Brewer,tinabrewer@windstream.net,The Country House Closeouts,11/17/2018,300
+103110,LIVI & CO,3105 Ledo Rd,LeesburgAnimal,Georgia,United States,31762,229 854 0404,Cynthia,Miles,cindiheard@aol.com,The Country House Closeouts,11/20/2018,246

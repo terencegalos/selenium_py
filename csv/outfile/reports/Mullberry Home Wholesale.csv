@@ -1,0 +1,6 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103060,Cranky Cat & Co.,103 Lucy Long Ct.,Stephens City,Virginia,United States,22655,540 313 7102,Debora,Guzik,djguzik@hotmail.com,Mullberry Home Wholesale,11/17/2018,264.87
+103065,Simply Country,70 Frederick Street,North Adams,Massachusetts,United States,1247,413 652 7921,Laurie,Coody Boucher,Lauriem1016@hotmail.com,Mullberry Home Wholesale,11/17/2018,221.77
+103085,Amber's Pure Country Crafts,3702 Pine Road,Blossvale,New York,United States,13308,315-371-0156,Amber,Burnup,aalburnup@aol.com,Mullberry Home Wholesale,11/18/2018,333.15
+103092,A Lil'l of country,155 cool spring road,Indiana,Pennsylvania,United States,15701,724-464-7846,chery,polley,cpolleycountrygirl@gmail.com,Mullberry Home Wholesale,11/18/2018,121.12
+103113,Country Charm,173 Main Street,Lander,Wyoming,United States,82520,307 335 5444,Tammy,Logue,Loguetammy@yahoo.com,Mullberry Home Wholesale,11/21/2018,278.44

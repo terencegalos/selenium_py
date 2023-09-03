@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102912,Ducks in a Row Studio,910 120th Lane NW,Coon Rapids,Minnesota,United States,55448,763 862 4604,Bernadette,Gangell,vermeersducks@q.com,Cedar Mesa Pottery,11/9/2018,136

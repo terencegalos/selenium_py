@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103084,Elizabeths LLC,4817 Hwy Y,Gerald,Missouri,United States,63037,573-680-6157,Sherry,Byram,Elizabethsgiftsantiques@gmail.com,McCall's Candles,11/18/2018,216

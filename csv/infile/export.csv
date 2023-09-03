@@ -1,0 +1,79 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Reg_Date,Vendor_Name,DateOrdered,Subtotal,DiscountPercentage,Loyalty Points Discount,Total,Monetary Unit,Loyalty Points Earned
+103242,Anna Bananas,128 S. Woodland Blvd,DeLand,Florida,United States,32720,386-624-6929,Shannon,Venturini,annabananasdeland@gmail.com,6/10/2010,The Country House Collection,11/30/2018,798,0,20,778,USD,14
+103243,Heavens Dancing,6532 Chestnut Ave,Orangevale,California,United States,95662,916 747 3900,Colleen,Karlin,Heavensdancing@yahoo.com,3/20/2017,Mullberry Home Wholesale,11/30/2018,104.36,0,0,104.36,USD,
+103244,Wilkes Country Corner,302 10th Street,N Wilkesboro,North Carolina,United States,28659,336 902 1233,Lois,Sale,lsale@embarqmail.com,9/23/2014,The Country House Collection,11/30/2018,158,0,0,158,USD,2
+103245,Heavens Dancing,6532 Chestnut Ave,Orangevale,California,United States,95662,916 747 3900,Colleen,Karlin,Heavensdancing@yahoo.com,3/20/2017,Audrey's Closeouts and Sale,11/30/2018,76.62,0,0,76.62,USD,
+103246,"Gifts from the Heart Florist, Inc.",783 Deer Park Ave,North Babylon,New York,United States,11703,631-539-8887,Martha,Cederstrom,martha@giftsfromtheheartflorist.com,7/20/2009,Audreys Your Hearts Delight,11/30/2018,173.34,0,0,173.34,USD,1
+103247,A Lil'l of country,155 cool spring road,Indiana,Pennsylvania,United States,15701,724-464-7846,chery,polley,cpolleycountrygirl@gmail.com,1/19/2018,Wholesale Home decor (Harvest Scents),11/30/2018,148.02,0,0,148.02,USD,3
+103248,Encore Emporium,109 South 4th Street,Hannibal,Missouri,United States,63401,573 231 4922,Rhonda,Hammock,rhonda_hammock@yahoo.com,9/7/2014,Audreys Your Hearts Delight,11/30/2018,346.6,0,0,346.6,USD,6
+103249,Encore Emporium,109 South 4th Street,Hannibal,Missouri,United States,63401,573 231 4922,Rhonda,Hammock,rhonda_hammock@yahoo.com,9/7/2014,Audrey's Closeouts and Sale,11/30/2018,87.24,0,0,87.24,USD,
+103250,Woolen Mill Primitives,26 Main Street,Dexter,Maine,United States,4930,207 270 1177,Lynn,Mckusick,lynnmckusick5@gmail.com,11/1/2015,Ragon House Collection,12/1/2018,271.62,0,0,271.62,USD,4
+103251,Jeannie's House,3432 Campfire Trail,Cheyenne,Wyoming,United States,82001,307-369-1771,Jeannie,Creel,jeanniecreel@aol.com,7/21/2010,Audreys Your Hearts Delight,12/1/2018,126.09,0,0,126.09,USD,1
+103252,Elizabeths LLC,4817 Hwy Y,Gerald,Missouri,United States,63037,573-680-6157,Sherry,Byram,Elizabethsgiftsantiques@gmail.com,7/18/2011,Home Collections by Raghu Closeouts,12/1/2018,214.62,0,0,214.62,USD,
+103253,CLD Farms LLC,505 3rd Ave SE,State Center,Iowa,United States,50247,641 483 4248,Christy,Watson,cwatson90@hotmail.com,10/31/2018,Irvin's Tinware,12/1/2018,169,0,0,169,USD,1
+103254,CLD Farms LLC,505 3rd Ave SE,State Center,Iowa,United States,50247,641 483 4248,Christy,Watson,cwatson90@hotmail.com,10/31/2018,Bethany Lowe,12/1/2018,154.6,0,0,154.6,USD,1
+103255,CLD Farms LLC,505 3rd Ave SE,State Center,Iowa,United States,50247,641 483 4248,Christy,Watson,cwatson90@hotmail.com,10/31/2018,Raghu - Home Collections,12/1/2018,150.25,0,0,150.25,USD,1
+103256,Daisy Farm Decor LLC,1371 Sheridan Ave,Cody,Wyoming,United States,82414,3075865411,Tamala,Tamala J Collins,lifeondaisyfarm@gmail.com,1/11/2018,Barn Candles,12/1/2018,155,0,0,155,USD,3
+103257,Treasured Toys Woodworking,7963 Cedar Rd.,MILACA,Minnesota,United States,56353,320 761 3787,Tina,Tesch,tinatesch59@gmail.com,10/3/2017,Audreys Your Hearts Delight,12/2/2018,100.02,0,0,100.02,USD,2
+103258,Vintage Junky,680 Glen Ave,Berlin,New Hampshire,United States,3570,603-752-1601,Maureen,Patry,mppatry@yahoo.com,10/7/2012,Audreys Your Hearts Delight,12/2/2018,135.8,0,0,135.8,USD,2
+103259,The Gifted Garden,139 Market Street,Leechburg,Pennsylvania,United States,15656,724-845-7536,Vicki,Peterman,kvag99@yahoo.com,5/31/2013,Capitol Imports,12/2/2018,138.5,0,0,138.5,USD,2
+103260,Elizabeths LLC,4817 Hwy Y,Gerald,Missouri,United States,63037,573-680-6157,Sherry,Byram,Elizabethsgiftsantiques@gmail.com,7/18/2011,Audreys Your Hearts Delight,12/2/2018,601.8,0,0,601.8,USD,12
+103261,Elizabeths LLC,4817 Hwy Y,Gerald,Missouri,United States,63037,573-680-6157,Sherry,Byram,Elizabethsgiftsantiques@gmail.com,7/18/2011,JanMichael's Crafts,12/2/2018,415.9,0,0,415.9,USD,12
+103262,Home Sweet Home,216 S Columbia St,Warsaw,Indiana,United States,46580,574-269-6767,Mary Anne,Brumfield,embeehsh@centurylink.net,2/23/2014,KMI International,12/2/2018,177.2,0,0,177.2,USD,2
+103263,Personalized With Love,1745 E Huntley Road,Goshen,Ohio,United States,45122,513 722 1226,Shirl,Reising,slreising@cinci.rr.com,7/23/2017,Special T Imports,12/2/2018,111.75,0,0,111.75,USD,1
+103264,Nettie's,4695 Dry Creek Rd,Newark,Ohio,United States,43055,740 403 5711,Lynette,Hindel,Lynhindel@gmail.com,3/19/2018,Mullberry Home Wholesale,12/2/2018,125.64,0,0,125.64,USD,
+103265,Gracie Mae's Mercantile,16 Circle Dr,Rossville,Georgia,United States,30741,423 883 9914,Magin,Gilbert,Graciemaesmercantile@outlook.com,6/10/2018,JanMichael's Crafts,12/2/2018,246.6,0,0,246.6,USD,4
+103266,Country Charm,173 Main Street,Lander,Wyoming,United States,82520,307 335 5444,Tammy,Logue,Loguetammy@yahoo.com,9/18/2017,Market Street Wholesale,12/2/2018,141,0,0,141,USD,
+103267,The Funky Bunk,39660 CR 37,Ault,Colorado,United States,80610,970 405 9956,Cindy,Hasbrouck,Cindyhasbrouck@gmail.com,8/10/2018,Special T Imports,12/2/2018,361.8,0,0,361.8,USD,3
+103268,Quality Carpet,356 Market Place Mall,Weston,West Virginia,United States,26452,304-669-2685,Quality,Carpet,triciaj@hughes.net,5/10/2014,Wholesale Home decor (Harvest Scents),12/3/2018,302.88,0,0,302.88,USD,9
+103269,The Lattice Company,110 S Sterling,Ashley,Michigan,United States,48806,989 847 3700,Marcie,Thompson,marciet@bearnet.net,7/11/2010,Wholesale Home decor (Harvest Scents),12/3/2018,144,0,0,144,USD,2
+103270,From Our Home To Yours,3006 S 2025 W  Suite 110,West Haven,Utah,United States,84401,801-985-1928,Michele,Miller,fohty@msn.com,1/24/2011,Special T Imports,12/3/2018,183,0,0,183,USD,1
+103271,Wilkes Country Corner,302 10th Street,N Wilkesboro,North Carolina,United States,28659,336 902 1233,Lois,Sale,lsale@embarqmail.com,9/23/2014,Audrey's Closeouts and Sale,12/3/2018,120.54,0,0,120.54,USD,
+103272,Wilkes Country Corner,302 10th Street,N Wilkesboro,North Carolina,United States,28659,336 902 1233,Lois,Sale,lsale@embarqmail.com,9/23/2014,Special T Imports,12/3/2018,144.8,0,0,144.8,USD,3
+103273,Cabin Fever Gifts & Decor,41370 Big Bear Blvd,Big Bear Lake,California,United States,92315,9098669303,Tracy,Phillips,cabinfever115@earthlink.net,11/29/2010,Capitol Imports,12/3/2018,76.9,0,0,76.9,USD,
+103274,EVERY BLOOM'N THING,251 SW 6TH ST,REDMOND,Oregon,United States,97756,541 504 9777,DONNA,WILDING,everybloomnthingredmond@gmail.com,6/22/2016,Delton Products,12/3/2018,110,0,0,110,USD,2
+103275,S&D,630 BriarCreek Drive,Salisbury,North Carolina,United States,28146,336 596 7027,Debra,Manuel,dhulin32@gmail.com,10/21/2018,Audreys Your Hearts Delight,12/3/2018,90.3,0,0,90.3,USD,
+103276,Anna's Rusty Bucket,1020 W Trinity Ave,Clinton,Indiana,United States,47842,765-505-5054,Anna,Kelsheimer,annas.rusty.bucket@aol.com,2/1/2015,Special T Imports,12/3/2018,261.6,0,0,261.6,USD,4
+103277,"Chrissy's Primitives, LLC.",4266 Laurel Springs Lane,Draper,Virginia,United States,24324,540 980 0909,Christine,Thompson,chrissyb@wildblue.net,7/22/2017,Timeless By Design Closeouts,12/3/2018,278.58,0,0,278.58,USD,
+103278,Just Yesterday,117 south main,New sharon,Iowa,United States,50207,641-295-0061,sonya,Mason,smason51@hotmail.com,11/6/2011,Bright Ideas,12/3/2018,469.45,0,0,469.45,USD,8
+103279,Just Yesterday,117 south main,New sharon,Iowa,United States,50207,641-295-0061,sonya,Mason,smason51@hotmail.com,11/6/2011,Primitives by Kathy 50% Off Closeouts,12/3/2018,169.72,0,0,169.72,USD,
+103280,Just Yesterday,117 south main,New sharon,Iowa,United States,50207,641-295-0061,sonya,Mason,smason51@hotmail.com,11/6/2011,Wing Tai Trading,12/3/2018,243.2,0,0,243.2,USD,4
+103281,Etc & Co,583  13th street NW,Linton,Indiana,United States,47441,812 798 9450,Terri,Hadley,terrilynnhadley@yahoo.com,9/9/2017,Pine Creek Four Corners,12/3/2018,162,0,0,162,USD,1
+103282,Etc & Co,583  13th street NW,Linton,Indiana,United States,47441,812 798 9450,Terri,Hadley,terrilynnhadley@yahoo.com,9/9/2017,Raghu - Home Collections,12/3/2018,157.2,0,0,157.2,USD,1
+103283,Etc & Co,583  13th street NW,Linton,Indiana,United States,47441,812 798 9450,Terri,Hadley,terrilynnhadley@yahoo.com,9/9/2017,The Country House Closeouts,12/3/2018,120,0,0,120,USD,
+103284,Wilkes Country Corner,302 10th Street,N Wilkesboro,North Carolina,United States,28659,336 902 1233,Lois,Sale,lsale@embarqmail.com,9/23/2014,Audreys Your Hearts Delight,12/4/2018,235.61,0,0,235.61,USD,6
+103285,Yesteryears Antiques,104 N 1st,Owensville,Missouri,United States,65066,573 437 3834,Debra,Dowler,d3_dowler@yahoo.com,8/3/2010,Whiskey Mountain,12/4/2018,177.4,0,0,177.4,USD,3
+103286,A Little Piece of Heaven,43 Houlton Road,Presque Isle,Maine,United States,4769,207 551 9672,Rhonda,Embelton,rembelton@gmail.com,8/6/2008,Capitol Imports,12/4/2018,133.75,0,0,133.75,USD,2
+103287,MDT WOODWORKS,104 E Main Street,Fairfax,Missouri,United States,64446,8166458694,Dana,Tracy,mdtwoodworks@gmail.com,9/17/2017,Audreys Your Hearts Delight,12/4/2018,154.7,0,0,154.7,USD,2
+103288,Wilkes Country Corner,302 10th Street,N Wilkesboro,North Carolina,United States,28659,336 902 1233,Lois,Sale,lsale@embarqmail.com,9/23/2014,Designs Combined,12/4/2018,163.22,0,0,163.22,USD,3
+103289,Simply Home,2619 8th ave sw,jamestown,North Dakota,United States,58401,701-952-2400,Kris,Meidinger,kjmeidinger@daktel.com,5/25/2013,Wing Tai Trading,12/4/2018,259.55,0,30,229.55,USD,4
+103290,A Lil'l of country,155 cool spring road,Indiana,Pennsylvania,United States,15701,724-464-7846,chery,polley,cpolleycountrygirl@gmail.com,1/19/2018,JanMichael's Crafts,12/4/2018,166.5,0,0,166.5,USD,3
+103291,A Lil'l of country,155 cool spring road,Indiana,Pennsylvania,United States,15701,724-464-7846,chery,polley,cpolleycountrygirl@gmail.com,1/19/2018,Timeless By Design,12/4/2018,167.1,0,0,167.1,USD,
+103292,Between Friendz,15181 Yale Rd,Fulton,Illinois,United States,61252,815-441-3141,Connie,Decker,creativecountrygifts@hotmail.com,1/1/2008,DNS Designs,12/4/2018,119.72,0,0,119.72,USD,2
+103293,A Lil'l of country,155 cool spring road,Indiana,Pennsylvania,United States,15701,724-464-7846,chery,polley,cpolleycountrygirl@gmail.com,1/19/2018,A Cheerful Giver,12/4/2018,216,0,20,196,USD,3
+103294,Between Friendz,15181 Yale Rd,Fulton,Illinois,United States,61252,815-441-3141,Connie,Decker,creativecountrygifts@hotmail.com,1/1/2008,Adams & Co Closeouts,12/4/2018,56.66,0,0,56.66,USD,
+103295,new creek country store,1965 stony run road,keyser,West Virginia,United States,26726,304 793 3845,Michelle,cook,vcc1016@yahoo.com,12/13/2015,Primitives by Kathy 50% Off Closeouts,12/4/2018,69.24,0,0,69.24,USD,
+103296,Shabby Settee,420 Ravenna Rd.,Newton Falls,Ohio,United States,44444,330 872 3870,Dianna,Simpson,cydi@aol.com,4/26/2017,Timeless By Design Closeouts,12/4/2018,59.09,0,0,59.09,USD,
+103297,Daisy Farm Decor LLC,1371 Sheridan Ave,Cody,Wyoming,United States,82414,3075865411,Tamala,Tamala J Collins,lifeondaisyfarm@gmail.com,1/11/2018,Ragon House Collection,12/4/2018,256.5,0,0,256.5,USD,6
+103298,Moose and Annie Mercantile,542 Huckleberry Cove Road,Jasper,Georgia,United States,30143,706 253 2270,Mary,McDonnell,Mooseandanniemercantile@gmail.com,9/1/2018,Capitol Imports,12/5/2018,120.75,0,0,120.75,USD,1
+103299,Andrick's Gifts & Collectibles,21.1/2 West 6th Street,Front Royal,Virginia,United States,22630,540-635-9000,Kimberly,Andrick,andricksgifts@yahoo.com,11/11/2009,Audrey's Closeouts and Sale,12/5/2018,316.85,0,0,316.85,USD,
+103300,A Lil'l of country,155 cool spring road,Indiana,Pennsylvania,United States,15701,724-464-7846,chery,polley,cpolleycountrygirl@gmail.com,1/19/2018,Audreys Your Hearts Delight,12/5/2018,150.25,0,0,150.25,USD,3
+103301,Lori's Place Gifts,230 Bayless Ave.,Lynchburg,Ohio,United States,45142,937-364-0184,Lori,Creditt,loricreditt@yahoo.com,11/1/2013,Warm Glow Candles,12/5/2018,71.55,0,0,71.55,USD,
+103302,Milestone Mercantile,6620 A. L. Philpott Highway,Martinsville,Virginia,United States,24112,434 229 4668/434-429-4004,Kimberly,Miles,Milestonehomeandvintage@gmail.com,1/17/2018,Black Crow Candles,12/5/2018,101,0,0,101,USD,2
+103303,Brolin & Bailey Company,"120 West Depot Street, Suite 1",Greeneville,Tennessee,United States,37743,423 426 6576,Wendy,Dinger,wendy@brolinbailey.com,1/19/2015,The Packaging Source,12/5/2018,161.5,0,0,161.5,USD,1
+103304,Simply Home,2619 8th ave sw,jamestown,North Dakota,United States,58401,701-952-2400,Kris,Meidinger,kjmeidinger@daktel.com,5/25/2013,Honey & Me,12/5/2018,176.5,0,0,176.5,USD,2
+103305,Feasel's Garden Center  / Attn:  NANCY LENTZ,2330 Bright Road,Findlay,Ohio,United States,45840,4194234223,Nancy,Lentz,nancy@feasels.com,6/24/2014,Vickie Jeans Creations,12/5/2018,135.7,0,0,135.7,USD,1
+103306,Beaucoup,114 south second street,Eunice,Louisiana,United States,70535,337 550 4727,Jackie,Dupre,jacksroos21@yahoo.com,8/4/2018,Audreys Your Hearts Delight,12/5/2018,122.06,0,0,122.06,USD,1
+103307,Beaucoup,114 south second street,Eunice,Louisiana,United States,70535,337 550 4727,Jackie,Dupre,jacksroos21@yahoo.com,8/4/2018,Mullberry Home Wholesale,12/5/2018,103.92,0,0,103.92,USD,
+103308,Gracie Mae's Mercantile,16 Circle Dr,Rossville,Georgia,United States,30741,423 883 9914,Magin,Gilbert,Graciemaesmercantile@outlook.com,6/10/2018,Designs Combined,12/5/2018,479.94,0,0,479.94,USD,8
+103309,Woolen Mill Primitives,26 Main Street,Dexter,Maine,United States,4930,207 270 1177,Lynn,Mckusick,lynnmckusick5@gmail.com,11/1/2015,Pine Creek Four Corners,12/6/2018,162,0,0,162,USD,2
+103310,Quality Carpet,356 Market Place Mall,Weston,West Virginia,United States,26452,304-669-2685,Quality,Carpet,triciaj@hughes.net,5/10/2014,Audreys Your Hearts Delight,12/6/2018,245.93,0,0,245.93,USD,6
+103311,Quality Carpet,356 Market Place Mall,Weston,West Virginia,United States,26452,304-669-2685,Quality,Carpet,triciaj@hughes.net,5/10/2014,Wholesale Home decor (Harvest Scents),12/6/2018,167.87,0,0,167.87,USD,3
+103312,Greatful heart and home LLC,7039 W. Windamere,Ludington,Michigan,United States,49431,231 690 0942,Lori,Riemer,l.riemer@hotmail.com,4/9/2018,VIP International Home & Garden,12/6/2018,605.46,0,0,605.46,USD,12
+103313,Butterfly,55 Perry st.,Douglas,Massachusetts,United States,1516,508 840 5435,Debbie,Muratore,bennyjim@charter.net,2/7/2017,Audreys Your Hearts Delight,12/6/2018,106.27,0,0,106.27,USD,2
+103314,all about bags,5521 N oakdale pl,parkville,Missouri,United States,64152,816 674 9455,sherry,collins,scollins1@kc.rr.com,3/1/2016,Special T Imports,12/6/2018,138.6,0,0,138.6,USD,1
+103315,Past Reflections,1195 Highway 1258,Monticello,Kentucky,United States,42633,606 305 0808,Judy,Gregory,jfgregory3@yahoo.com,2/17/2016,Rose of Sharon Home Fragrances,12/6/2018,1656,0,0,1656,USD,32
+103316,swings and things,16 rte 125,kingston,New Hampshire,United States,3848,603 642 4500,donna,damphousse,donnasswings@aol.com,2/10/2017,Delton Products,12/7/2018,230.4,0,0,230.4,USD,4
+103317,FencePost Lane,411 S Parks Rd,Ellijay,Georgia,United States,30540,678 988 7340,Mary,McDonell,mmcdonell74@gmail.com,9/30/2016,Audreys Your Hearts Delight,12/7/2018,236.9,0,0,236.9,USD,4
+103318,Quality Carpet,356 Market Place Mall,Weston,West Virginia,United States,26452,304-669-2685,Quality,Carpet,triciaj@hughes.net,5/10/2014,Ragon House Collection,12/7/2018,275,0,0,275,USD,6
+103319,Country Charm,173 Main Street,Lander,Wyoming,United States,82520,307 335 5444,Tammy,Logue,Loguetammy@yahoo.com,9/18/2017,The Country House Collection,12/7/2018,405,0,40,365,USD,9

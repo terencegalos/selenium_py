@@ -1,0 +1,4 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102926,The Mustard Tin,54 Cornell Ave.,Massena,New York,United States,13662,315 769 8409,Linda,Dalton,mustardtin@gmail.com,Primitives at Crow Hollow,11/10/2018,117
+102943,The Mustard Tin,54 Cornell Ave.,Massena,New York,United States,13662,315 769 8409,Linda,Dalton,mustardtin@gmail.com,Primitives at Crow Hollow,11/11/2018,118
+102946,Timeless Accents,230 East First Street,Hermann,Missouri,United States,65041,5734861043,Diann,Danuser,dianndanuser16@gmail.com,Primitives at Crow Hollow,11/11/2018,124

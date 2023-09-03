@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103115,Country Charm,173 Main Street,Lander,Wyoming,United States,82520,307 335 5444,Tammy,Logue,Loguetammy@yahoo.com,Market Street Wholesale,11/21/2018,163.92

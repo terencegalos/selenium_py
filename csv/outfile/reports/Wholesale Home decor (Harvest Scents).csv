@@ -1,0 +1,3 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103054,Southern Salvations,1060 Hey 348 E,SYMSONIA,Kentucky,United States,42082,270 851 8510,Barbara,Henson,bnh2251@gmail.com,Wholesale Home decor (Harvest Scents),11/16/2018,82.87
+103071,primitive peddler,2813 Jewett Street,Highland,Indiana,United States,46322,219 923 5770,MARY,ELLIS,maryrellis51@gmail.com,Wholesale Home decor (Harvest Scents),11/17/2018,145.08

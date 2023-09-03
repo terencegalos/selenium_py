@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102821,KLINES FEEDBUNK,113 S HEMLOCK ST,LE ROY,Illinois,United States,61752,309 824 7291,SUSAN,KLINE,klineherefords@mchsi.com,Kraft Klub,11/5/2018,288.79

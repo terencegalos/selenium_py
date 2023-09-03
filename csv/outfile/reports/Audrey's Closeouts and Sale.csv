@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103051,Glotzbach Pharmacy,500 S Grant Ave,Fowler,Indiana,United States,47944,765-884-1520,Angie,Glotzbach,glotzbachpharmacy@gmail.com,Audrey's Closeouts and Sale,11/16/2018,76.34

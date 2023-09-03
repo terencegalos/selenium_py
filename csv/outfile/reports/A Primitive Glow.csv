@@ -1,0 +1,2 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102980,Country Elegance,4496 Missouri Flat Road,Placerville,California,United States,95667,530-622-9338,Michele,Copeman,ctyelegance@gmail.com,A Primitive Glow,11/12/2018,1104.1

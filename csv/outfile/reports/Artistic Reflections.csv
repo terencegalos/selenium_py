@@ -1,0 +1,3 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+102914,Lamar Greenhouse & Florist,103 E. 9th,Lamar,Missouri,United States,64759,417-682-6565,Kara,Moyer,moyerkara@yahoo.com,Artistic Reflections,11/9/2018,104
+102924,Elizabeths LLC,4817 Hwy Y,Gerald,Missouri,United States,63037,573-680-6157,Sherry,Byram,Elizabethsgiftsantiques@gmail.com,Artistic Reflections,11/10/2018,410

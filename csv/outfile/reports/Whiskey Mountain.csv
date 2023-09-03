@@ -1,0 +1,3 @@
+InvoiceNumber,CompanyName,StreetAddress,City,StateProvince,Country,ZipPostalCode,Phone,FirstName,LastName,CustomerEmail,Vendor_Name,DateOrdered,Subtotal
+103080,Happy Nest,1630 Home Avenue,Columbus,Indiana,United States,47201,8123712790,Andrea,Carlile,carlilefrog@gmail.com,Whiskey Mountain,11/18/2018,114
+103089,A Lil'l of country,155 cool spring road,Indiana,Pennsylvania,United States,15701,724-464-7846,chery,polley,cpolleycountrygirl@gmail.com,Whiskey Mountain,11/18/2018,104
