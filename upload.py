@@ -15,11 +15,10 @@ id = sys.argv[1]
 br = driver.init_driver()
 time.sleep(1)
 
-br.get("https://wares:w@r3s@www.waresitat.com/adminpage/index.cfm") #navigate with site credentials
+inp = input("Enter login credentials to start:")
+br.get(inp) #navigate with site credentials
 time.sleep(1)
 
-br.get("https://www.waresitat.com/adminpage/index.cfm") #reload to view site properly
-time.sleep(1)
 
 br.get("https://www.waresitat.com/adminpage/vendors/index.cfm")
 time.sleep(1)
