@@ -12,10 +12,8 @@ import webdriver_config as driver
 br = driver.init_driver()
 time.sleep(1)
 
-br.get("https://wares:w@r3s@www.waresitat.com/adminpage/index.cfm") #navigate with site credentials **very insecure
-time.sleep(1)
-
-br.get("https://www.waresitat.com/adminpage/index.cfm") #reload to view site properly
+inp = input("Enter login credentials (enclosed in quotes)")
+br.get(inp) #navigate with site credentials **very insecure
 time.sleep(1)
 
 br.get("https://www.waresitat.com/adminpage/vendors/index.cfm")
