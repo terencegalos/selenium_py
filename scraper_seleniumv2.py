@@ -1,4 +1,5 @@
-import csv,os,sys,time
+import sys
+import csv,os,time,imp
 from datetime import datetime
 
 # Third-party libraries
@@ -24,7 +25,10 @@ class Scraper:
         
         # Import the vendor-specific class
         vendor_class_name = "{}_class".format(vendor_name)
-        vendor_module = __import__(vendor_class_name)
+        parent_dir = os.path.dirname(__file__)
+        vendor_module_path = os.path.join(parent_dir,"vendor","{}.py".format(vendor_class_name))
+        vendor_module = imp.load_source(vendor_class_name,vendor_module_path)
+        
         self.vendor_class = getattr(vendor_module, vendor_name)
         
         # Initialize the vendor and get missing items
