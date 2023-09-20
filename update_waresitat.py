@@ -1,4 +1,4 @@
-import xlwt,csv,os,sys
+import xlwt,csv,os,sys,imp
 import time
 from urllib2 import urlopen,HTTPError,URLError
 #!/usr/bin/env python # -*- coding: utf-8 -*-
@@ -7,7 +7,7 @@ url = "http://inventory.northlightseasonal.com/WSinventory.csv"
 
 from gateway import Vendor
 					
-from waresitat_class import Waresitat
+from vendor.waresitat_class import Waresitat
 
 
 
@@ -75,8 +75,10 @@ def is_num(num):
 
 def updateMasterFile(vendor):
 
-	mutator = vendor.code+'_catalog'
-	_vendorcat_mod = __import__(mutator) # dynamic module import
+	mutator = '{}_catalog'.format(vendor.code)
+	parent_dir = os.path.dirname(__file__)
+	module_path = os.path.join(parent_dir,'vendor','{}.py'.format(mutator))
+	_vendorcat_mod = imp.load_source(mutator,module_path) # dynamic module import
 	cat = getattr(_vendorcat_mod,vendor.classname) # dynamic class import
 	
 	print "Loading data from catalog file..."

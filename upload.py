@@ -15,9 +15,9 @@ id = sys.argv[1]
 br = driver.init_driver()
 time.sleep(1)
 
-username = input("Enter login credentials to start with username:")
-password = input("Enter password:")
-br.get("https://"+username+":"+password+"@www.waresitat.com/adminpage/index.cfm") #navigate with site credentials
+username = raw_input("Enter login credentials to start with username:")
+password = raw_input("Enter password:")
+br.get("https://{}:{}@www.waresitat.com/adminpage/index.cfm".format(username,password)) #navigate with site credentials
 time.sleep(1)
 
 

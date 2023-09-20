@@ -2,10 +2,6 @@ import sys
 import csv,os,time,imp
 from datetime import datetime
 
-# Third-party libraries
-from selenium.common.exceptions import TimeoutException, ElementNotVisibleException, UnexpectedAlertPresentException
-from selenium.webdriver.common.keys import Keys
-
 # Custom modules
 from active_record import ActiveRecord
 import webdriver_config
