@@ -15,7 +15,6 @@ capa = DesiredCapabilities.CHROME
 
 def init_driver():
     path = os.path.dirname(__file__)+'/chrome_driver/chromedriver'
-    # path = os.path.dirname(__file__)+'/chrome_driver/chrome-win64/chrome'
     # browser = webdriver.Chrome(executable_path = path,desired_capabilities = capa)
     chrome_options = Options()
     # chrome_options.add_argument('--headless')
