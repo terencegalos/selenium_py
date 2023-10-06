@@ -47,7 +47,7 @@ class domainobject():
                 print("Item not found. Getting next item...")
                 
     def send_to_file(self,vendor,dbs):
-        gt = [db.retrieve() for db in dbs]
-        outfile = open(os.path.dirname(__file__)+"/csv/outfile/"+vendor+" output.csv","wb")
+        gt = [db.retrieve()for db in dbs]
+        outfile = open(os.path.dirname(__file__)+"/csv/outfile/"+vendor+" output.csv","w")
         writer = csv.writer(outfile)
         writer.writerows(gt)

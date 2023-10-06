@@ -28,15 +28,15 @@ class pinecreek(domainobject.domainobject):
     def save_info(self,item=None):
         db = table_gateway.gateway()
         try:
-            db.name = self.driver.find_element(By.CSS_SELECTOR,"#JS_PROD > div.content-container > div > div > div > div.row > div.col-sm-7 > h1").text.encode("utf-8")
+            db.name = self.driver.find_element(By.CSS_SELECTOR,"#JS_PROD > div.content-container > div > div > div > div.row > div.col-sm-7 > h1").text
         except:
             return
-        db.sku = self.driver.find_element(By.CSS_SELECTOR,"#JS_PROD > div.content-container > div > div > div > div.row > div.col-sm-7 > div.prod-code > em").text.encode("utf-8")
+        db.sku = self.driver.find_element(By.CSS_SELECTOR,"#JS_PROD > div.content-container > div > div > div > div.row > div.col-sm-7 > div.prod-code > em").text
         try:
-            db.cat = self.driver.find_element(By.CSS_SELECTOR,"#main-content div:nth-child(5)").text.encode("utf-8")
+            db.cat = self.driver.find_element(By.CSS_SELECTOR,"#main-content div:nth-child(5)").text
         except:
             db.cat = ""
-        db.desc = self.driver.find_element(By.CSS_SELECTOR,"#JS_PROD > div.content-container > div > div > div > div.row > div.col-sm-7 > div.prod-desc").text.encode("utf-8")
+        db.desc = self.driver.find_element(By.CSS_SELECTOR,"#JS_PROD > div.content-container > div > div > div > div.row > div.col-sm-7 > div.prod-desc").text
         db.stock = ""
         db.sale = ""
         db.set = ""
@@ -48,7 +48,7 @@ class pinecreek(domainobject.domainobject):
         except:
             db.min1 = self.driver.find_element(By.NAME,"Quantity").get_attribute("value")
         try:
-            db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#price-value").text.encode("utf-8")
+            db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#price-value").text
         except:
             db.price1 = ""
         db.min2 = ""
