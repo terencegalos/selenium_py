@@ -5,9 +5,9 @@ from urllib2 import urlopen,HTTPError,URLError
 
 from gateway import Vendor
 					
-from waresitat_class import Waresitat
+from vendor.waresitat_class import Waresitat
 
-from bhbt_class import BHBT
+from vendor.bhbt_class import BHBT
 
 from xls_getter import TableData
 

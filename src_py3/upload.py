@@ -1,6 +1,5 @@
 import time
-import csv
-import os, sys, shutil
+import sys
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -58,7 +57,9 @@ WebDriverWait(br,20).until(EC.visibility_of_element_located((By.CSS_SELECTOR,"in
 
 print("Vendor uploaded.")
 
-sys.exit()                    
+inp = input("Close browser? ")                    
+if 'yes' in inp.lower():
+    sys.exit()                    
                     
                     
 

@@ -26,7 +26,7 @@ class capitol(domainobject.domainobject):
         self.driver.find_element(By.NAME,"customer[password]").send_keys(pw)
         self.driver.find_element(By.NAME,"customer[password]").send_keys(Keys.ENTER)
         while True:
-            re = input("Enter yes when ready")
+            re = input("Handle CAPTCHA. Yes/No when ready: ")
             if "yes" == re:
                 break
             else:
@@ -43,9 +43,9 @@ class capitol(domainobject.domainobject):
         
             # while True:
                 # try:
-            b = self.driver.find_elements_by_css_selector("#productSelect-product-template-option-0 option")[x]
+            b = self.driver.find_elements(By.CSS_SELECTOR,"#productSelect-product-template-option-0 option")[x]
             if b.is_displayed():
-                    # self.driver.find_elements_by_css_selector("select#product-variants-option-0 option")[x].click()
+                    # self.driver.find_elements(By.CSS_SELECTOR,"select#product-variants-option-0 option")[x].click()
                 b.click()
                 print("Option selected.")
                 self.time.sleep(1)
@@ -55,7 +55,7 @@ class capitol(domainobject.domainobject):
                 #     return
             self.time.sleep(1)
 			# try:
-				# optsize = self.driver.find_elements_by_css_selector("select#product-variants-option-1 option")
+				# optsize = self.driver.find_elements(By.CSS_SELECTOR,"select#product-variants-option-1 option")
 				# print "More sizes detected."
 				# for o in optsize:
 					# try:
@@ -82,9 +82,9 @@ class capitol(domainobject.domainobject):
     
         option = []
         # WebDriverWait(self.driver,3).until(EC.visibility_of_element_located((By.CSS_SELECTOR,"div.productOptionViewSelect > div > select option:nth-child(1)"))) #wait for option to load
-        # btn = self.driver.find_elements_by_css_selector("div.productOptionViewSelect > div select:nth-child(1) option")
+        # btn = self.driver.find_elements(By.CSS_SELECTOR,"div.productOptionViewSelect > div select:nth-child(1) option")
         try:
-            btn = self.driver.find_elements_by_css_selector("#productSelect-product-template-option-0 option")
+            btn = self.driver.find_elements(By.CSS_SELECTOR,"#productSelect-product-template-option-0 option")
             print("Btn detected.")
             db = self.clickbtn(btn)
             option.extend(db) #returns a list of items
@@ -101,12 +101,12 @@ class capitol(domainobject.domainobject):
     def get_info(self,item=None):
         db = table_gateway.gateway()
         print("Getting item info.")
-        db.name = self.driver.find_element_by_css_selector("#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > h1").text.encode("utf-8")
+        db.name = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > h1").text.encode("utf-8")
         db.sku =  json.loads(json.dumps(self.driver.execute_script("return meta.product.variants;")[0]))["sku"]
         self.time.sleep(1)
         db.cat = ""
         try:
-            db.desc = self.driver.find_element_by_css_selector("#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.product-detail__tab-container.product-detail__gap-lg > div > div.cc-tabs__tab > div").text.encode("utf-8")
+            db.desc = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.product-detail__tab-container.product-detail__gap-lg > div > div.cc-tabs__tab > div").text.encode("utf-8")
         except:
             db.desc = ""
         db.stock = ""
@@ -115,11 +115,11 @@ class capitol(domainobject.domainobject):
         db.custom = ""
         db.size = ""
         db.seller = ""
-        db.min1 = 1#self.driver.find_element_by_css_selector("#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > form > div.product-detail__form__action.product-detail__gap-lg.product-detail__form__options--with-quantity > div > input").get_attribute("value")
+        db.min1 = 1#self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > form > div.product-detail__form__action.product-detail__gap-lg.product-detail__form__options--with-quantity > div > input").get_attribute("value")
         try:
-            db.price1 = self.driver.find_element_by_css_selector("#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.price-area.product-detail__gap-sm > span").text
+            db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.price-area.product-detail__gap-sm > span").text
         except:
-            db.price1 = self.driver.find_element_by_css_selector("div.large--two-fifths:nth-child(4) > div:nth-child(2) > meta:nth-child(2)").get_attribute("content")
+            db.price1 = self.driver.find_element(By.CSS_SELECTOR,"div.large--two-fifths:nth-child(4) > div:nth-child(2) > meta:nth-child(2)").get_attribute("content")
         db.min2 = ""
         db.price2 = ""
         db.min3 = ""
@@ -128,9 +128,9 @@ class capitol(domainobject.domainobject):
         db.dir400 = "Cap 400"
         db.dir160 = "Cap 160"
         try:
-            db.img400 = self.driver.find_element_by_css_selector("#page-content > div.shopify-section.section-product-template > div > div.product-area__media.cc-animate-init.-in.cc-animate-complete > div > div > div.theme-images.swiper-wrapper > div > div > div > img").get_attribute("srcset").split(",")[3]
+            db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__media.cc-animate-init.-in.cc-animate-complete > div > div > div.theme-images.swiper-wrapper > div > div > div > img").get_attribute("srcset").split(",")[3]
         except:
-            db.img400 = self.driver.find_element_by_css_selector("#shopify-section-template--14551958356055__main > div > div.product-area__media.multi-column.cc-animate-init.-in.cc-animate-complete > div > div > div.theme-images.swiper-wrapper > div:nth-child(3) > div.theme-img.theme-img-4.swiper-slide > div > div > img").get_attribute("srcset").split(",")[3]
+            db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#shopify-section-template--14551958356055__main > div > div.product-area__media.multi-column.cc-animate-init.-in.cc-animate-complete > div > div > div.theme-images.swiper-wrapper > div:nth-child(3) > div.theme-img.theme-img-4.swiper-slide > div > div > img").get_attribute("srcset").split(",")[3]
         db.img160 = db.img400.split("/")[-1:][0]
         db.desc2 = ""
         db.option = ""
@@ -144,11 +144,11 @@ class capitol(domainobject.domainobject):
         print("\nSearching for item: " + row+"\n")
         while True:
             try:
-                self.driver.find_element_by_css_selector("#site-control > div.links.site-control__inner > div.nav-right-side > a.cart.nav-search").click()
+                self.driver.find_element(By.CSS_SELECTOR,"#site-control > div.links.site-control__inner > div.nav-right-side > a.cart.nav-search").click()
                 self.time.sleep(0.5)
-                self.driver.find_element_by_name("q").clear()
-                self.driver.find_element_by_name("q").send_keys(str(row))
-                self.driver.find_element_by_name("q").send_keys(Keys.ENTER)
+                self.driver.find_element(By.NAME,"q").clear()
+                self.driver.find_element(By.NAME,"q").send_keys(str(row))
+                self.driver.find_element(By.NAME,"q").send_keys(Keys.ENTER)
                 self.time.sleep(self.delay)
                 break
             except:
@@ -157,7 +157,7 @@ class capitol(domainobject.domainobject):
                 continue
 
         try:
-            item = [i.get_attribute("href") for i in self.driver.find_elements_by_css_selector("#page-content > div > div > div.cc-animate-init.-in.cc-animate-complete > div > div.product-list-container.product-list-container--with-sidebar > div > div > div > div.image > a")]
+            item = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#page-content > div > div > div.cc-animate-init.-in.cc-animate-complete > div > div.product-list-container.product-list-container--with-sidebar > div > div > div > div.image > a")]
             print(item)
             return(item)
         except:

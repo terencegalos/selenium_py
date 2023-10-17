@@ -1,4 +1,4 @@
-import xlwt,csv,os,sys,imp
+import xlwt,csv,os,sys,importlib
 import time
 # from urllib2 import urlopen,HTTPError,URLError
 #!/usr/bin/env python # -*- coding: utf-8 -*-
@@ -7,7 +7,7 @@ url = "http://inventory.northlightseasonal.com/WSinventory.csv"
 
 from helper.gateway import Vendor
 					
-from vendor.waresitat_class import Waresitat
+from helper.waresitat_class import Waresitat
 
 
 
@@ -77,9 +77,14 @@ def updateMasterFile(vendor):
 
 	mutator = '{}_catalog'.format(vendor.code)
 	parent_dir = os.path.dirname(__file__)
-	module_path = os.path.join(parent_dir,'vendor','{}.py'.format(mutator))
-	_vendorcat_mod = imp.load_source(mutator,module_path) # dynamic module import
-	cat = getattr(_vendorcat_mod,vendor.classname) # dynamic class import
+	vendor_module_path = os.path.join(parent_dir,'vendor','{}.py'.format(mutator))
+
+	# _vendorcat_mod = imp.load_source(mutator,module_path) # dynamic module import
+	# use importlib to dynamically load the module
+	spec = importlib.util.spec_from_file_location(mutator,vendor_module_path)
+	vendor_module = importlib.util.module_from_spec(spec)
+	spec.loader.exec_module(vendor_module)
+	cat = getattr(vendor_module,vendor.classname) # dynamic class import
 	
 	print("Loading data from catalog file...")
 	catalog = cat(vendor) # object instance for catalog file

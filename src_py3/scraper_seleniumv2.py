@@ -2,6 +2,7 @@ import sys
 import csv,os,time#,imp
 from datetime import datetime
 import importlib.util
+from tqdm import tqdm
 
 # Custom modules
 from helper.active_record import ActiveRecord
@@ -55,10 +56,10 @@ class Scraper:
         backup_file_writer = csv.writer(backup_file)
 
         # Loop through missing items
-        for sku in self.missing:
+        for sku in tqdm(self.missing):
             print(sku)
-            self.counter.subtotal += 1.0
-            print("Progress: {}%".format(int((self.counter.subtotal / self.total) * 100)))
+            # self.counter.subtotal += 1.0
+            # print("Progress: {}%".format(int((self.counter.subtotal / self.total) * 100)))
 
             # Search for item
             items = self.target_vendor.search_item(sku)
@@ -116,4 +117,4 @@ if __name__ == "__main__":
     vendor_name = sys.argv[1]
     scraper = Scraper(vendor_name)
     scraper.run()
-    # os.system('shutdown -s') # This shuts down the computer.
+    # os.system('shutdown -s') # shutdown down the computer
