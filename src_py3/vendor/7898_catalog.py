@@ -20,6 +20,9 @@ class KMI_International():
 		
 		for x in range(1,rsheet.nrows):
 			
+			if rsheet.row(x)[7].value == "": # skip missing min
+				continue
+
 			sku = rsheet.row(x)[2].value
 			# print rsheet.row(x)
 				

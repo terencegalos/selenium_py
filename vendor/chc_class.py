@@ -1,5 +1,5 @@
-from table_gateway import gateway
-import domainobject
+from helper.table_gateway import gateway
+import helper.domainobject
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 import json
