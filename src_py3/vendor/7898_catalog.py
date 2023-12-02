@@ -20,10 +20,10 @@ class KMI_International():
 		
 		for x in range(1,rsheet.nrows):
 			
-			if rsheet.row(x)[7].value == "": # skip missing min
-				continue
+			# if rsheet.row(x)[6].value == "": # skip missing price
+			# 	continue
 
-			sku = rsheet.row(x)[2].value
+			sku = rsheet.row(x)[2].value.strip()
 			# print rsheet.row(x)
 				
 			self.prod[sku] = {}
@@ -37,13 +37,13 @@ class KMI_International():
 			self.prod[sku]['custom'] = ""
 			self.prod[sku]['size'] = ""
 			self.prod[sku]['top'] = ""
-			self.prod[sku]['min'] = float(rsheet.row(x)[7].value)
+			self.prod[sku]['min'] = float(rsheet.row(x)[7].value) if rsheet.row(x)[7].value else 1
 			self.prod[sku]['price1'] = float(rsheet.row(x)[6].value)
 			self.prod[sku]['min2'] = float(rsheet.row(x)[9].value) if self.is_num(rsheet.row(x)[9].value) else rsheet.row(x)[9].value
 			self.prod[sku]['price2'] = round(float(rsheet.row(x)[8].value),2) if self.is_num(rsheet.row(x)[8].value) else rsheet.row(x)[8].value
 			self.prod[sku]['min3'] = float(rsheet.row(x)[11].value) if self.is_num(rsheet.row(x)[11].value) else rsheet.row(x)[11].value
 			self.prod[sku]['price3'] = round(float(rsheet.row(x)[10].value),2) if self.is_num(rsheet.row(x)[10].value) else rsheet.row(x)[10].value
-			self.prod[sku]['multi'] = float(rsheet.row(x)[7].value)
+			self.prod[sku]['multi'] = float(rsheet.row(x)[7].value) if rsheet.row(x)[7].value else 1
 			self.prod[sku]['img400'] = "KMI400"
 			self.prod[sku]['img160'] = "KMI160"
 			self.prod[sku]['jpg400'] = ""

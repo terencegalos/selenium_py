@@ -26,15 +26,15 @@ class capitol(domainobject.domainobject):
         self.driver.find_element(By.NAME,"customer[password]").send_keys(pw)
         self.driver.find_element(By.NAME,"customer[password]").send_keys(Keys.ENTER)
         while True:
-            re = input("Handle CAPTCHA. Yes/No when ready: ")
-            if "yes" == re:
+            re = input("Handle CAPTCHA. [y/n]: ")
+            if "y" == re:
                 break
             else:
                 continue
         self.time.sleep(3)
         print("Success.")
 
-  #This is used for click options if available then save info 
+  #This is used for clicking options if available then save info 
     def clickbtn(self,btn):
 	
         opt = []
