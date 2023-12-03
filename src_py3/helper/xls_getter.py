@@ -11,11 +11,12 @@ class TableData():
 		print("M code: "+str(mode))
 		if mode == None or mode == 0:
 			print("Normal mode.")
-			self.path = "E:/Dropbox/Waresitat Files/2022 Upload/Waresitat Upload/"
+			# self.path = "E:/Dropbox/Waresitat Files/2022 Upload/Waresitat Upload/"
+			self.path = r'/mnt/c/Users/USER/Dropbox/Waresitat Files/2022 Upload/Waresitat Upload/'
 			self.filename = vendor.filename
 		elif mode == 1:
 			print("SHST mode.")
-			self.path = "C:/Dropbox/SHST Files/BRANDS Updated Sheet 2019/"
+			self.path = r"/mnt/c/Dropbox/SHST Files/BRANDS Updated Sheet 2019/"
 			if vendor.shst:
 				self.filename = vendor.shst
 			else:
@@ -26,7 +27,8 @@ class TableData():
 			self.filename = str(vendor.code)+".xls"
 		elif mode == 3:
 			print("BHBT mode.")
-			self.path = "E:/Dropbox/Waresitat Files/2022 Upload/BuyHereBuyThere/"
+			# self.path = "E:/Dropbox/Waresitat Files/2022 Upload/BuyHereBuyThere/"
+			self.path = r'/mnt/c/Users/USER/Dropbox/Waresitat Files/2022 Upload/BuyHereBuyThere/'
 			if vendor.bhbt:
 				self.filename = vendor.bhbt
 		if self._paramcheck():

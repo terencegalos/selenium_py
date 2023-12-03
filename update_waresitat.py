@@ -5,7 +5,7 @@ from urllib2 import urlopen,HTTPError,URLError
 
 url = "http://inventory.northlightseasonal.com/WSinventory.csv"
 
-from gateway import Vendor
+from helper.gateway import Vendor
 					
 from vendor.waresitat_class import Waresitat
 

@@ -24,13 +24,16 @@ def xls():
 # 		with open(os.path.dirname(__file__)+"/csv/outfile/"+os.path.basename(url),"wb") as localfile:
 # 			localfile.write(f.read())
 # 		return True
-# 	except HTTPError,e:
-# 		print "HTTP Error:",e.code,url
-# 	except URLError,e:
-# 		print "URL Error:",e.code,url
+# 	except (HTTPError) as e:
+# 		print("HTTP Error:",e.code,url)
+# 	except (URLError) as e:
+# 		print("URL Error:",e.code,url)
 			
 # 	return False
 	
+
+
+
 def CSVToXLS(vendor):
 	with open("./csv/outfile/"+os.path.basename(url)) as infile:
 		wbook = xls()
@@ -46,14 +49,16 @@ def CSVToXLS(vendor):
 						# print val
 						row.write(n,val.decode("latin-1"))
 		wbook.save("./xls/"+vendor.code)
-					
+
+
+
 # def clearDownloadedFiles():
-# 	dir = "C:\Users\Berries\Documents\Downloads"
+# 	dir = r"C:\Users\Berries\Documents\Downloads"
 # 	files = [file for file in os.listdir(dir) if "WSinventory" in file]
 # 	for f in files:
 # 		filename = dir+"\\"+file
 # 		os.remove(filename)
-# 		print filename + " removed."
+# 		print(filename + " removed.")
 					
 def remove_inactive(local,wares):
 	print("Removing all inactive items...")
@@ -100,9 +105,8 @@ def updateMasterFile(vendor):
 	# count = 1
 	for line in catalog.prod:
 	
-		# print "Line:"+line
-		if not is_num(catalog.prod[line]['price1']) or not is_num(catalog.prod[line]['min']):
-			continue
+		# if not is_num(catalog.prod[line]['price1']) or not is_num(catalog.prod[line]['min']):
+		# 	continue
 		
 		
 		# add item if its new

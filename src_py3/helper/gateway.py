@@ -1,4 +1,5 @@
-import mysql.connector, helper.config as config#, csv, os
+import mysql.connector
+import helper.config as config
 # Make vendor info object with name,imgdir,filename etc.
 class Vendor():
 	name = None

@@ -17,6 +17,7 @@ def init_driver():
     # path = os.path.dirname(__file__)+'/chrome_driver/chromedriver'
     # browser = webdriver.Chrome(executable_path = path,desired_capabilities = capa)
     chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')
     headless = input("Do you like to run in --headless mode? [y/n]")
     if('y' in headless.lower()):
         chrome_options.add_argument('--headless')
