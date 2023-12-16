@@ -1,5 +1,5 @@
 from helper.xls_getter import TableData
-import re
+import re,time
 
 class Pine_Creek_Four_Corners():
 	prod = {}
@@ -18,12 +18,11 @@ class Pine_Creek_Four_Corners():
 		table = TableData(vendor,mode) # instantiate vendor file into an object
 		rsheet = table.getSheet()
 		
+		# print(rsheet.nrows)
+		# time.sleep(10)
 		for x in range(1,rsheet.nrows):
 			
 			# print rsheet.row(x)
-
-			if rsheet.row(x)[3].value == 0: # skip no price
-				continue
 			
 			try:
 				float(rsheet.row(x)[0].value)
