@@ -43,7 +43,7 @@ class honeyme(domainobject):
                 return None
 
         db.sku = db.name.split()[0]
-        db.cat = "|".join([i.text.encode("utf-8") for i in self.driver.find_elements(By.CSS_SELECTOR,"body > header > div.lower-header > div > section > span > span.breadcrumb > span.breadcrumb > a")])
+        db.cat = ""#"|".join([i.text.encode("utf-8") for i in self.driver.find_elements(By.CSS_SELECTOR,"body > header > div.lower-header > div > section > span > span.breadcrumb > span.breadcrumb > a")])
         db.desc = ""
         try:
             db.stock = self.driver.find_element(By.CSS_SELECTOR,"#additional-info > div:nth-child(2) > span.product-additional-info-item-value").text
@@ -68,13 +68,9 @@ class honeyme(domainobject):
         try:
             db.min1 = self.driver.find_element(By.CSS_SELECTOR,"#form-add-to-cart > div > div > div.add-to-cart-quantity-container > div > label > span.form-field-quantity-control > span > input").get_attribute("value")
         except:
-            db.min1 = "N/A"
+            db.min1 = 1
 			
-        try:
-            db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#form-add-to-cart > div > div > div.product-price > div > div > span").text.encode("utf-8").replace("$","")
-        except:
-            return None
-        # print db.price1
+        db.price1 = float(self.driver.find_element(By.CSS_SELECTOR,"#form-add-to-cart > div > div > div.product-price > div > div > span").text.strip("$"))
 		
         try:
             db.min2 = self.driver.find_element(By.CSS_SELECTOR,"#form-add-to-cart > div > div > div.bulk-pricing-block > ul > li").text.split()[1]
@@ -89,7 +85,7 @@ class honeyme(domainobject):
         db.dir160 = "Honeyme160"
 		
         try:
-            db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#product-images > div > div > div > a > img").get_attribute("src").split("?")[0]
+            db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#product-images > div > div > div > a").get_attribute("href").split("?")[0]
         except:
             return
 			

@@ -12,7 +12,7 @@ class TableData():
 		if mode == None or mode == 0:
 			print("Normal mode.")
 			# self.path = "E:/Dropbox/Waresitat Files/2022 Upload/Waresitat Upload/"
-			self.path = r'/mnt/c/Users/USER/Dropbox/Waresitat Files/2022 Upload/Waresitat Upload/'
+			self.path = r'C:/Users/USER/Dropbox/Waresitat Files/2022 Upload/Waresitat Upload/'
 			self.filename = vendor.filename
 		elif mode == 1:
 			print("SHST mode.")
@@ -28,7 +28,7 @@ class TableData():
 		elif mode == 3:
 			print("BHBT mode.")
 			# self.path = "E:/Dropbox/Waresitat Files/2022 Upload/BuyHereBuyThere/"
-			self.path = r'/mnt/c/Users/USER/Dropbox/Waresitat Files/2022 Upload/BuyHereBuyThere/'
+			self.path = r'c:/Users/USER/Dropbox/Waresitat Files/2022 Upload/BuyHereBuyThere/'
 			if vendor.bhbt:
 				self.filename = vendor.bhbt
 		if self._paramcheck():

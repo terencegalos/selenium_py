@@ -89,7 +89,7 @@ def updateMasterFile(vendor):
 	spec = importlib.util.spec_from_file_location(mutator,vendor_module_path)
 	vendor_module = importlib.util.module_from_spec(spec)
 	spec.loader.exec_module(vendor_module)
-	cat = getattr(vendor_module,vendor.classname) # dynamic class import
+	cat = getattr(vendor_module,vendor.classname.replace("&","")) # dynamic class import
 	
 	print("Loading data from catalog file...")
 	catalog = cat(vendor) # object instance for catalog file
