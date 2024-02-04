@@ -1,4 +1,4 @@
-from xls_getter import TableData
+from helper.xls_getter import TableData
 import time
 import datetime
 
@@ -31,7 +31,7 @@ class DNS_Designs():
 		stock = "placeholder"
 		for x in range(1,rsheet.nrows):
 			
-			# print rsheet.row(x)[0]
+			# print(rsheet.row(x)[0])
 			try:
 				float(rsheet.row(x)[0].value)
 				sku = str(int(rsheet.row(x)[0].value))
@@ -51,24 +51,29 @@ class DNS_Designs():
 			self.prod[sku]['custom'] = ""
 			self.prod[sku]['size'] = ""#rsheet.row(x)[7].value
 			self.prod[sku]['top'] = ""
-			# self.prod[sku]['min'] = rsheet.row(x)[2].value
-			# self.prod[sku]['price1'] = rsheet.row(x)[3].value
-			# self.prod[sku]['min2'] = rsheet.row(x)[4].value
-			# self.prod[sku]['price2'] = rsheet.row(x)[5].value
-			# self.prod[sku]['min3'] = ""
-			# self.prod[sku]['price3'] = ""
+			self.prod[sku]['min'] = ""#rsheet.row(x)[2].value
+			self.prod[sku]['price1'] = ""#rsheet.row(x)[3].value
+			self.prod[sku]['min2'] = ""#rsheet.row(x)[4].value
+			self.prod[sku]['price2'] = ""#rsheet.row(x)[5].value
+			self.prod[sku]['min3'] = ""
+			self.prod[sku]['price3'] = ""
 			
 			tier = ['price1','price2','price3']
 			mins = ['min','min2','min3']
 			counter = 0
-			for i in range(2,len(rsheet.row(x))): #loop pricing row starting from cell with pricing
+			# print(rsheet.row(x)[3:])
+			for i in range(3,len(rsheet.row(x))): #loop pricing row starting from cell with pricing
 				if isinstance(rsheet.row(x)[i].value,float):
+					# print(f'counter:{counter}')
+					if counter > 2: # skip after 3 tier pricing acquired
+						continue
 					self.prod[sku][mins[counter]] = float(rsheet.row(0)[i].value)
 					self.prod[sku][tier[counter]] = float(rsheet.row(x)[i].value)
 					counter += 1
 					
+					
 
-			self.prod[sku]['multi'] = rsheet.row(x)[2].value#self.prod[sku]['min']
+			self.prod[sku]['multi'] = self.prod[sku]['min']
 			self.prod[sku]['img400'] = "DNS400"
 			self.prod[sku]['img160'] = "DNS160"
 			self.prod[sku]['jpg400'] = ""#rsheet.row(x)[19].value
@@ -78,8 +83,13 @@ class DNS_Designs():
 			self.prod[sku]['img800'] = "DNS800"
 			self.prod[sku]['jpg800'] = ""#rsheet.row(x)[24].value
 			self.prod[sku]['isUpdateAvailable'] = ""
-			counter = 0
-			# print self.prod[sku]
+			
+			# remove sku from dictionary if no min/price
+            # print(self.prod[sku])
+			if self.prod[sku]['min'] == "":
+				# print("No min. Deleting.")
+				del self.prod[sku]
+				# time.sleep(1)
 			# time.sleep(1)
 			
 		self._initialize_skus()
