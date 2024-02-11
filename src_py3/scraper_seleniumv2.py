@@ -55,7 +55,7 @@ class Scraper:
         )
         backup_file_writer = csv.writer(backup_file)
 
-        # Loop through missing items
+        # Loop through missing items to search
         for sku in tqdm(self.missing):
             print(sku)
             # self.counter.subtotal += 1.0

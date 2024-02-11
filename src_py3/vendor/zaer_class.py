@@ -15,6 +15,11 @@ class zaer(domainobject):
     uname = "rick@waresitat.com"
     passw = "wolfville4"
     delay = 1
+    links = []
+
+    def __init__(self,driver,scraping_mode):
+        self.driver = driver
+        self.mode = scraping_mode
     
         
     def init_login(self,un,pw):
