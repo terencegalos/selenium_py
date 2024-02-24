@@ -68,7 +68,8 @@ class Scraper:
 
                 # Search for item
                 items = self.target_vendor.search_item(sku)
-                self.target_vendor.links.extend(items)
+                if items:
+                    self.target_vendor.links.extend(items)
         
         
 
@@ -77,7 +78,7 @@ class Scraper:
             for item in tqdm(self.target_vendor.links):
                 self.target_vendor.navigate(item)
 
-                db = self.target_vendor.get_info()
+                db = self.target_vendor.get_info(sku)
                 time.sleep(self.delay)
 
                 # Save scraped data to database and backup file

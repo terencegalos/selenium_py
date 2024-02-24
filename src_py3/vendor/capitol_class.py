@@ -8,6 +8,10 @@ from selenium.webdriver.common.by import By
 
 class capitol(domainobject.domainobject):
 
+    def __init__(self,driver,scraper_mode):
+        super().__init__(driver)
+        self.mode = scraper_mode
+
     vendor = "Capitol Imports"
     url = "https://www.earthrugs.com/"
     login = "https://www.earthrugs.com/account/login"
@@ -15,6 +19,7 @@ class capitol(domainobject.domainobject):
     uname = "rick@waresitat.com"
     passw = "wolfville4"
     delay = 1
+    links = []
     
         
     def init_login(self,un,pw):
@@ -100,7 +105,8 @@ class capitol(domainobject.domainobject):
 	
     def get_info(self,item=None):
         db = table_gateway.gateway()
-        print("Getting item info.")
+        # print(self.driver.page_source)
+        print(f"Getting item info: {self.driver.current_url}")
         db.name = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > h1").text.encode("utf-8")
         db.sku =  json.loads(json.dumps(self.driver.execute_script("return meta.product.variants;")[0]))["sku"]
         self.time.sleep(1)
@@ -119,7 +125,7 @@ class capitol(domainobject.domainobject):
         try:
             db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.price-area.product-detail__gap-sm > span").text
         except:
-            db.price1 = self.driver.find_element(By.CSS_SELECTOR,"div.large--two-fifths:nth-child(4) > div:nth-child(2) > meta:nth-child(2)").get_attribute("content")
+            db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.price-area.product-detail__gap-sm > span").get_attribute("content")
         db.min2 = ""
         db.price2 = ""
         db.min3 = ""
@@ -127,10 +133,7 @@ class capitol(domainobject.domainobject):
         db.multi = db.min1
         db.dir400 = "Cap 400"
         db.dir160 = "Cap 160"
-        try:
-            db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__media.cc-animate-init.-in.cc-animate-complete > div > div > div.theme-images.swiper-wrapper > div > div > div > img").get_attribute("srcset").split(",")[3]
-        except:
-            db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#shopify-section-template--14551958356055__main > div > div.product-area__media.multi-column.cc-animate-init.-in.cc-animate-complete > div > div > div.theme-images.swiper-wrapper > div:nth-child(3) > div.theme-img.theme-img-4.swiper-slide > div > div > img").get_attribute("srcset").split(",")[3]
+        db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__media.cc-animate-init.-in.cc-animate-complete > div > div > div.theme-images.swiper-wrapper > div > div > div > img").get_attribute("srcset").split(",")[3]
         db.img160 = db.img400.split("/")[-1:][0]
         db.desc2 = ""
         db.option = ""
