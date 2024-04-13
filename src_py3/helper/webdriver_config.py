@@ -11,7 +11,7 @@ capa = DesiredCapabilities.CHROME
 # capa = DesiredCapabilities().FIREFOX
 # capa['marionette'] = False
 
-# capa["pageLoadStrategy"] = 'none'
+capa["pageLoadStrategy"] = 'none'
 
 def init_driver():
     # path = os.path.dirname(__file__)+'/chrome_driver/chromedriver'

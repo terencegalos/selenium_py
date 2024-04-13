@@ -8,7 +8,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 class janmichael(domainobject):
 
-    def __init__(self,driver,mode):
+    def __init__(self,driver,mode=None):
         self.driver = driver
         self.mode = mode
 
@@ -127,10 +127,10 @@ class janmichael(domainobject):
     def save_info(self,opt=""):
         db = gateway()
 
-        db.name = self.driver.find_element(By.CSS_SELECTOR,"h1").text.encode("utf-8")
+        db.name = self.driver.find_element(By.CSS_SELECTOR,"h1").text
 
         try:
-            db.sku = WebDriverWait(self.driver,2).until(EC.visibility_of_element_located((By.CSS_SELECTOR,"body > div.body > div.container > div > div.productView > section:nth-child(3) > div.productView-info > dl:nth-child(1) > dd"))).text.encode("utf-8")
+            db.sku = WebDriverWait(self.driver,2).until(EC.visibility_of_element_located((By.CSS_SELECTOR,"body > div.body > div.container > div > div.productView > section:nth-child(3) > div.productView-info > dl:nth-child(1) > dd"))).text
         except:
             print("No sku detected. Stopping.")
             return
@@ -138,14 +138,14 @@ class janmichael(domainobject):
         db.cat = opt
 
         try:
-            db.desc = self.driver.find_element(By.CSS_SELECTOR,"#tab-description > p").text.encode("utf-8")
+            db.desc = self.driver.find_element(By.CSS_SELECTOR,"#tab-description > p").text
         except:
             db.desc = ""
 
         db.stock = opt
 
         try:
-            db.sale = self.driver.find_element(By.CSS_SELECTOR,"#ProductDetails > div > div.ProductMain > div.ProductDetailsGrid > div.p-price > div.DetailRow.PriceRow > div > em.ProductPrice.VariationProductPrice.on-sale").text.encode("utf-8")
+            db.sale = self.driver.find_element(By.CSS_SELECTOR,"#ProductDetails > div > div.ProductMain > div.ProductDetailsGrid > div.p-price > div.DetailRow.PriceRow > div > em.ProductPrice.VariationProductPrice.on-sale").text
         except:
             db.sale = ""
 
@@ -212,11 +212,12 @@ class janmichael(domainobject):
 
         try:
             # item = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#search-preview-dropdown > div > section > ul > li > article > figure > a") if "http" in i.get_attribute("href")]
-            item = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#product-listing-container > div.product-view-mode > form > ul.productGrid.is-open > li > article > figure > a") if "http" in i.get_attribute("href")]
-            #print type(item)
-            #print item[0]
-            #self.time.sleep(3)
+            item = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#product-listing-container > div.product-view-mode > form > ul.productGrid.is-open > li:nth-child(1) > article > figure > a")] #if "http" in i.get_attribute("href")]
+            # item = [i.get_attribute("href") for i in self.driver.find_elements(By.XPATH,"//*[@id=product-listing-container]/div[2]/form/ul[1]/li[1]/article/figure/a") if "http" in i.get_attribute("href")]
+            
+            print(f'Item: {item}')
             return [item[0]]
+        
         except:
             return None
 

@@ -35,10 +35,13 @@ for i in vendors:
     # print(f'vendor.code: {vendor.code}, type: {type(vendor.code)}')
     # print(f'mid: {mid}, type: {type(mid)}')
 
-    if vendor.code == mid:
-        print("Match found.")
-        print("Link"+i)
-        link = i
+    try:
+        if vendor.code == mid:
+            print("Match found.")
+            print("Link"+i)
+            link = i
+    except AttributeError:
+        print(f"Vendor id {mid} cannot be found.")
 			
 br.get(link)
 time.sleep(1)

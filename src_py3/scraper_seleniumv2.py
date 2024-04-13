@@ -51,7 +51,7 @@ class Scraper:
         # Open a backup file for failed scrapes
         backup_file = open(
             os.path.dirname(__file__)+"/helper/csv/outfile/{}_output_fail_safe.csv".format(self.target_vendor.vendor),
-            "w"
+            "w", encoding="utf-8"
         )
         backup_file_writer = csv.writer(backup_file)
 

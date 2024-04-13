@@ -107,12 +107,12 @@ class capitol(domainobject.domainobject):
         db = table_gateway.gateway()
         # print(self.driver.page_source)
         print(f"Getting item info: {self.driver.current_url}")
-        db.name = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > h1").text.encode("utf-8")
+        db.name = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > h1").text
         db.sku =  json.loads(json.dumps(self.driver.execute_script("return meta.product.variants;")[0]))["sku"]
         self.time.sleep(1)
         db.cat = ""
         try:
-            db.desc = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.product-detail__tab-container.product-detail__gap-lg > div > div.cc-tabs__tab > div").text.encode("utf-8")
+            db.desc = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.product-detail__tab-container.product-detail__gap-lg > div > div.cc-tabs__tab > div").text
         except:
             db.desc = ""
         db.stock = ""
@@ -122,6 +122,7 @@ class capitol(domainobject.domainobject):
         db.size = ""
         db.seller = ""
         db.min1 = 1#self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > form > div.product-detail__form__action.product-detail__gap-lg.product-detail__form__options--with-quantity > div > input").get_attribute("value")
+        
         try:
             db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.price-area.product-detail__gap-sm > span").text
         except:

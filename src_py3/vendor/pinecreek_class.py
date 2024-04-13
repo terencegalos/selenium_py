@@ -5,6 +5,11 @@ from selenium.webdriver.common.by import By
 
 class pinecreek(domainobject.domainobject):
 
+    def __init__(self,driver,mode):
+        super().__init__(driver)
+        self.mode = mode
+        self.links = []
+
     vendor = "Pine Creek Four Corners"
     url = "https://www.shoppinecreek.com/customer-login.html"
     uname = "rick@waresitat.com"
@@ -88,7 +93,7 @@ class pinecreek(domainobject.domainobject):
             try:
                 self.driver.find_element(By.NAME,"Search").clear()
                 self.driver.find_element(By.NAME,"Search").send_keys(row)
-                self.driver.find_element(By.NAME,"Search").send_keys(self.Keys.ENTER)
+                self.driver.find_element(By.NAME,"Search").send_keys(Keys.ENTER)
                 self.time.sleep(2)
                 break
             except Exception as e:

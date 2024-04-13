@@ -15,8 +15,8 @@ class A_Cheerful_Giver():
 			
 			# print rsheet.row(x)
 
-			if rsheet.row(x)[3].value == '': # skip no min
-				continue
+			# if rsheet.row(x)[3].value == '': # skip no min
+			# 	continue
 			
 			if rsheet.row(x)[0].value == '': # skip empty row
 				continue
@@ -30,7 +30,7 @@ class A_Cheerful_Giver():
 			self.prod[sku]['name'] = rsheet.row(x)[1].value
 			self.prod[sku]['sku'] = sku
 			self.prod[sku]['cat'] = rsheet.row(x)[4].value
-			self.prod[sku]['desc'] = rsheet.row(x)[3].value
+			self.prod[sku]['desc'] = ""#rsheet.row(x)[3].value
 			self.prod[sku]['stock'] = ""#"Available "+rsheet.row(x)[8].value
 			self.prod[sku]['sale'] = ""
 			self.prod[sku]['set'] = ""

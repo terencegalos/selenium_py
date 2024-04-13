@@ -10,6 +10,7 @@ def main():
 		xls = [i[3] for i in reader]
 		for x in range(1,len(xls)):
 			vendor = xls[x]
+			print(f"Vendor: {vendor}")
 			try:
 				rbook = xlrd.open_workbook(dir+vendor)
 			except:
