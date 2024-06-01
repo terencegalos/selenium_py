@@ -62,7 +62,7 @@ print("Vendor uploaded.")
 
 inp = input("Close browser? ")                    
 if 'yes' in inp.lower():
-    sys.exit()                    
+    br.quit()
                     
                     
 

@@ -16,7 +16,7 @@ class flagsgalore(domainobject.domainobject):
         self.driver.get(self.url)
         self.time.sleep(1)
         
-        # print "Logging in."
+        # print("Logging in.")
         # self.driver.find_element_by_name("username").send_keys(un)
         # self.driver.find_element_by_name("passwd").send_keys(pw)
         # self.driver.find_element_by_name("passwd").send_keys(Keys.ENTER)
@@ -51,7 +51,7 @@ class flagsgalore(domainobject.domainobject):
         db.option = ""
         db.dir800 = "FlagsGaloreDecor800"
         db.img800 = db.img160
-        print db
+        print(db)
         return db
         
         

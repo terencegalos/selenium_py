@@ -16,7 +16,7 @@ class Audreys_Your_Hearts_Delight():
 		stock = "placeholder"
 		for x in range(rsheet.nrows):
 			
-			# print rsheet.row(x)
+			print(rsheet.row(x))
 			if not self.is_num(rsheet.row(x)[5].value): #skip no price
 				continue
 
