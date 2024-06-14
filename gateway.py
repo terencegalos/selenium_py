@@ -2,12 +2,14 @@ import csv, os
 # Make vendor info object with name,imgdir,filename etc.
 class Vendor():
 	name = None
+	is_available = False
 	# IMPORTANT! use CODE to initialize vendor
 	def __init__(self,id):
 		with open(os.path.dirname(__file__)+"/csv/outfile/vendor_ids.csv","rb") as infile:
 			rows = csv.reader(infile)
 			for line in rows:
 				if id == line[0]:
+					self.is_available = True
 					self.name = line[1]
 					self.classname = line[2]
 					self.filename = line[3]
@@ -17,6 +19,9 @@ class Vendor():
 					self.img800 = line[6]
 					self.shst = line[7]
 					self.bhbt = line[8]
+			if self.is_available == False:
+				print "Vendor id not found."
+			
 					
 		self._paramcheck()
 		

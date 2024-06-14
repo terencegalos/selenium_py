@@ -18,20 +18,17 @@ class The_Hearthside_Collection():
 		table = TableData(vendor,mode) # instantiate vendor file into an object
 		rsheet = table.getSheet()
 		
-		for x in range(1,rsheet.nrows):
+		for x in range(2,rsheet.nrows):
 
 			# print(rsheet.row(x))
-			# if "*" in rsheet.row(x)[1].value: #skip no discontinued
-			# 	continue
-
-			if not self.is_num(rsheet.row(x)[4].value) or rsheet.row(x)[4].value == 0: #skip no price1
+			if not self.is_num(rsheet.row(x)[6].value) or rsheet.row(x)[6].value == 0: #skip no price1
 				continue
 				
 			try:
 				float(rsheet.row(x)[0].value)
 				sku = str(int(rsheet.row(x)[0].value))
 			except:
-				sku = " ".join(rsheet.row(x)[0].value.split())
+				sku = "".join(rsheet.row(x)[0].value.split())
 
 			self.prod[sku] = {}
 			self.prod[sku]['name'] = rsheet.row(x)[1].value
@@ -40,9 +37,9 @@ class The_Hearthside_Collection():
 			self.prod[sku]['desc'] = ""#rsheet.row(x)[0].value
 			self.prod[sku]['stock'] = ""
 			self.prod[sku]['sale'] = ""#rsheet.row(x)[5].value
-			self.prod[sku]['set'] = ""#rsheet.row(x)[2].value
+			self.prod[sku]['set'] = rsheet.row(x)[2].value
 			self.prod[sku]['custom'] = ""
-			self.prod[sku]['size'] = rsheet.row(x)[9].value
+			self.prod[sku]['size'] = rsheet.row(x)[10].value
 			self.prod[sku]['top'] = ""
 			self.prod[sku]['min'] = rsheet.row(x)[5].value#rsheet.row(x)[10].value if self.is_num(rsheet.row(x)[10].value) else rsheet.row(x)[10].value
 			self.prod[sku]['price1'] = rsheet.row(x)[6].value#float(rsheet.row(x)[11].value)

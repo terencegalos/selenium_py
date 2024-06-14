@@ -24,7 +24,7 @@ class countryhome(domainobject):
     
     def init_login(self,un,pw):
         self.driver.get(self.url)
-        self.time.sleep(5)
+        self.time.sleep(1)
         # ActionChains(self.driver).move_to_element(self.driver.find_element(By.CSS_SELECTOR,"#sw_dropdown_2878 > a")).perform()
         # self.time.sleep(1)
         # self.driver.find_element(By.CSS_SELECTOR,"#sw_dropdown_2878 > a").click()

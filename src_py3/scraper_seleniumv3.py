@@ -61,7 +61,7 @@ class Scraper:
         if 'sitewide' not in mode:
 
             # Loop through missing items to search
-            for sku in self.missing:
+            for sku in tqdm(self.missing):
                 print(sku)
                 # self.counter.subtotal += 1.0
                 # print("Progress: {}%".format(int((self.counter.subtotal / self.total) * 100)))
@@ -74,8 +74,10 @@ class Scraper:
         
 
         if self.target_vendor.results(self.target_vendor.links):
+            print(self.target_vendor.links)
             # Loop through results and scrape
             for item in tqdm(self.target_vendor.links):
+                print(f"item: {item}")
                 self.target_vendor.navigate(item)
 
                 db = self.target_vendor.get_info(sku)

@@ -8,6 +8,10 @@ from selenium.webdriver.common.by import By
 
 
 class homespice(domainobject):
+    
+    def __init__(self,driver,scraper_mode):
+        super().__init__(driver)
+        self.mode = scraper_mode
 
     vendor = "Homespice D\xe9cor"
     url = "https://www.homespice.com/"
@@ -17,6 +21,7 @@ class homespice(domainobject):
     test = True
     item = 591142
     delay = 1
+    links = []
     
         
     def init_login(self,un,pw):

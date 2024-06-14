@@ -19,8 +19,8 @@ class domainobject():
             self.driver.get(item)
             self.time.sleep(self.delay)
             # self.driver.execute_script("window.stop();")
-        except Exception as err:
-            print(err)
+        except Exception as e:
+            print(e)
             print("Clicking found item.")
             item.click()
             self.time.sleep(self.delay)
