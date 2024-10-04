@@ -30,13 +30,13 @@ class Adams_Co_Closeouts():
 			self.prod[sku]['cat'] = rsheet.row(x)[11].value
 			self.prod[sku]['desc'] = ""
 			self.prod[sku]['stock'] = "In stock & shipping"
-			self.prod[sku]['sale'] = round(rsheet.row(x)[7].value,2)
+			self.prod[sku]['sale'] = rsheet.row(x)[7].value
 			self.prod[sku]['set'] = ""
 			self.prod[sku]['custom'] = ""
 			self.prod[sku]['size'] = ""
 			self.prod[sku]['top'] = ""
 			self.prod[sku]['min'] = rsheet.row(x)[5].value
-			self.prod[sku]['price1'] = rsheet.row(x)[7].value * 2
+			self.prod[sku]['price1'] = round(rsheet.row(x)[7].value * 2,2)
 			self.prod[sku]['min2'] = ""#rsheet.row(x)[6].value if rsheet.row(x)[5].value != rsheet.row(x)[6].value else ""
 			self.prod[sku]['price2'] = ""#round((rsheet.row(x)[7].value * 2 *.9),2) if rsheet.row(x)[6].value != rsheet.row(x)[3].value else ""
 			self.prod[sku]['min3'] = ""

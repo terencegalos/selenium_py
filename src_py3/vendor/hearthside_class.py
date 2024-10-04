@@ -50,30 +50,30 @@ class hearthside(domainobject):
         # db.name = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div > div > div > div.ty-product-block__left > form > h1").text.encode("utf-8")
         # db.sku = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div > div > div > div.ty-product-block__left > form > div.ty-product-block__sku span").text.encode("utf-8")
         try:
-            db.name = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-bigpicture > div.ty-product-bigpicture__left > div > h1").text.encode("utf-8")
+            db.name = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-bigpicture > div.ty-product-bigpicture__left > div > h1").text
         except:
             self.driver.get(self.url)
             self.time.sleep(1)
             print("No name detected.")
             return
-        db.sku = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-bigpicture > div.ty-product-bigpicture__right > form > div.ty-product-bigpicture__sidebar-bottom > div.ty-product-block__sku > div > span").text.encode("utf-8")
+        db.sku = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-bigpicture > div.ty-product-bigpicture__right > form > div.ty-product-bigpicture__sidebar-bottom > div.ty-product-block__sku > div > span").text
         db.cat = "|".join([a.text for a in self.driver.find_elements(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(1) > div > div > div > a")])
-        db.desc = self.driver.find_element(By.CSS_SELECTOR,"#content_description").text.encode("utf-8")
+        db.desc = self.driver.find_element(By.CSS_SELECTOR,"#content_description").text
         # db.stock = self.driver.find_element(By.CSS_SELECTOR,"#commerce > div > table > tbody > tr > td:nth-child(2) > table:nth-child(1) > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(3) > td:nth-child(2)").text.encode("utf-8")
         db.stock = ""
         try:
-            db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-block.ty-product-detail > div.ty-product-block__wrapper.clearfix > div.ty-product-block__left > form > div.prices-container.price-wrap > div > span:nth-child(1) > span > span.ty-strike > span:nth-child(2)").text.encode("utf-8")
-            db.sale = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-block.ty-product-detail > div.ty-product-block__wrapper.clearfix > div.ty-product-block__left > form > div.prices-container.price-wrap > div > div").text.encode("utf-8").strip("$")
+            db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-block.ty-product-detail > div.ty-product-block__wrapper.clearfix > div.ty-product-block__left > form > div.prices-container.price-wrap > div > span:nth-child(1) > span > span.ty-strike > span:nth-child(2)").text
+            db.sale = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-block.ty-product-detail > div.ty-product-block__wrapper.clearfix > div.ty-product-block__left > form > div.prices-container.price-wrap > div > div").text.strip("$")
         except:
             db.sale = ""
             try:
-                db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-bigpicture > div.ty-product-bigpicture__right > form > div.prices-container.price-wrap > div > div > span > span > span:nth-child(2)").text.encode("utf-8")
+                db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-bigpicture > div.ty-product-bigpicture__right > form > div.prices-container.price-wrap > div > div > span > span > span:nth-child(2)").text
             except:
                 print("No price detected")
                 return None
         try:
-            db.min2 = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-bigpicture > div.ty-product-bigpicture__right > form > div.ty-product-bigpicture__sidebar-bottom > div.ty-product-block__field-group > div > div.ty-qty-discount > table > thead > tr > th:nth-child(2)").text.encode("utf-8").split("+")[0]
-            db.price2 = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-bigpicture > div.ty-product-bigpicture__right > form > div.ty-product-bigpicture__sidebar-bottom > div.ty-product-block__field-group > div > div.ty-qty-discount > table > tbody > tr > td:nth-child(2) > span").text.encode("utf-8")
+            db.min2 = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-bigpicture > div.ty-product-bigpicture__right > form > div.ty-product-bigpicture__sidebar-bottom > div.ty-product-block__field-group > div > div.ty-qty-discount > table > thead > tr > th:nth-child(2)").text.split("+")[0]
+            db.price2 = self.driver.find_element(By.CSS_SELECTOR,"#tygh_main_container > div.tygh-content.clearfix > div > div:nth-child(2) > div > div.ty-product-bigpicture > div.ty-product-bigpicture__right > form > div.ty-product-bigpicture__sidebar-bottom > div.ty-product-block__field-group > div > div.ty-qty-discount > table > tbody > tr > td:nth-child(2) > span").text
         except:
             db.min2 = ""
             db.price2 = ""
@@ -102,9 +102,10 @@ class hearthside(domainobject):
         except:
             pass
         try:
-            db.img400 = self.driver.find_element(By.XPATH,'//*[@id="tygh_main_container"]/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div[2]/a[1]/img').get_attribute("src").replace('thumbnails/55/55/','')
-        except:
             db.img400 = self.driver.find_element(By.XPATH,'//*[@id="tygh_main_container"]/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div[2]/a[2]/img').get_attribute("src").replace('thumbnails/55/55/','')
+            
+        except:
+            db.img400 = "NA"
             
         db.img160 = db.img400.split("/")[-1:][0]
         db.desc2 = ""

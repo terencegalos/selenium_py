@@ -13,11 +13,11 @@ class The_Country_House_Closeouts():
 		rsheet = table.getSheet()
 		
 		stock = "placeholder"
-		for x in range(6,rsheet.nrows):
+		for x in range(4,rsheet.nrows):
 			
-			if rsheet.row(x)[6].value < 4: #skip inventory less than 4
-				print("Skipping..")
-				continue
+			# if rsheet.row(x)[6].value < 4: #skip inventory less than 4
+			# 	print("Skipping..")
+			# 	continue
 			try:
 				float(rsheet.row(x)[1].value)
 				sku = str(int(rsheet.row(x)[1].value))
@@ -26,13 +26,14 @@ class The_Country_House_Closeouts():
 				
 			
 			try: # detect price
-				float(rsheet.row(x)[5].value)
+				float(rsheet.row(x)[3].value)
 			except:
 				print("Skipping no price.")
 				continue
 			
-			# if "+" not in rsheet.row(x)[2].value: # closeouts
-			# 	continue
+			if "+" not in rsheet.row(x)[2].value: # closeouts
+				print("Not closeout. Skip")
+				continue
 				
 			self.prod[sku] = {}
 				

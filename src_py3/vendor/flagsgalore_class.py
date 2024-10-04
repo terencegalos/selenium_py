@@ -7,6 +7,10 @@ from selenium.webdriver.common.by import By
 # from selenium.webdriver.common.action_chains import ActionChains
 
 class flagsgalore(domainobject):
+    
+    # def __init__(self,driver,scraper_mode):
+    #     super().__init__(driver)
+    #     self.mode = scraper_mode
 
     vendor = "Flags Galore Decor"
     url = "https://flagsgaloredecorandmore.com/"
@@ -14,6 +18,7 @@ class flagsgalore(domainobject):
     uname = "waresitat"
     passw = "wolfville"
     delay = 1
+    links = []
         
     def init_login(self,un,pw):
         self.driver.get(self.url)
@@ -29,10 +34,11 @@ class flagsgalore(domainobject):
     def get_info(self,item=None):
 
         db = gateway()
+        self.time.sleep(1)
         db.name = self.driver.find_element(By.XPATH,'//*[@id="bs-7"]/span/div/section/div/div/div[2]/div/div/div[1]/div[2]/div/div[1]/div/div/h1').text
-        db.sku = self.driver.find_element(By.CSS_SELECTOR,"#bs-8 > span > div > section > div > div > div.x-el.x-el-div.c2-1.c2-2.c2-15.c2-41.c2-3.c2-4.c2-5.c2-6.c2-7.c2-8 > div > div > div:nth-child(1) > div:nth-child(2) > div > div.x-el.x-el-div.c2-1.c2-2.c2-74.c2-3.c2-4.c2-5.c2-6.c2-7.c2-8 > div > div > h1").text.encode("utf-8")
+        db.sku = db.name.split()[-1]
         db.cat = ""
-        db.desc = self.driver.find_element(By.CSS_SELECTOR,"#bs-8 > span > div > section > div > div > div.x-el.x-el-div.c2-1.c2-2.c2-15.c2-41.c2-3.c2-4.c2-5.c2-6.c2-7.c2-8 > div > div > div:nth-child(1) > div:nth-child(2) > div > div.x-el.x-el-p.c2-1.c2-2.c2-c.c2-d.c2-40.c2-4v.c2-2b.c2-3.c2-2s.c2-4.c2-1n.c2-5.c2-6.c2-7.c2-8.x-rt").text
+        db.desc = self.driver.find_element(By.XPATH,'//*[@id="bs-7"]/span/div/section/div/div/div[2]/div/div/div[1]/div[2]/div/div[3]').text
         db.stock = ""
         db.sale = ""
         db.set = ""
@@ -48,7 +54,8 @@ class flagsgalore(domainobject):
         db.multi = 1
         db.dir400 = "FlagsGaloreDecor400"
         db.dir160 = "FlagsGaloreDecor160"
-        db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#ols-image-wrapper > div > img").get_attribute("src")
+        # db.img400 = self.driver.find_element(By.XPATH,'//*[@id="ols-image-wrapper"]/div/img').get_attribute("src")
+        db.img400 = WebDriverWait(self.driver,6).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="ols-image-wrapper"]/div/img'))).get_attribute('src')
         db.img160 = db.img400
         db.desc2 = ""
         db.option = ""
@@ -78,9 +85,10 @@ class flagsgalore(domainobject):
         self.time.sleep(1)
 
         try:
-            result = WebDriverWait(self.driver,3).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="bs-7"]/span/div/section/div/div/div[3]/div/div/div/div[2]/div[2]/div/div[1]/div/a'))).get_attribute("href")
-            # self.driver.find_element(By.XPATH,'//*[@id="bs-7"]/span/div/section/div/div/div[2]/div/div/div/div[2]/div[2]/div[1]/div[1]/div/a').click()
-            self.time.sleep(1)
+            # result = WebDriverWait(self.driver,3).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="bs-7"]/span/div/section/div/div/div[3]/div/div/div/div[2]/div[2]/div/div[1]/div/a'))).get_attribute("href")
+            result = WebDriverWait(self.driver,3).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="bs-7"]/span/div/section/div/div/div[3]/div/div/div/div[2]/div[2]/div/div/div/a'))).get_attribute("href")
+            self.time.sleep(2)
+            print(result)
             return [result]
         except:
             print(f"No result?")
@@ -90,6 +98,3 @@ class flagsgalore(domainobject):
 def get_cat(self):
     all = ["http://www.thecountryhouse.com/viewcategory.asp?catid=126","http://www.thecountryhouse.com/viewcategory.asp?catid=125","http://www.thecountryhouse.com/viewcategory.asp?catid=93","http://www.thecountryhouse.com/viewcategory.asp?catid=100","http://www.thecountryhouse.com/viewcategory.asp?catid=112","http://www.thecountryhouse.com/viewcategory.asp?catid=153"]
     cats = self.driver.find_elements(By.CSS_SELECTOR,"#content > table > tbody > tr:nth-child(1) > td:nth-child(2) > strong:nth-child(2) > a")
-    cats = self.driver.find_elements(By.CSS_SELECTOR,"#content > table > tbody > tr:nth-child(1) > td:nth-child(1) > strong:nth-child(24) > a")
-    cats = self.driver.find_elements(By.CSS_SELECTOR,"#content > table > tbody > tr:nth-child(1) > td:nth-child(3) > strong:nth-child(30) > a")
-    cats = self.driver.find_elements(By.CSS_SELECTOR,"#content > table > tbody > tr:nth-child(1) > td:nth-child(3) > strong:nth-child(32) > a")
