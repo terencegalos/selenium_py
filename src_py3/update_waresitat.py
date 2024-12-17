@@ -118,7 +118,7 @@ def updateMasterFile(vendor):
 			# otherwise check prices,min,images then update stock
 		else:
 			print("checking...")
-			# print local.prod[line]
+			print(local.prod[line])
 			
 				# local.prod[line]['size'] == catalog.prod[line]['size'] and \
 				# local.prod[line]['name'] == catalog.prod[line]['name'] and \

@@ -37,10 +37,10 @@ class zaer(domainobject):
     def get_info(self,item=None):
         db = gateway()
         print("Getting item info.")
-        db.name = self.driver.find_element(By.CSS_SELECTOR,"#commerce > div > div.COMProdRightContainer.col-12.col-md-6 > div.COMProdHeader > h1").text
+        db.name = self.driver.find_element(By.CSS_SELECTOR,"#commerce > div > div.COMProdRightContainer.col-12.col-md > div.COMProdHeader > h1").text
         db.sku =  self.driver.find_element(By.CSS_SELECTOR,"#ProductItemCode").text
         self.time.sleep(1)
-        db.cat = "|".join([a.text for a in self.driver.find_elements(By.CSS_SELECTOR,"#catprodBreadcrumb > ol > li.breadcrumb-item")])
+        db.cat = ""#"|".join([a.text for a in self.driver.find_elements(By.CSS_SELECTOR,"#catprodBreadcrumb > ol > li.breadcrumb-item")])
         try:
             db.desc = self.driver.find_element(By.CSS_SELECTOR,"#COMProdDesc").text
         except:
