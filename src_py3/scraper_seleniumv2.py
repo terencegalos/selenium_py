@@ -67,7 +67,7 @@ class Scraper:
 
             if self.target_vendor.results(items):
                 # Loop through results and scrape
-                for item in items:
+                for item in tqdm(items):
                     self.target_vendor.navigate(item)
 
                     db = self.target_vendor.get_info(sku)

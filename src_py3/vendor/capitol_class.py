@@ -1,4 +1,5 @@
 import json
+import random
 from helper import table_gateway 
 from helper import domainobject
 from selenium.webdriver.common.keys import Keys
@@ -24,11 +25,13 @@ class capitol(domainobject.domainobject):
         
     def init_login(self,un,pw):
         self.driver.get(self.login)
-        self.time.sleep(8)
+        self.time.sleep(1)
         
         print("Logging in.")
         self.driver.find_element(By.NAME,"customer[email]").send_keys(un)
+        self.time.sleep(random.choice((1,2,3,4,5)))
         self.driver.find_element(By.NAME,"customer[password]").send_keys(pw)
+        self.time.sleep(random.choice((1,2,3,4,5)))
         self.driver.find_element(By.NAME,"customer[password]").send_keys(Keys.ENTER)
         while True:
             re = input("Handle CAPTCHA. [y/n]: ")
@@ -36,7 +39,7 @@ class capitol(domainobject.domainobject):
                 break
             else:
                 continue
-        self.time.sleep(3)
+        self.time.sleep(random.choice((1,2,3,4,5)))
         print("Success.")
 
   #This is used for clicking options if available then save info 
@@ -116,7 +119,7 @@ class capitol(domainobject.domainobject):
         except:
             db.desc = ""
         db.stock = ""
-        db.sale = ""
+        # db.sale = ""
         db.set = ""
         db.custom = ""
         db.size = ""
@@ -125,8 +128,10 @@ class capitol(domainobject.domainobject):
         
         try:
             db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.price-area.product-detail__gap-sm > span").text
+            db.sale = ""
         except:
-            db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.price-area.product-detail__gap-sm > span").get_attribute("content")
+            db.price1 = 100#self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.price-area.product-detail__gap-sm.on-sale > span.was-price.theme-money").text
+            db.sale = 99#self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__details.product-detail > div > div > div > div.price-area.product-detail__gap-sm.on-sale > span.current-price.theme-money").text
         db.min2 = ""
         db.price2 = ""
         db.min3 = ""
@@ -148,11 +153,12 @@ class capitol(domainobject.domainobject):
         print("\nSearching for item: " + row+"\n")
         while True:
             try:
-                self.driver.find_element(By.CSS_SELECTOR,"#site-control > div.links.site-control__inner > div.nav-right-side > a.cart.nav-search").click()
+                self.driver.get(f"https://www.earthrugs.com/search?type=product&options%5Bprefix%5D=last&q={row}")
+                # self.driver.find_element(By.CSS_SELECTOR,"#site-control > div.links.site-control__inner > div.nav-right-side > a.cart.nav-search").click()
                 self.time.sleep(0.5)
-                self.driver.find_element(By.NAME,"q").clear()
-                self.driver.find_element(By.NAME,"q").send_keys(str(row))
-                self.driver.find_element(By.NAME,"q").send_keys(Keys.ENTER)
+                # self.driver.find_element(By.NAME,"q").clear()
+                # self.driver.find_element(By.NAME,"q").send_keys(str(row))
+                # self.driver.find_element(By.NAME,"q").send_keys(Keys.ENTER)
                 self.time.sleep(self.delay)
                 break
             except:

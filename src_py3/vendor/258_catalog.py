@@ -39,7 +39,7 @@ class Capitol_Imports():
 			self.prod[sku]['sku'] = sku
 			self.prod[sku]['cat'] = ""
 			self.prod[sku]['desc'] = rsheet.row(x)[3].value
-			self.prod[sku]['stock'] = "In stock & shipping (checked "+str(datetime.datetime.today().strftime("%B %d, %Y"))+")" if rsheet.row(x)[4].value > 4 else ("Out of stock - order to ship after " + " ".join(rsheet.row(0)[6].value.split()[-2:]) if rsheet.row(x)[6].value > 0 else "Out of stock")
+			self.prod[sku]['stock'] = "In stock & shipping(checked "+str(datetime.datetime.today().strftime("%B %d, %Y"))+")" if rsheet.row(x)[4].value > 4 else ("Out of stock - order to ship after " + " ".join(rsheet.row(0)[6].value.split()[-2:]) if rsheet.row(x)[6].value > 0 else "Out of stock")
 			self.prod[sku]['sale'] = ""
 			self.prod[sku]['set'] = ""
 			self.prod[sku]['custom'] = ""

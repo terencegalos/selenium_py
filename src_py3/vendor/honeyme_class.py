@@ -11,7 +11,7 @@ class honeyme(domainobject):
     url = "http://www.honeyandme.com/shop/"
     home = "http://www.honeyandme.com/"
     uname = "rick@waresitat.com"
-    passw = "wolfville4"
+    passw = "Honey123"
     delay = 1
     lastStop = "https://honeyandme.com/e170139-small-metal-wide-star-6-pc-set/"
     flag = False
@@ -33,12 +33,12 @@ class honeyme(domainobject):
     def get_info(self,item=None):
         db = gateway()
         try:
-            db.name = self.driver.find_element(By.CSS_SELECTOR,"#form-add-to-cart > div > div > h1").text.encode("utf-8")
+            db.name = self.driver.find_element(By.CSS_SELECTOR,"#form-add-to-cart > div > div > h1").text
         except:
             try:
                 self.driver.refresh()
                 self.time.sleep(1)
-                db.name = self.driver.find_element(By.CSS_SELECTOR,"#form-add-to-cart > div > div > h1").text.encode("utf-8")
+                db.name = self.driver.find_element(By.CSS_SELECTOR,"#form-add-to-cart > div > div > h1").text
             except:
                 return None
 
@@ -59,7 +59,7 @@ class honeyme(domainobject):
         db.custom = ""
 		
         try:
-            db.size = self.driver.find_element(By.CSS_SELECTOR,"#additional-info > div:nth-child(4)").text.encode("utf-8")
+            db.size = self.driver.find_element(By.CSS_SELECTOR,"#additional-info > div:nth-child(4)").text
         except:
             db.size = ""
 			
@@ -100,14 +100,15 @@ class honeyme(domainobject):
         
         
     def search_item(self,row):
-        self.driver.find_element(By.CSS_SELECTOR,"body > header > div.upper-header > button.upper-header-item.search-wrapper").click()
-        self.driver.find_element(By.CSS_SELECTOR,"button.upper-header-item:nth-child(3)").click()
+        # self.driver.find_element(By.CSS_SELECTOR,"body > header > div.upper-header > button.upper-header-item.search-wrapper").click()
+        # self.driver.find_element(By.CSS_SELECTOR,"button.upper-header-item:nth-child(3)").click()
         print("\nSearching for item: " + row+"\n")
         while True:
             try:
                 # self.driver.find_element(By.NAME,"search_query").clear()
-                self.driver.find_element(By.NAME,"search_query").send_keys(str(row))
-                self.driver.find_element(By.NAME,"search_query").send_keys(self.Keys.ENTER)
+                # self.driver.find_element(By.NAME,"search_query").send_keys(str(row))
+                # self.driver.find_element(By.NAME,"search_query").send_keys(self.Keys.ENTER)
+                self.driver.get(f"https://honeyandme.com/search.php?search_query={row}")
                 self.time.sleep(2)
                 break
             except:
