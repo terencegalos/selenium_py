@@ -27,9 +27,11 @@ class domainobject():
         
     def get_missing(self,vendor):
         print(vendor)
-        fopen = open(os.path.dirname(__file__)+"/csv/outfile/noimg/"+vendor.replace("/","&")+".csv","r")
-        res = csv.reader(fopen.read().splitlines())
-        out = [line[0] for line in res if len(line)]
+        
+        file_path = os.path.join(os.path.dirname(__file__),"csv","outfile","noimg",vendor.replace("/","&")+".csv")
+        with open(file_path,'r') as fopen:
+            reader = csv.reader(fopen)
+            out = [line[0] for line in reader if len(line)]
         return out
         
     def results(self,items):
@@ -46,8 +48,14 @@ class domainobject():
             except:
                 print("Item not found. Getting next item...")
                 
-    def send_to_file(self,vendor,dbs):
-        gt = [db.retrieve()for db in dbs]
-        outfile = open(os.path.dirname(__file__)+"/csv/outfile/"+vendor+" output.csv","w")
-        writer = csv.writer(outfile)
-        writer.writerows(gt)
+        
+        
+    def send_to_file(self, vendor, dbs):
+        gt = [db.retrieve() for db in dbs]
+
+        # Construct the file path using os.path.join
+        file_path = os.path.join(os.path.dirname(__file__), "csv", "outfile", f"{vendor} output.csv")
+
+        with open(file_path, mode='w', newline='', encoding='utf-8') as outfile:
+            writer = csv.writer(outfile)
+            writer.writerows(gt)

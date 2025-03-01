@@ -22,23 +22,23 @@ class Hannas_Handiworks():
             except:
                 sku = " ".join(rsheet.row(x)[0].value.split())
             self.prod[sku] = {}
-            self.prod[sku]['name'] = rsheet.row(x)[1].value
+            self.prod[sku]['name'] = rsheet.row(x)[4].value
             self.prod[sku]['sku'] = sku
             self.prod[sku]['cat'] = ''
             self.prod[sku]['desc'] = ''
             self.prod[sku]['stock'] = ''
-            self.prod[sku]['sale'] = float(rsheet.row(x)[4].value.split("/")[1].strip("$")) if rsheet.row(x)[4].value != '' and self.is_num(rsheet.row(x)[4].value.split("/")[1].strip("$")) and rsheet.row(x)[4].value.split("/")[0] == rsheet.row(x)[3].value.split("/")[0] else ''
+            self.prod[sku]['sale'] = float(rsheet.row(x)[14].value) if rsheet.row(x)[11].value != '' and self.is_num(rsheet.row(x)[11].value) and rsheet.row(x)[11].value == rsheet.row(x)[13].value else ''
             self.prod[sku]['set'] = ""
             self.prod[sku]['custom'] = ""
-            self.prod[sku]['size'] = ''
+            self.prod[sku]['size'] = rsheet.row(x)[6].value
             self.prod[sku]['top'] = ""
-            self.prod[sku]['min'] = float(rsheet.row(x)[3].value.split("/")[0]) if self.is_num(rsheet.row(x)[3].value.split("/")[0]) else rsheet.row(x)[3].value
-            self.prod[sku]['price1'] = float(rsheet.row(x)[3].value.split("/")[1].strip("$")) if self.is_num((rsheet.row(x)[3].value.split("/")[1].strip("$"))) else rsheet.row(x)[3].value
-            self.prod[sku]['min2'] = float(rsheet.row(x)[4].value.split("/")[0]) if rsheet.row(x)[4].value != '' and self.is_num(rsheet.row(x)[4].value.split("/")[0]) and rsheet.row(x)[4].value.split("/")[0] !=  rsheet.row(x)[3].value.split("/")[0] else ''
-            self.prod[sku]['price2'] = float(rsheet.row(x)[4].value.split("/")[1].strip("$")) if rsheet.row(x)[4].value != '' and self.is_num(rsheet.row(x)[4].value.split("/")[1].strip("$")) and rsheet.row(x)[4].value.split("/")[0] !=  rsheet.row(x)[3].value.split("/")[0] else ''
-            self.prod[sku]['min3'] = float(rsheet.row(x)[5].value.split("/")[0]) if rsheet.row(x)[5].value!= '' and self.is_num(rsheet.row(x)[5].value.split("/")[0]) else rsheet.row(x)[5].value
-            self.prod[sku]['price3'] = float(rsheet.row(x)[5].value.split("/")[1].strip("$")) if rsheet.row(x)[5].value != '' and self.is_num(rsheet.row(x)[5].value.split("/")[1].strip("$")) else rsheet.row(x)[5].value
-            self.prod[sku]['multi'] = float(rsheet.row(x)[3].value.split("/")[0]) if self.is_num(rsheet.row(x)[3].value.split("/")[1].strip("$")) else rsheet.row(x)[3].value
+            self.prod[sku]['min'] = rsheet.row(x)[11].value#float(rsheet.row(x)[3].value.split("/")[0]) if self.is_num(rsheet.row(x)[3].value.split("/")[0]) else rsheet.row(x)[3].value
+            self.prod[sku]['price1'] = round(float(rsheet.row(x)[12].value),2)#float(rsheet.row(x)[3].value.split("/")[1].strip("$")) if self.is_num((rsheet.row(x)[3].value.split("/")[1].strip("$"))) else rsheet.row(x)[3].value
+            self.prod[sku]['min2'] = rsheet.row(x)[13].value if rsheet.row(x)[13].value != '' and self.is_num(rsheet.row(x)[13].value) and rsheet.row(x)[13].value !=  rsheet.row(x)[11].value else ''
+            self.prod[sku]['price2'] = rsheet.row(x)[14].value if rsheet.row(x)[11].value != '' and self.is_num(rsheet.row(x)[11].value) and rsheet.row(x)[11].value !=  rsheet.row(x)[13].value else ''
+            self.prod[sku]['min3'] = rsheet.row(x)[15].value#float(rsheet.row(x)[5].value.split("/")[0]) if rsheet.row(x)[5].value!= '' and self.is_num(rsheet.row(x)[5].value.split("/")[0]) else rsheet.row(x)[5].value
+            self.prod[sku]['price3'] = rsheet.row(x)[16].value#float(rsheet.row(x)[5].value.split("/")[1].strip("$")) if rsheet.row(x)[5].value != '' and self.is_num(rsheet.row(x)[5].value.split("/")[1].strip("$")) else rsheet.row(x)[5].value
+            self.prod[sku]['multi'] = rsheet.row(x)[11].value#float(rsheet.row(x)[3].value.split("/")[0]) if self.is_num(rsheet.row(x)[3].value.split("/")[1].strip("$")) else rsheet.row(x)[3].value
             self.prod[sku]['img400'] = "Hannas400"
             self.prod[sku]['img160'] = "Hannas160"
             self.prod[sku]['jpg400'] =""

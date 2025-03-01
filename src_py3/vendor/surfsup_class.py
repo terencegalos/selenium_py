@@ -3,81 +3,143 @@ from helper.domainobject import domainobject
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import ElementClickInterceptedException
+from selenium.common.exceptions import NoSuchElementException
+import logging,sys,re
+
+logging.basicConfig(level=logging.INFO,stream=sys.stdout)
 
 class surfsup(domainobject):
 
-    vendor = "Surf's Up Candles"
-    url = "https://surfsupcandle.faire.com"
+    vendor = "Surfs Up Candles"
+    url = "https://www.surfsupcandle.com/"
     uname = "terence@waresitat.com"
     passw = "wolfville"
     delay = 1
+    is_overlay_removed = False
+    last_stop = 'https://www.surfsupcandle.com/products/gift-certificate?_pos=1426&_sid=c52f9987b&_ss=r'
     all = []
     
         
     def init_login(self,un,pw):
-        self.driver.get("https://surfsupcandle.faire.com/user/sign-up?signIn=1")
-        self.time.sleep(10)
-        self.driver.find_element(By.CSS_SELECTOR,"body > div.ReactModalPortal > div > div > div > div > div.layout__Flex-sc-1mq1rc4-0.layout__Column-sc-1mq1rc4-1.ffhbWg.hjyYkI > p:nth-child(11) > a:nth-child(1)").click()
-        self.time.sleep(1)
-
-        print("Logging in.")
-        self.driver.find_element(By.NAME,"email").send_keys(un)
-        self.driver.find_element(By.NAME,"email").send_keys(Keys.ENTER)
-        self.time.sleep(1)
-        self.driver.find_element(By.NAME,"password").send_keys(pw)
-        self.driver.find_element(By.NAME,"password").send_keys(Keys.ENTER)
-        self.time.sleep(10)
-        print("Success.")
+        # print("Logging in.")
+        # self.driver.get("https://www.surfsupcandle.com/customer_authentication/redirect?locale=en&region_country=US")
+        # self.driver.get(self.url)
+        # self.time.sleep(1)
+        # resp = 'n'
+        # while resp != 'y':
+        #     resp = input('Overlay shown?')
+        # self.driver.find_element(By.XPATH,'/html/body/div[14]/div[2]/div[2]/div/div/div/div/div/form/div[2]/div/img').click()
+        print("Login success.")
 
     def pagination(self):
         try:
-            for x in range(5):
-                self.driver.find_element(By.CSS_SELECTOR,"html body").send_keys(Keys.PAGE_DOWN)
-            self.time.sleep(1)
-            # self.driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
-            # self.time.sleep(1)
-            # try:
-            ActionChains(self.driver).move_to_element(self.driver.find_element(By.XPATH,"//*[@id='main']/div/div[1]/div[1]/div/div[7]/div[2]/div[2]/div[3]")).perform()
+            self.driver.find_element(By.CSS_SELECTOR,"[rel=next]").click()
             self.time.sleep(2)
-            # self.driver.get(self.driver.find_element(By.XPATH,"//*[@id='main']/div/div[1]/div[1]/div/div[7]/div[2]/div[2]/div[3]/a").get_attribute("href"))
-            self.driver.find_element(By.CSS_SELECTOR,"#main > div > div.layout__Flex-sc-1mq1rc4-0.layout__Row-sc-1mq1rc4-2.Brand__BrandPageUpperPart-wvrzkz-0.btdUtK.kUGzUv > div.styled__MakerContainer-sc-17ihvht-0.bEbgNX > div > div.styled__BrandProductsContainer-sc-17ihvht-2.fYXeht > div.layout__Flex-sc-1mq1rc4-0.layout__Column-sc-1mq1rc4-1.BrandProducts__PaginationWrapper-sc-56cg4r-4.ikuGmT.hjyYkI.byOjsg > div.layout__Flex-sc-1mq1rc4-0.layout__Row-sc-1mq1rc4-2.styles__Wrapper-sc-1t6b1ty-1.styles__DesktopWrapper-sc-1t6b1ty-2.hUdWNf.gdWMrX.bVOWHP > div:nth-child(3) > a").click()
-            self.time.sleep(8)
-
             return True
         except:
             print("No pages left.")
             return False
-
+        
+    def click_size(self,el):
+        while True:
+                try:
+                    el.click()
+                    self.time.sleep(0.3)
+                    break
+                    
+                except ElementClickInterceptedException:
+                    logging.info('Overlay intercepting. Click manually')
+                    res = input('Done? ')
+                    while res.lower() != 'y':
+                        continue
+        
+    def select_size(self):
+        size_results = []
+        try:
+            size_wrapper = self.driver.find_elements(By.CSS_SELECTOR,'div.block-swatch-list')[0]
+        except IndexError:
+            logging.info('No size option. Extracting info directly.')
+            result = self.extract_info()
+            size_results.append(result)
+            return size_results
+        # logging.info(f"innerhtml:{size_wrapper.get_attribute('innerHTML')}")
+        
+        sizes = size_wrapper.find_elements(By.CSS_SELECTOR,'div')
+        # Rotate sizes
+        for size in sizes:
+            # logging.info(f"size: {size.get_attribute('innerHTML')}")
+            self.click_size(size)
+            results = self.select_scents()
+            
+            if results is not None:
+                size_results.extend(results)
+            # If there are no scent options, extract data directly
+            else:
+                result = self.extract_info()
+                size_results.append(result)
+            
+        return size_results
+            
+            
+            
+    def select_scents(self):
+        scent_results = []
+        logging.info(f"Rotate: scents")
+        try:
+            scent_wrapper = self.driver.find_elements(By.CSS_SELECTOR,'div.block-swatch-list')[1]
+            scents = scent_wrapper.find_elements(By.CSS_SELECTOR,'div')
+            for scent in scents:
+                scent.click()
+                self.time.sleep(0.5)
+                result = self.extract_info()
+                scent_results.append(result)
+                
+            return scent_results
+        
+        except IndexError:
+            logging.info(f"No scents to choose")
+            
+            
+            
     def get_info(self,item=None):
+        logging.info(self.driver.current_url)
+        print('Rotate: size')
+        results = self.select_size()
+        return results
+        
+        
+            
+
+    def extract_info(self,item=None):
         
         db = gateway()
-        while True:
-            try:
-                try:
-                    self.driver.find_element(By.CSS_SELECTOR,"#main > div > svg")
-                except:
-                    self.driver.find_element(By.XPATH,"//*[@id='root']/div/div[1]/div/div/p[2]/span")
-                self.driver.refresh()
-                self.time.sleep(5)
-                continue
-            except:
-                break
-
-        try:
-            db.name = self.driver.find_element(By.XPATH,"//*[@id='main']/div/div[2]/div[2]/div[3]/div[1]/h1").text
-        except:
-            db.name = self.driver.find_element(By.XPATH,"//*[@id='main']/div[2]/div[2]/div/div/h3").text
+        db.name = self.driver.find_element(By.XPATH,'//*[@id="main"]/div[1]/section/div/div/div[2]/product-meta/h1').text
         db.sku = db.name
-        db.cat = "|".join([c.text.encode("utf-8") for c in self.driver.find_elements(By.XPATH,"//*[@id='main']/div/div[2]/div[1]/div[1]/ol/li/p")])
-        db.desc = ""#self.driver.find_element(By.CSS_SELECTOR,"p[itemprop='description']").text.encode("utf-8")
+        db.cat = ""
+        try:
+            db.desc = self.driver.find_element(By.XPATH,'//*[@id="main"]/div[1]/section/div/div/div[2]/div/div[5]/div').text
+        except NoSuchElementException:
+            try:
+                db.desc = self.driver.find_element(By.XPATH,'//*[@id="main"]/div[1]/section/div/div/div[2]/div/div[5]').text
+            except NoSuchElementException:
+                db.desc = ""
         db.stock = ""
         db.sale = ""
         db.set = ""
         db.custom = ""
-        db.size = ""#self.driver.find_element(By.CSS_SELECTOR,"body > div.product.container > div > div.description.col-tablet-7 > ul > li:nth-child(2)").text.encode("utf-8")
+        try:
+            db.size = self.driver.find_element(By.XPATH,'//*[@id="main"]/div[1]/section/div/div/div[2]/div/product-variants/div[1]/div[1]/span[2]').text
+        except NoSuchElementException:
+            db.size = ""
         db.seller = ""
-        db.min1 = 3#self.driver.find_element(By.CSS_SELECTOR,"body > div.product.margin--percent > div > div.flex-row.product-container > div.summary.summary-margin.flex-column.flex--justify-start > div.margin--viewport--small.flex-row.flex--wrap.flex--align-center.flex--justify-start > div.actions > form > div > input").get_attribute("value").encode("utf-8").strip()
-        db.price1 = 99#self.driver.find_element(By.CSS_SELECTOR,"body > div.product.container > div > div:nth-child(1) > div.summary.col-tablet-7 > div.pricing > div > div.item_price > div > span > span.price").text.encode("utf-8").strip()
+        db.min1 = 3
+        try:
+            full_text = self.driver.find_element(By.XPATH,'//*[@id="main"]/div[1]/section/div/div/div[2]/product-meta/div/div[1]/span').get_attribute('textContent').strip()
+            price_match = re.search(r'\$\d+.\d+',full_text)
+            db.price1 = price_match.group(0) if price_match else ""
+        except NoSuchElementException:
+            db.price1 = 99
         db.min2 = ""
         db.price2 = ""
         db.min3 = ""
@@ -86,17 +148,18 @@ class surfsup(domainobject):
         db.dir400 = "Surfs400"
         db.dir160 = "Surfs160"
         try:
-            db.img400 = self.driver.find_element(By.XPATH,"//*[@id='main']/div/div[2]/div[2]/div[2]/div[1]/div/picture/img").get_attribute("src").encode("utf-8")
-        except:
-            db.img400 = self.driver.find_element(By.XPATH,"//*[@id='main']/div[2]/div[2]/img").get_attribute("src").encode("utf-8")
+            db.img400 = self.driver.find_element(By.XPATH,'//*[@id="main"]/div[1]/section/div/div/div[1]/product-media/div/flickity-carousel/div/div/div[contains(@class, "is-selected") and contains(@class, "product__media-item")]/div/img').get_attribute("src")
+        except NoSuchElementException:
+            try:
+                db.img400 = self.driver.find_element(By.XPATH,'//*[@id="main"]/div[1]/section/div/div/div[1]/product-media/div/flickity-carousel/div/div/img').get_attribute("src")
+            except NoSuchElementException:
+                db.img400 = 'No image.jpg'
         db.img160 = db.img400.split("/")[-1:][0]
-        db.desc2 = ""#self.driver.find_element(By.CSS_SELECTOR,"body > div.product.container > div > div.description > p").text.encode("utf-8")
         try:
-            self.driver.find_element(By.XPATH,"//*[@id='main']/div/div[2]/div[2]/div[3]/div[3]/div[1]/div[2]/div/div/div/div").click()
-            self.time.sleep(1)
-            db.option = "|".join([o.text for o in self.driver.find_elements(By.XPATH,"//*[@id='main']/div/div[2]/div[2]/div[3]/div[3]/div[1]/div[2]/div/div/div[2]/button")])
-        except:
-            db.option = ""
+            db.desc2 = self.driver.find_element(By.XPATH,'//*[@id="main"]/div[1]/section/div/div/div[2]/div/product-variants/div[2]/div[1]/span[2]').text
+        except NoSuchElementException:
+            db.desc2 = ""
+        db.option = ""
         db.dir800 = "Surfs800"
         db.img800 = db.img160
         print(db)
@@ -106,24 +169,39 @@ class surfsup(domainobject):
     def search_item(self,row=None):
         
         print("\nSearching for item: " + str(row)+"\n")
-        for x in range(6):
-            self.driver.find_element(By.CSS_SELECTOR,"html body").send_keys(Keys.PAGE_DOWN)
-        self.time.sleep(1)
-        ActionChains(self.driver).move_to_element(self.driver.find_element(By.XPATH,"//*[@id='main']/div/div[1]/div[1]/div/div[7]/div[2]/div[2]/div[3]")).perform()
-        self.time.sleep(2)
+        # for x in range(6):
+        #     self.driver.find_element(By.CSS_SELECTOR,"html body").send_keys(Keys.PAGE_DOWN)
+        # self.time.sleep(1)
+        # ActionChains(self.driver).move_to_element(self.driver.find_element(By.XPATH,"//*[@id='main']/div/div[1]/div[1]/div/div[7]/div[2]/div[2]/div[3]")).perform()
+        # self.time.sleep(2)
         # items = [i.get_attribute("href") for i in self.driver.find_elements(By.XPATH,"//*[@id='main']/div/div[1]/div[1]/div/div[7]/div[1]/div[2]/section/a")]
-        # items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#main > div > div.layout__Flex-sc-1mq1rc4-0.layout__Row-sc-1mq1rc4-2.Brand__BrandPageUpperPart-wvrzkz-0.btdUtK.kUGzUv > div.styled__MakerContainer-sc-17ihvht-0.bEbgNX > div > div.styled__BrandProductsContainer-sc-17ihvht-2.fYXeht > div.layout__Flex-sc-1mq1rc4-0.layout__Row-sc-1mq1rc4-2.btdUtK > div:nth-child(2) > section > a")]
-        items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"a[data-test-id=productTile]")]
-        self.driver.execute_script("window.scrollTo(0,0);")
+        self.driver.get('https://www.surfsupcandle.com/search?type=product&q=*')
+        
+        items = [i.get_attribute("href") for i in self.driver.find_elements(By.XPATH,'//*[@id="facet-main"]/product-list/div/product-item/div[2]/div/a')]
         print(items)
+        
+        self.driver.execute_script("window.scrollTo(0,0);")
         self.all.extend(items)
+        
+        while True:
+            if not self.is_overlay_removed:
+                logging.info("Close email subscription popup...")
+                res = input('Closed? ')
+                if res.lower() != 'y':
+                    continue
+                self.is_overlay_removed = True
+            break
+            
+        
         while self.pagination():
-            # items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#main > div > div.layout__Flex-sc-1mq1rc4-0.layout__Row-sc-1mq1rc4-2.Brand__BrandPageUpperPart-wvrzkz-0.btdUtK.kUGzUv > div.styled__MakerContainer-sc-17ihvht-0.bEbgNX > div > div.styled__BrandProductsContainer-sc-17ihvht-2.fYXeht > div.layout__Flex-sc-1mq1rc4-0.layout__Row-sc-1mq1rc4-2.btdUtK > div:nth-child(2) > section > a")]
-            # items = [i.get_attribute("href") for i in self.driver.find_elements(By.XPATH,"//*[@id='main']/div/div[1]/div[1]/div/div[7]/div[1]/div[2]/section/a")]
-            # items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#main > div > div.layout__Flex-sc-1mq1rc4-0.layout__Row-sc-1mq1rc4-2.Brand__BrandPageUpperPart-wvrzkz-0.btdUtK.kUGzUv > div.styled__MakerContainer-sc-17ihvht-0.bEbgNX > div > div.styled__BrandProductsContainer-sc-17ihvht-2.fYXeht > div.layout__Flex-sc-1mq1rc4-0.layout__Row-sc-1mq1rc4-2.btdUtK > div:nth-child(2) > section > a")]
-            items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"a[data-test-id=productTile]")]
-            self.driver.execute_script("window.scrollTo(0,0);")
+            items = [i.get_attribute("href") for i in self.driver.find_elements(By.XPATH,'//*[@id="facet-main"]/product-list/div/product-item/div[2]/div/a')]
             print(items)
+            
+            self.driver.execute_script("window.scrollTo(0,0);")
             self.all.extend(items)
+            
+        if self.last_stop:
+            start_index = self.all.index(self.last_stop)
+            return self.all[start_index:]
         return self.all
 

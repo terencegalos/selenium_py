@@ -6,16 +6,17 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 class capitol(domainobject.domainobject):
 
-    def __init__(self,driver,scraper_mode):
-        super().__init__(driver)
-        self.mode = scraper_mode
+    # def __init__(self,driver,scraper_mode):
+    #     super().__init__(driver)
+    #     self.mode = scraper_mode
 
     vendor = "Capitol Imports"
     url = "https://www.earthrugs.com/"
-    login = "https://www.earthrugs.com/account/login"
+    login = "https://www.earthrugs.com/account/login?return_url=%2Faccount"
     home = "https://www.earthrugs.com/"
     uname = "rick@waresitat.com"
     passw = "wolfville4"
@@ -24,21 +25,37 @@ class capitol(domainobject.domainobject):
     
         
     def init_login(self,un,pw):
-        self.driver.get(self.login)
-        self.time.sleep(1)
+        self.driver.get(self.url)
+        self.time.sleep(3)
+        
+        # Scroll to end of page
+        self.driver.execute_script('window.scrollTo(0,document.body.scrollHeight);')
+        self.time.sleep(2)
+        
+        # scroll into view of login element
+        login_el = self.driver.find_element(By.XPATH,'//*[@id="site-control"]/div[2]/div[2]/a[1]')
+        self.driver.execute_script('arguments[0].scrollIntoView();',login_el)
+        
+        login_el.click() # click the login link
+        self.time.sleep(1) 
         
         print("Logging in.")
+        
         self.driver.find_element(By.NAME,"customer[email]").send_keys(un)
         self.time.sleep(random.choice((1,2,3,4,5)))
+        
         self.driver.find_element(By.NAME,"customer[password]").send_keys(pw)
         self.time.sleep(random.choice((1,2,3,4,5)))
+        
         self.driver.find_element(By.NAME,"customer[password]").send_keys(Keys.ENTER)
+        
         while True:
             re = input("Handle CAPTCHA. [y/n]: ")
             if "y" == re:
                 break
             else:
                 continue
+            
         self.time.sleep(random.choice((1,2,3,4,5)))
         print("Success.")
 
@@ -139,7 +156,12 @@ class capitol(domainobject.domainobject):
         db.multi = db.min1
         db.dir400 = "Cap 400"
         db.dir160 = "Cap 160"
-        db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__media.cc-animate-init.-in.cc-animate-complete > div > div > div.theme-images.swiper-wrapper > div > div > div > img").get_attribute("srcset").split(",")[3]
+        try:
+            db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#page-content > div.shopify-section.section-product-template > div > div.product-area__media.cc-animate-init.-in.cc-animate-complete > div > div > div.theme-images.swiper-wrapper > div > div > div > img").get_attribute("srcset").split(",")[3]
+        except NoSuchElementException:
+            db.img400 = self.driver.find_element(By.XPATH,'//*[@id="page-content"]/div[1]/div/div[1]/div/div/div[1]/div[1]/div/div/img').get_attribute("srcset").split(",")[3]
+        except IndexError:
+            db.img400 = "NA"
         db.img160 = db.img400.split("/")[-1:][0]
         db.desc2 = ""
         db.option = ""
