@@ -1,0 +1,250 @@
+<div class="row">
+    <div class="col">
+
+        <div class="product-details" style="float:left; width: 200px;">
+
+            <div class="product-item-image row" data-bind="click:$parent.SelectItem">
+                <!-- img-responsive -->
+                <img data-bind="attr{src:ImgSrc, 'altname':ImgSrc} " class="center-block img-responsive"
+                    onerror="sv.imgError(this)" src="../images/products/list/desktop/TMA1484.JPG"
+                    altname="../images/products/list/desktop/TMA1484.JPG">
+            </div>
+            <div class="product-description row">
+                <div class="product-item-item hyperlink-like"
+                    data-bind="html:ItemWithDetail, attr{Title:ItemWithDetail}, click:$parent.SelectItem"
+                    title="Small Star Candle Holder">Small Star Candle Holder</div>
+                <div class="product-item-pnumber hyperlink-like"
+                    data-bind="ko.uniqueName: console.log($data), html:Pnumber, attr{Title:Pnumber}, click:$parent.SelectItem"
+                    title="TMA1484">TMA1484</div>
+                <div class="product-item-item2" data-bind="html:Item2"></div>
+
+                <div class="price-qty" data-bind="click:$parent.SelectItem">
+                    <div class="price-list" data-bind="style:{'height' : PriceListHeight}" style="height: 60px;">
+                        <table class="product-item-prices" data-bind="ifnot:Discontinued() || InActive()">
+                            <tbody data-bind="foreach:Prices">
+                                <tr data-bind="css:$parent.ColorCSS">
+                                    <td class="product-item-price"></td>
+                                    <td><span data-bind="html:Price">$5.25</span></td>
+                                    <td> <span style="margin-left: 0px">/</span></td>
+                                    <td><span data-bind="html:UnitDescription">EACH</span></td>
+                                    <td class="product-item-price price-qty">Qty <span
+                                            data-bind="html:Quantity">6</span></td>
+                                </tr>
+
+                                <tr data-bind="css:$parent.ColorCSS">
+                                    <td class="product-item-price"></td>
+                                    <td><span data-bind="html:Price">$4.75</span></td>
+                                    <td> <span style="margin-left: 0px">/</span></td>
+                                    <td><span data-bind="html:UnitDescription">EACH</span></td>
+                                    <td class="product-item-price price-qty">Qty <span
+                                            data-bind="html:Quantity">24</span></td>
+                                </tr>
+
+                                <tr data-bind="css:$parent.ColorCSS">
+                                    <td class="product-item-price"></td>
+                                    <td><span data-bind="html:Price">$4.35</span></td>
+                                    <td> <span style="margin-left: 0px">/</span></td>
+                                    <td><span data-bind="html:UnitDescription">EACH</span></td>
+                                    <td class="product-item-price price-qty">Qty <span
+                                            data-bind="html:Quantity">48</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="product-item-qty" data-bind="ifnot:Discontinued() || InActive()">
+                        <tbody>
+                            <tr>
+                                <td>Qty:&nbsp;</td>
+                                <td style="width: 80px; padding-right: 3px;">
+                                    <input type="number" min="0" class="form-control qtyInput text-input-qty"
+                                        placeholder=""
+                                        data-bind="textInput:SelectedQuantity,enterkey:EnterKeyPressed,attr : {'data-id':$index()} ,click:function(){ QtyInputClicked($index())}"
+                                        data-id="0">
+                                </td>
+                                <td style="padding-right: 10px;">
+                                    <button data-bind="click:EnterKeyPressed,visible:ShowEnterIcon"
+                                        class="btn btn-default button-qty-productList " type="button"
+                                        style="display: none;">
+                                        <img class="enterKey-icon" src="/images/EnterKey.png">
+                                    </button>
+
+                                </td>
+                                <td style="padding-top: 10px; padding-bottom: 10px; width: 60px;">
+                                    <!-- ko if: StatusIcon1Text -->
+                                    <img data-bind="attr{src:StatusIcon1Filename, title:StatusIcon1Text} , visible:StatusIcon1Filename"
+                                        src="../images/Code_20.gif" title="In Stock">
+                                    <!-- /ko -->
+                                    <!-- ko if: StatusIcon2Text --><!-- /ko -->
+                                    <!-- ko if: StatusIcon3Text --><!-- /ko -->
+                                </td>
+                            </tr>
+                            <tr data-bind="visible:ShowDefaultQtyErrorMsg" style="display: none;">
+                                <td colspan="3">
+                                    <span class="default-qty-msg"> <i class="fa fa-exclamation-triangle"></i> <span
+                                            data-bind="html:DefaultQtyErrorMsg"></span> </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <span class="default-qty-msg"><span data-bind="html:ETADateText"></span> </span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="text-center discontinued-container"
+                        data-bind="visible:(Discontinued() == 1 || InActive() == 1) &amp;&amp; AlgoliaLoaded() != 1"
+                        style="display: none;">
+                        <img data-bind="attr{src:StatusIcon1Filename, title:StatusIcon1Text} , visible:StatusIcon1Filename"
+                            src="../images/Code_20.gif" title="In Stock">
+                        <span class="Discontinued">Discontinued</span>
+                    </div>
+                    <!----------------------------------------------------------------------------------->
+                    <div class="text-center discontinued-container" data-bind="visible:AlgoliaLoaded() == 1"
+                        style="display: none;">
+                        <div class="wait-spinner-14 "></div>
+                    </div>
+                    <!------------------------------------------------------------------------------------->
+                </div>
+                <div class="product-item-swatches-product-list" data-bind="visible:Swatches().length > 0"
+                    style="display: none;">
+                    <ul class="swatch-product-list" data-bind="foreach:Swatches"></ul>
+                </div>
+                <div class="btn-group" data-bind="visible:MainVM.BannerVM().ShowDropDownQuantity()">
+
+                    <ul class="dropdown-menu scrollable-menu" role="menu"
+                        data-bind="foreach: ItemQtyList,event: { scroll: scrolled },attr:{'id':'dropDpown-'+ $index()}"
+                        id="dropDpown-0">
+                        <li>
+                            <!-- ko if: value == 0 --><!-- /ko -->
+                            <!-- ko if: value  -->
+                            <a href="#" data-bind="html:name ,click:$parent.ItemQtyselected">6&nbsp;&nbsp; &nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$5.25</a>
+                            <!-- /ko -->
+                        </li>
+
+                        <li>
+                            <!-- ko if: value == 0 --><!-- /ko -->
+                            <!-- ko if: value  -->
+                            <a href="#" data-bind="html:name ,click:$parent.ItemQtyselected">12&nbsp;&nbsp; &nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$5.25</a>
+                            <!-- /ko -->
+                        </li>
+
+                        <li>
+                            <!-- ko if: value == 0 --><!-- /ko -->
+                            <!-- ko if: value  -->
+                            <a href="#" data-bind="html:name ,click:$parent.ItemQtyselected">18&nbsp;&nbsp; &nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$5.25</a>
+                            <!-- /ko -->
+                        </li>
+
+                        <li>
+                            <!-- ko if: value == 0 --><!-- /ko -->
+                            <!-- ko if: value  -->
+                            <a href="#" data-bind="html:name ,click:$parent.ItemQtyselected">24&nbsp;&nbsp; &nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$4.75</a>
+                            <!-- /ko -->
+                        </li>
+
+                        <li>
+                            <!-- ko if: value == 0 --><!-- /ko -->
+                            <!-- ko if: value  -->
+                            <a href="#" data-bind="html:name ,click:$parent.ItemQtyselected">30&nbsp;&nbsp; &nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$4.75</a>
+                            <!-- /ko -->
+                        </li>
+
+                        <li>
+                            <!-- ko if: value == 0 --><!-- /ko -->
+                            <!-- ko if: value  -->
+                            <a href="#" data-bind="html:name ,click:$parent.ItemQtyselected">36&nbsp;&nbsp; &nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$4.75</a>
+                            <!-- /ko -->
+                        </li>
+
+                        <li>
+                            <!-- ko if: value == 0 --><!-- /ko -->
+                            <!-- ko if: value  -->
+                            <a href="#" data-bind="html:name ,click:$parent.ItemQtyselected">42&nbsp;&nbsp; &nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$4.75</a>
+                            <!-- /ko -->
+                        </li>
+
+                        <li>
+                            <!-- ko if: value == 0 --><!-- /ko -->
+                            <!-- ko if: value  -->
+                            <a href="#" data-bind="html:name ,click:$parent.ItemQtyselected">48&nbsp;&nbsp; &nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$4.35</a>
+                            <!-- /ko -->
+                        </li>
+
+                        <li>
+                            <!-- ko if: value == 0 --><!-- /ko -->
+                            <!-- ko if: value  -->
+                            <a href="#" data-bind="html:name ,click:$parent.ItemQtyselected">54&nbsp;&nbsp; &nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$4.35</a>
+                            <!-- /ko -->
+                        </li>
+
+                        <li>
+                            <!-- ko if: value == 0 --><!-- /ko -->
+                            <!-- ko if: value  -->
+                            <a href="#" data-bind="html:name ,click:$parent.ItemQtyselected">60&nbsp;&nbsp; &nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$4.35</a>
+                            <!-- /ko -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="productList-item-cart-quantity"
+                data-bind="visible:CartQuantity() || OrderQuantity() || InvoiceQuantity()" style="display: none;">
+                <span data-bind="visible:CartQuantity,css:MainVM.BannerVM().CartIconBgColor()" title="Cart Quantity"
+                    class="order-cart-qty" style="display: none;">
+                    <a href="/Cart" data-bind="css:MainVM.BannerVM().CartIconBgColor()">
+                        <i class="fa fa-check" data-bind="css:MainVM.BannerVM().CartIconBgColor()"></i>
+                        <span data-bind="html:CartQuantity,css:MainVM.BannerVM().CartIconBgColor()">0</span>
+                    </a>
+                </span>
+                <span data-bind="visible:OrderQuantity" title="Order Quantity"
+                    class="bgColorBlue order-cart-qty margin-left-5" style="display: none;">
+                    <a href="/Cart" class="bgColorBlue">
+                        <i class="fa fa-check"></i>
+                        <span data-bind="html:OrderQuantity" class="bgColorBlue">0</span>
+                    </a>
+                </span>
+                <span data-bind="visible:InvoiceQuantity" title="Previously Shipped Quantity"
+                    class="bgColorBlack order-cart-qty margin-left-5" style="display: none;">
+                    <a href="/Cart" class="bgColorBlack">
+                        <i class="fa fa-check bgColorBlack cartQty-icon"></i>
+                        <span data-bind="html:InvoiceQuantity" class="bgColorBlack">0</span>
+                    </a>
+                </span>
+            </div>
+            <div class="original-price text-center" data-bind="ifnot:Discontinued() || InActive()">
+                <div data-bind="visible:OriginalPrice1Amount" style="display: none;"><span
+                        data-bind="if:OriginalPrice1Caption"></span><span
+                        data-bind="ifnot:OriginalPrice1Caption">Original Price</span>: <span
+                        data-bind="html:OriginalPrice1Amount" class="text"></span> </div>
+                <div data-bind="visible:OriginalPrice2Amount" style="display: none;"><span
+                        data-bind="if:OriginalPrice2Caption"></span><span
+                        data-bind="ifnot:OriginalPrice2Caption">Original Price</span>: <span
+                        data-bind="html:OriginalPrice2Amount" class="text"></span> </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div data-bind="foreach:ListViewImages, style: {display: $parent.ShowAllImagesInline() ? '' : 'none'}"
+        class="col inline-image" style="display: none;">
+
+        <div data-bind="ifnot:IsPrimary"></div>
+    </div>
+
+</div>
+
+

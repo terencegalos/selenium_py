@@ -41,7 +41,7 @@ class countryhome(domainobject):
 
     def get_info(self,item=None):
         db = gateway()
-        db.name = self.driver.find_element(By.CSS_SELECTOR,"#MainContent > section:nth-child(1) > section > div > div.product__info-wrapper.grid__item.scroll-trigger.animate--slide-in > product-info > div.product__title > h1").text
+        db.name = self.driver.find_element(By.XPATH,"/html/body/main/section[1]/product-info/div/div/div[2]/section/div[1]/h1").text
 
         els = self.driver.find_elements(By.XPATH,"//script[@type='application/ld+json']")
         text = [el.get_attribute("innerHTML") for el in els if 'sku' in el.get_attribute("innerHTML").lower()][0]
@@ -52,7 +52,7 @@ class countryhome(domainobject):
 
         db.cat = ""
         try:
-            db.desc = self.driver.find_element(By.CSS_SELECTOR,"#MainContent > section:nth-child(1) > section > div > div.product__info-wrapper.grid__item.scroll-trigger.animate--slide-in > product-info > div.product__description.rte.quick-add-hidden").text
+            db.desc = self.driver.find_element(By.CSS_SELECTOR,"/html/body/main/section[1]/product-info/div/div/div[2]/section/div[6]/p").text
         except:
             db.desc = ""
         db.stock = ""
@@ -72,7 +72,7 @@ class countryhome(domainobject):
         db.dir160 = "CountryHome160"
         try:
             # db.img400 = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#Slide-template--16812176441594__main-32961851982074 > div > modal-opener > div.product__media.media.media--transparent > img"))).get_attribute("srcset").split(",")[-1:][0]
-            db.img400 = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#MainContent > section:nth-child(1) > section > div > div.grid__item.product__media-wrapper > media-gallery > slider-component:nth-child(2) > ul > li.product__media-item.grid__item.slider__slide.is-active.scroll-trigger.animate--fade-in > div > modal-opener > div.product__media.media.media--transparent > img"))).get_attribute("srcset").split(",")[-1:][0]
+            db.img400 = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "/html/body/main/section[1]/product-info/div/div/div[1]/media-gallery/slider-component[1]/ul/li[1]/div/modal-opener/div[2]/img"))).get_attribute("src")
         except:
             db.img400 = "No/img"
         db.img160 = db.img400.split("/")[-1:][0]

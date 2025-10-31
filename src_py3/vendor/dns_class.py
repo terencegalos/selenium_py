@@ -26,10 +26,14 @@ class dns(domainobject.domainobject):
     links = []
     
         
-    def nextPage(self,num):
-        print(f"Page num: {num}")
-        self.driver.get(f"https://www.dnsdesignsandmore.com/shop/?q=%20&catslug=undefined&activepage={num}")
-        self.time.sleep(2)
+    def nextPage(self):
+        try:
+            next_button = self.driver.find_element(By.CSS_SELECTOR, ".page-link.Next")
+            next_button.click()
+            self.time.sleep(6)
+            return True
+        except:
+            return False
         
     def get_cat_items(self):
         self.driver.get("https://www.dnsdesignsandmore.com/index.php?route=information/sitemap")
@@ -38,7 +42,7 @@ class dns(domainobject.domainobject):
         scat = [a.get_attribute("href") for a in self.driver.find_elements(By.CSS_SELECTOR,"#content > div.sitemap-info > div.left  a")]
         for c in scat:
             # try:
-            print("***********************")
+            print("*" * 10)
             print(c)
             self.driver.get(c)
             self.time.sleep(1)
@@ -79,7 +83,10 @@ class dns(domainobject.domainobject):
         db.sale = ""
         db.set = ""
         db.custom = ""
-        db.size = self.driver.find_element(By.CSS_SELECTOR,"body > div:nth-child(5) > div > div > div > form > div > p:nth-child(5)").text
+        try:
+            db.size = self.driver.find_element(By.CSS_SELECTOR,"body > div:nth-child(5) > div > div > div > form > div > p:nth-child(5)").text
+        except:
+            db.size = ""
         db.seller = ""
         db.min1 = self.driver.find_element(By.CSS_SELECTOR,"body > div:nth-child(5) > div > div > div > form > div > table > tbody > tr:nth-child(1) > td:nth-child(2)").text
         db.price1 = self.driver.find_element(By.CSS_SELECTOR,"#varprice").text
@@ -116,28 +123,28 @@ class dns(domainobject.domainobject):
         
     def search_item(self,row):
         self.allitems = []
-        print("\nSearching for item: " + row+"\n")
-        while True:
-            try:
-                self.driver.find_element(By.NAME,"q").clear()
-                self.driver.find_element(By.NAME,"q").send_keys(str(row))
-                self.driver.find_element(By.NAME,"q").send_keys(Keys.ENTER)
-                self.time.sleep(self.delay)
-                break
-            except:
-                self.driver.get(self.url)
-                self.time.sleep(self.delay)
-                continue
+        self.driver.get('https://www.dnsdesignsandmore.com/shop?q=&catslug=undefined&activepage=1')
+        self.time.sleep(10)
+        # print("\nSearching for item: " + row+"\n")
+        # while True:
+        #     try:
+        #         self.driver.find_element(By.NAME,"q").clear()
+        #         self.driver.find_element(By.NAME,"q").send_keys(str(row))
+        #         self.driver.find_element(By.NAME,"q").send_keys(Keys.ENTER)
+        #         self.time.sleep(self.delay)
+        #         break
+        #     except:
+        #         self.driver.get(self.url)
+        #         self.time.sleep(self.delay)
+        #         continue
 
-        item = [a.get_attribute("href") for a in self.driver.find_elements(By.CSS_SELECTOR,"#listedproduct > div > form > div > h5 > a")]
-        print(item)
-        self.allitems.extend(item)
-        # total_page = int(self.driver.find_element(By.CSS_SELECTOR,"#appndHtml > div.full_Div.text-center > ul > li:nth-child(5) > a").get_attribute("id"))
-        # for page_num in range(total_page):
-        #     self.nextPage(page_num)
-        #     item = [a.get_attribute("href") for a in self.driver.find_elements(By.CSS_SELECTOR,"#listedproduct > div > form > div > h5 > a")]
-        #     self.allitems.extend(item)
-        #     print(item)
+        # item = [a.get_attribute("href") for a in self.driver.find_elements(By.CSS_SELECTOR,"#listedproduct > div > form > div > h5 > a")]
+        # print(item)
+        # self.allitems.extend(item)
+        while self.nextPage():
+            item = [a.get_attribute("href") for a in self.driver.find_elements(By.CSS_SELECTOR,"#listedproduct > div > form > div > h5 > a")]
+            self.allitems.extend(item)
+            print(item)
         
         return self.allitems
 

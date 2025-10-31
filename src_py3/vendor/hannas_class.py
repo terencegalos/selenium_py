@@ -142,20 +142,20 @@ class hannas(domainobject):
         # self.driver.get("https://www.hannashandiworks.com/products/fall.html")
         # self.time.sleep(1)
         self.links = []
-        while True:
-            try:
-                self.driver.find_element(By.NAME,"q").clear()
-                self.driver.find_element(By.NAME,"q").send_keys(str(row))
-                self.driver.find_element(By.NAME,"q").send_keys(self.Keys.ENTER)
-                self.time.sleep(1)
-                break
-            except:
-                self.driver.get(self.products)
-                self.time.sleep(10)
-                continue
+        # while True:
+        #     try:
+        #         self.driver.find_element(By.NAME,"q").clear()
+        #         self.driver.find_element(By.NAME,"q").send_keys(str(row))
+        #         self.driver.find_element(By.NAME,"q").send_keys(self.Keys.ENTER)
+        #         self.time.sleep(1)
+        #         break
+        #     except:
+        #         self.driver.get(self.products)
+        #         self.time.sleep(10)
+        #         continue
 
         # try:
-        # self.driver.get(self.lastStop)
+        self.driver.get(f"https://www.hannashandiworks.com/catalogsearch/result/?q={row}")
         # self.time.sleep(1)
         item = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#layer-product-list > div > div.products.wrapper.grid.columns4.products-grid > ol > li > div > div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]
         # item = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#layer-product-list > div.products.wrapper.grid.columns4.products-grid > ol > li > div > div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]

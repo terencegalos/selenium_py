@@ -30,39 +30,46 @@ link = ""
 
 # find matching vendor
 for i in vendors:
-    # print(i)
     mid = int(i.split("ID=")[1])
-    # print(f'vendor.code: {vendor.code}, type: {type(vendor.code)}')
-    # print(f'mid: {mid}, type: {type(mid)}')
 
     try:
         if vendor.code == mid:
             print("Match found.")
-            print("Link"+i)
+            print("Link" + i)
             link = i
     except AttributeError:
         print(f"Vendor id {mid} cannot be found.")
-			
-br.get(link)
-time.sleep(1)
 
-			
-print(vendor.name)
-# print vendor.filename.decode("latin-1")
-br.find_element(By.NAME,"csv_file").send_keys(destination.dir+vendor.filename) #get input file
-time.sleep(1)
+try:
+    br.get(link)
+    time.sleep(1)
 
-br.find_element(By.NAME,"action").click() #submit
-time.sleep(1)
+    print(vendor.name)
+    br.find_element(By.NAME, "csv_file").send_keys(destination.dir + vendor.filename)  # get input file
+    time.sleep(1)
 
-WebDriverWait(br,20).until(EC.visibility_of_element_located((By.CSS_SELECTOR,"input[value=\"Save List\"]"))).click() # save
+    br.find_element(By.NAME, "action").click()  # submit
+    time.sleep(1)
 
+    try:
+        WebDriverWait(br, 120).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "input[value=\"Save List\"]"))
+        ).click()  # save
+    except TimeoutError:
+        WebDriverWait(br, 120).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "input[value=\"Save List\"]"))
+        ).click()  # save
 
-print("Vendor uploaded.")
-
-inp = input("Close browser? ")                    
-if 'yes' in inp.lower():
-    br.quit()
-                    
-                    
-
+    print("Vendor uploaded.")
+except Exception as e:
+    print(f"An error occurred during the upload process: {e}")
+finally:
+    inp = input("Close browser? ")
+    if 'yes' in inp.lower():
+        try:
+            if br is not None:
+                br.quit()
+                print("Browser closed successfully.")
+            br = None  # Prevent further use of the object
+        except Exception as quit_error:
+            print(f"Error while closing the browser: {quit_error}")

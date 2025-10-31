@@ -18,9 +18,26 @@ class hearthside(domainobject):
     uname = "rick@shophereshopthere.com"
     passw = "wolfville"
     delay = 1
-    lastStop = "https://www.thehearthsidecollection.com/shop/col-house-designs/home-block-3-asstd./"
+    lastStop = None
     flag = False
     links = []
+    
+    def get_all_items(self):
+        # cats = [a.get_attribute("href") for a in self.driver.find_elements(By.CSS_SELECTOR,"#ctl00_myheader_headerPostLogin > nav > div > ul > li > a")]
+        cats = ["https://www.thehearthsidecollection.com/shop/seasonal/spring-summer/"]
+        for cat in cats:
+            print(cat)
+            self.driver.get(cat)
+            self.time.sleep(1)
+
+            self.links.extend(self.get_links())
+            while self.nextPage():
+                self.links.extend(self.get_links())
+                
+    def get_links(self):
+        items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"div > a.product-title")]
+        print(items)
+        return items
         
 
     def init_login(self,un,pw):

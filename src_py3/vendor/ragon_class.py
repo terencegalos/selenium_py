@@ -7,6 +7,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException as StateElementReferenceException
 
 class ragon(domainobject):
     
@@ -20,7 +22,7 @@ class ragon(domainobject):
     login = "https://ragonhouse.com/login.php"
     uname = "rick@waresitat.com"
     passw = "ragonhouse1"
-    lastStop =  "https://ragonhouse.com/holiday-and-winter/15.5-cedar-and-hemlock-bush.html"
+    lastStop =  ""
     sitemap = 'https://ragonhouse.com/collections/'
     flag = False
     delay = 1
@@ -34,20 +36,19 @@ class ragon(domainobject):
             for item in items:
                 writer.writerow([item])
 
-    def nextPage(self):
-        # try:
-        #     # self.driver.find_element(By.XPATH,'//*[@id="product-listing-container"]/nav/ul/li[7]/a').click()
-        #     self.driver.find_element(By.CSS_SELECTOR,'#product-listing-container > nav > ul > li.pagination-item.pagination-item--next > a').click()
-        #     self.time.sleep(3)
-        #     return True
-        # except:
-        #     return False
-        for x in range(self.counter,0,-1):
-            self.driver.get("https://ragonhouse.com/collections/?page={}".format(x))
-            self.time.sleep(1)
-            self.counter -= 1
-            if self.counter > 0:
-                return True
+    def nextPage(self):        
+        try:
+            next_button = self.driver.find_element(By.CSS_SELECTOR,"#product-listing-container > nav > ul > li.pagination-item.pagination-item--next > a")
+            self.driver.execute_script("arguments[0].click();", next_button)
+            self.time.sleep(2)
+            return True
+        except NoSuchElementException:
+            # No more button mean no more pages
+            print("No more pages.")
+            return False
+        except StateElementReferenceException:
+            print("No more pages.")
+            return False
 
     def init_login(self,un,pw):
         self.driver.get(self.url)
@@ -68,7 +69,9 @@ class ragon(domainobject):
 
     def get_info(self,item=None):
         db = gateway()
-        db.name = (self.driver.find_element(By.CSS_SELECTOR,"#main-content > div.container > div > div.productView > section.productView-details.product-data > div > h1").text)
+        db.name = self.driver.find_element(By.CSS_SELECTOR,"#main-content > div.container > div > div.productView > section.productView-details.product-data > div > h1").text
+        if not db.name:
+            return
 
         db.sku = self.driver.find_element(By.CSS_SELECTOR,"#main-content > div.container > div > div.productView > section.productView-details.product-data > div > dl.productView-custom > dd").text
         db.cat = "|".join([c.text for c in self.driver.find_elements(By.CSS_SELECTOR,"#main-content > div.container > nav > ol > li.breadcrumb > a > span")])
@@ -130,43 +133,150 @@ class ragon(domainobject):
         db.dir800 = "Ragon800"
         db.img800 = db.img160
         print(db)
-        self.time.sleep(1)
         return db
 
 
     def search_item(self,row=None):
+        everydayfloral = ("https://ragonhouse.com/everyday/", "https://ragonhouse.com/rh-floral/")
+        self.driver.get('https://ragonhouse.com/sitemap')
 
-
+        allSeasons = self.driver.find_element(By.CSS_SELECTOR,"#main-content > div.container > ul > li:nth-child(2) > ul")
+        allSeasons = [a.get_attribute("href") for a in allSeasons.find_elements(By.TAG_NAME,"a")]
+        print(allSeasons)
+        
         self.items = []
-        if row:
-            print("\nSearching for item: " + row+"\n")
+        # if row:
+        #     print("\nSearching for item: " + row+"\n")
+        #     while True:
+        #         try:
+        #             self.driver.find_element(By.CSS_SELECTOR,"#quick-search-expand").click()
+        #             self.time.sleep(1)
+        #             self.driver.find_element(By.NAME,"nav-quick-search").clear()
+        #             self.driver.find_element(By.NAME,"nav-quick-search").send_keys(row)
+        #             self.driver.find_element(By.NAME,"nav-quick-search").send_keys(Keys.ENTER)
+        #             self.time.sleep(1)
+        #             # self.driver.get("https://ragonhouse.com/index.php?subcats=Y&pcode_from_q=Y&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y&q=+&dispatch=products.search&page=16")
+        #             break
+        #         except Exception as e:
+        #             print(e)
+        #             self.driver.refresh()
+        #             self.time.sleep(1)
+        #             continue
+        # else:
+        #     self.driver.get(self.sitemap)
+        #     self.time.sleep(1)
+        
+        def extract_urls():
+            # print("Loading...")
+            # self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            # self.time.sleep(1)
+            # item = [a.get_attribute("href") for a in self.driver.find_elements(By.XPATH,'//*[@id="product-listing-container"]/div[1]/ul/li/article/div/h3/a')]
+            # print("\n".join(item))
+            # if item:
+            #     return item
+            # return False
+            
+            # load items first that are lazy loaded before extracting URLs - it might load more items if we scroll down
             while True:
-                try:
-                    self.driver.find_element(By.CSS_SELECTOR,"#quick-search-expand").click()
-                    self.time.sleep(1)
-                    self.driver.find_element(By.NAME,"nav-quick-search").clear()
-                    self.driver.find_element(By.NAME,"nav-quick-search").send_keys(row)
-                    self.driver.find_element(By.NAME,"nav-quick-search").send_keys(Keys.ENTER)
-                    self.time.sleep(1)
-                    # self.driver.get("https://ragonhouse.com/index.php?subcats=Y&pcode_from_q=Y&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y&q=+&dispatch=products.search&page=16")
+                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                self.time.sleep(2)
+                item = [a.get_attribute("href") for a in self.driver.find_elements(By.XPATH,'//*[@id="product-listing-container"]/div[1]/ul/li/article/div/h3/a')]
+                if len(item) >= self.counter: # if no more new items loaded, break the loop
                     break
-                except Exception as e:
-                    print(e)
-                    self.driver.refresh()
-                    self.time.sleep(1)
-                    continue
-        else:
-            self.driver.get(self.sitemap)
+                self.counter = len(item)
+            print("\n".join(item))
+            if item:
+                return item
+            return False
+        
+        def get_unique(items):
+            unique = [item for item in items if item not in self.items]
+            return unique
+
+        for page in allSeasons: # loop through the pages
+            # Extract item URLs from the page
+            print("Extracting page: %s",page)
+            self.driver.get(page)
             self.time.sleep(1)
+            items = extract_urls() # get all items in the page
+            if not items: # if no items found, skip to the next page
+                print("No items found.")
+                continue
+            unique = get_unique(items) # get unique items
+            self.items.extend(unique) # add unique items to the list
+            # previous_items = set(self.items)
+            # Continue to extract more items until no new items are found
+            # while True: 
+            #     try:
+            #         items = extract_urls()
+            #         unique = get_unique(items)
+            #         if not items or set(unique).issubset(previous_items):
+            #             break
+            #         self.items.extend(unique)
+            #         previous_items = set(self.items)
+            #         continue
+            #     except Exception as e:
+            #         print(e)
+            #         break
 
-        item = [a.get_attribute("href") for a in self.driver.find_elements(By.XPATH,'//*[@id="product-listing-container"]/div[1]/ul/li[1]/article/div/h3/a')]
-        print(item)
+        # self.items.extend(item)
 
-        self.items.extend(item)
+            while self.nextPage():
+                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                self.time.sleep(2)
+                try:
+                    item = [a.get_attribute("href") for a in WebDriverWait(self.driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.card-title a')))]
+                except:
+                    item = []
+                print(item)
+                self.items.extend(item)
 
-        # while self.nextPage():
-        #     item = [a.get_attribute("href") for a in self.driver.find_elements(By.XPATH,'//*[@id="product-listing-container"]/div[1]/ul/li[1]/article/div/h3/a')]
-        #     print(item)
-        #     self.items.extend(item)
+        return list(set(self.items))
 
-        return self.items
+    def get_links(self):
+        """Return product links found on the current listing page."""
+        try:
+            items = [a.get_attribute("href") for a in self.driver.find_elements(By.XPATH,'//*[@id="product-listing-container"]/div[1]/ul/li/article/div/h3/a')]
+        except:
+            # fallback selector
+            items = [a.get_attribute("href") for a in self.driver.find_elements(By.CSS_SELECTOR, '.card-title a')]
+        print(items)
+        return items
+
+    def get_all_items(self):
+        """Crawl the sitemap/collections, collect product URLs from each collection and paginate."""
+        # go to sitemap to read collection links
+        try:
+            self.driver.get('https://ragonhouse.com/sitemap')
+            self.time.sleep(1)
+            # the sitemap stores collections in a nested list; target the second list as in search_item
+            container = self.driver.find_element(By.CSS_SELECTOR, "#main-content > div.container > ul > li:nth-child(2) > ul")
+            cats = [a.get_attribute('href') for a in container.find_elements(By.TAG_NAME, 'a')]
+        except Exception:
+            # fallback to the collections landing page
+            cats = [self.sitemap]
+
+        self.links = []
+        for cat in cats:
+            print(cat)
+            try:
+                self.driver.get(cat)
+                self.time.sleep(1)
+            except Exception:
+                continue
+
+            # gather links on the first page
+            try:
+                self.links.extend(self.get_links())
+            except Exception:
+                pass
+
+            # paginate and gather more
+            while self.nextPage():
+                self.time.sleep(1)
+                try:
+                    self.links.extend(self.get_links())
+                except Exception:
+                    break
+
+        return list(set(self.links))

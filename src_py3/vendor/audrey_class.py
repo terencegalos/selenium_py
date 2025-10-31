@@ -14,8 +14,8 @@ class audrey(domainobject):
 
 
     vendor = "Audreys Your Hearts Delight"
-    url = "https://www.yourheartsdelight.com/account/login"
-    home = "https://www.yourheartsdelight.com"
+    url = "https://audreys.com/account/login/"
+    home = "https://www.audreys.com"
     uname = "service@waresitat.com"
     passw = "wolfville"
     delay = 1
@@ -64,23 +64,23 @@ class audrey(domainobject):
 
     def get_info(self,item=None):
         db = gateway()
-        db.name = self.driver.find_element(By.CSS_SELECTOR,"h1.mb-3").text.encode("utf-8")
-        db.sku = ((self.driver.find_element(By.CSS_SELECTOR,"div.mb-4:nth-child(3) > p:nth-child(5)").text.encode("utf-8")).split(":")[1]).strip()
+        db.name = self.driver.find_element(By.CSS_SELECTOR,"#wide-col > div > div > ui-view > shopping-container > div > ui-view > shopping-one-up > div > div:nth-child(2) > div.header-text > shopping-one-up-heading > div.oneup-header > h1").text
+        db.sku = self.driver.find_element(By.CSS_SELECTOR,"#wide-col > div > div > ui-view > shopping-container > div > ui-view > shopping-one-up > div > div:nth-child(2) > div.header-text > shopping-one-up-heading > div.info > datum:nth-child(1) > div > span:nth-child(2) > span").text
         db.cat = ""#"|".join([c.text for c in self.driver.find_elements(By.CSS_SELECTOR,"a.SectionTitleText")])
         db.desc = ""
         db.stock = ""
         try:
-            db.sale = self.driver.find_element(By.CSS_SELECTOR,"span.SalePrice").text.encode("utf-8")
+            db.sale = self.driver.find_element(By.CSS_SELECTOR,"span.SalePrice").text
         except:
             db.sale = ""
         db.set = ""
         db.custom = ""
         try:
-            db.size = self.driver.find_element(By.CSS_SELECTOR,"div.mb-4:nth-child(3) > p:nth-child(7)").text.encode("utf-8")
+            db.size = self.driver.find_element(By.CSS_SELECTOR,"#wide-col > div > div > ui-view > shopping-container > div > ui-view > shopping-one-up > div > div:nth-child(2) > div.header-text > shopping-one-up-heading > div.info > datum:nth-child(4) > div > span:nth-child(2) > span").text
         except:
             db.size = ""
         db.seller = ""
-        db.min1 = ""
+        db.min1 = 1
         db.price1 = 99
         # try:
 		# 	db.price1 = self.driver.find_element(By.CSS_SELECTOR,"span.RegularPrice").text.encode("utf-8")
@@ -90,12 +90,12 @@ class audrey(domainobject):
         db.price2 = ""
         db.min3 = ""
         db.price3 = ""
-        db.multi = ""
+        db.multi = 1
         db.dir400 = "Audreys400a"
         db.dir160 = "Audreys160"
-        db.img400 = self.driver.find_element(By.CSS_SELECTOR,"div.owl-item:nth-child(3) > div:nth-child(1) > img:nth-child(2)").get_attribute("src")
+        db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#wide-col > div > div > ui-view > shopping-container > div > ui-view > shopping-one-up > div > div:nth-child(2) > div.header-image > product-images > section > div > div.main-images-box.text-center.ng-scope > div > div > a > figure > img").get_attribute("src")
         db.img160 = db.img400.split("/")[-1:][0]
-        db.desc2 = "|".join(self.driver.find_element(By.CSS_SELECTOR,"meta[name='keywords']").text.split())
+        db.desc2 = ""#"|".join(self.driver.find_element(By.CSS_SELECTOR,"meta[name='keywords']").text.split())
         db.option = ""
         db.dir800 = "Audreys800"
         db.img800 = db.img160     
@@ -108,7 +108,7 @@ class audrey(domainobject):
         print("\nSearching for item: " + row+"\n")
         while True:
             try:
-                self.driver.get(f"https://www.yourheartsdelight.com/shop/?Search={str(row)}")
+                self.driver.get(f"https://www.audreys.com/shop/?Search={str(row)}&orderBy=-CreatedOn,Id&context=shop&page=1")
                 self.time.sleep(3)
                 break
             except:
@@ -119,7 +119,7 @@ class audrey(domainobject):
         try:
             items = []
             timeout = 4
-            pattern = '//*[@id="wide-col"]/div/div/ui-view/shopping-container/div/ui-view/shopping-multi-view/div/div[2]/div/shopping-multi-view-cards/div/div/div[1]/a[2]'
+            pattern = '//*[@id="wide-col"]/div/div/ui-view/shopping-container/div/ui-view/shopping-multi-view/div/div[2]/div/shopping-multi-view-cards/div/div/div[1]/div/a'
             el = WebDriverWait(self.driver,timeout).until(EC.presence_of_all_elements_located((By.XPATH,pattern)))
             if el:
                 item = self.driver.find_element(By.XPATH,pattern).get_attribute("href")

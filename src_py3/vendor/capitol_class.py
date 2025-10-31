@@ -7,12 +7,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.action_chains import ActionChains
 
 class capitol(domainobject.domainobject):
 
-    # def __init__(self,driver,scraper_mode):
-    #     super().__init__(driver)
-    #     self.mode = scraper_mode
+    def __init__(self,driver,scraper_mode):
+        super().__init__(driver)
+        self.mode = scraper_mode
 
     vendor = "Capitol Imports"
     url = "https://www.earthrugs.com/"
@@ -29,22 +30,60 @@ class capitol(domainobject.domainobject):
         self.time.sleep(3)
         
         # Scroll to end of page
+        print('Scrolling to end of page.')
         self.driver.execute_script('window.scrollTo(0,document.body.scrollHeight);')
+        # Smooth scrolling to the end of the page
+        scroll_height = self.driver.execute_script("return document.body.scrollHeight")
+        for i in range(0, scroll_height, 100):
+            self.driver.execute_script(f"window.scrollTo(0, {i});")
+            self.time.sleep(0.05)
+        self.time.sleep(5)
+        
+        # scroll to top of page
+        print('Scrolling to top of page.')
+        self.driver.execute_script('window.scrollTo(0,0);')
         self.time.sleep(2)
         
+        
         # scroll into view of login element
+        print('Scrolling to login element.')
+        # login_el = self.driver.find_element(By.XPATH,'//*[@id="site-control"]/div[2]/div[2]/a[1]')
         login_el = self.driver.find_element(By.XPATH,'//*[@id="site-control"]/div[2]/div[2]/a[1]')
-        self.driver.execute_script('arguments[0].scrollIntoView();',login_el)
+        self.driver.execute_script('arguments[0].scrollIntoView({block:"center"});',login_el)
         
-        login_el.click() # click the login link
-        self.time.sleep(1) 
+        # wait for login element to be clickable
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="site-control"]/div[2]/div[2]/a[1]')))
         
-        print("Logging in.")
-        
+        try:
+            login_el.click() # click the login link
+        except selenium.common.exceptions.ElementClickInterceptedException:
+            print('ElementClickInterceptedException. Trying again.')
+            self.driver.execute_script('arguments[0].click();',login_el) # Use javascript to click the login link
+            
+            
+        # Scroll to end of page
+        print('Scrolling to end of page.')
+        self.driver.execute_script('window.scrollTo(0,document.body.scrollHeight);')
+        # Smooth scrolling to the end of the page
+        scroll_height = self.driver.execute_script("return document.body.scrollHeight")
+        for i in range(0, scroll_height, 100):
+            self.driver.execute_script(f"window.scrollTo(0, {i});")
+            self.time.sleep(0.05)
+            
+        # scroll to top of page
+        print('Scrolling to top of page.')
+        self.driver.execute_script('window.scrollTo(0,0);')
+        self.time.sleep(2)
+            
+            
+        self.time.sleep(1)
+        print("Logging in.")        
         self.driver.find_element(By.NAME,"customer[email]").send_keys(un)
         self.time.sleep(random.choice((1,2,3,4,5)))
         
-        self.driver.find_element(By.NAME,"customer[password]").send_keys(pw)
+        for char in pw:
+            self.driver.find_element(By.NAME, "customer[password]").send_keys(char)
+            self.time.sleep(random.uniform(0.1, 0.5))
         self.time.sleep(random.choice((1,2,3,4,5)))
         
         self.driver.find_element(By.NAME,"customer[password]").send_keys(Keys.ENTER)
@@ -176,7 +215,7 @@ class capitol(domainobject.domainobject):
         while True:
             try:
                 self.driver.get(f"https://www.earthrugs.com/search?type=product&options%5Bprefix%5D=last&q={row}")
-                # self.driver.find_element(By.CSS_SELECTOR,"#site-control > div.links.site-control__inner > div.nav-right-side > a.cart.nav-search").click()
+                self.driver.find_element(By.CSS_SELECTOR,"#site-control > div.links.site-control__inner > div.nav-right-side > a.cart.nav-search").click()
                 self.time.sleep(0.5)
                 # self.driver.find_element(By.NAME,"q").clear()
                 # self.driver.find_element(By.NAME,"q").send_keys(str(row))

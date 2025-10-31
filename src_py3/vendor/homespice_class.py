@@ -9,9 +9,9 @@ from selenium.webdriver.common.by import By
 
 class homespice(domainobject):
     
-    def __init__(self,driver,scraper_mode):
-        super().__init__(driver)
-        self.mode = scraper_mode
+    # def __init__(self,driver,scraper_mode):
+    #     super().__init__(driver)
+    #     self.mode = scraper_mode
 
     vendor = "Homespice D\xe9cor"
     url = "https://www.homespice.com/"
@@ -38,8 +38,25 @@ class homespice(domainobject):
 
     def get_info(self,item=None):
         db = gateway()
-        db.name = self.driver.find_element(By.CSS_SELECTOR,"div.product__head > h1").text.encode("utf-8")
+        # db.name = self.driver.find_element(By.CSS_SELECTOR,"#main-content > div.shopify-section.cc-main-product.product-main > div > div > div.product-info > div.product-info__block.product-info__block--sm.product-info__title > h1").text()
         # db.sku = self.driver.find_element(By.CSS_SELECTOR,"body > script:nth-child(24)").execute_script("document.onload(function() {return google_tag_params.ecomm_prodid;});")
+        product_json = self.driver.find_element(
+            By.CSS_SELECTOR,
+            "#main-content > div.shopify-section.cc-main-product.product-main > div > div > div.product-info > div.product-info__block.product-options > variant-picker > script"
+        ).get_attribute("innerHTML")
+        data = json.loads(product_json)
+        src = ""
+        # Find the variant with matching SKU
+        for variant in data["product"]["variants"]:
+            db.name = data["product"]["name"] if "name" in data["product"] else ""
+            if str(variant.get("sku")) == str(item):
+                # Try to get the image src from featured_image or featured_media
+                if variant.get("featured_image") and variant["featured_image"].get("src"):
+                    src = "https:" + variant["featured_image"]["src"] if variant["featured_image"]["src"].startswith("//") else variant["featured_image"]["src"]
+                elif variant.get("featured_media") and variant["featured_media"].get("preview_image") and variant["featured_media"]["preview_image"].get("src"):
+                    src = "https:" + variant["featured_media"]["preview_image"]["src"] if variant["featured_media"]["preview_image"]["src"].startswith("//") else variant["featured_media"]["preview_image"]["src"]
+                break
+        
         db.sku = item
         # sk= self.driver.find_element(By.CSS_SELECTOR,"body > div.wrapper.ps-static.en-lang-class > div.page > div.main-container.col1-layout > div > div > div > div > div.col-main > div.padding-s > script:nth-child(2)").get_attribute("innerHTML")
         # sc =self.driver.execute_script('var sc = document.querySelectorAll("body > div.wrapper.ps-static.en-lang-class > div.page > div.main-container.col1-layout > div > div > div > div > div.col-main > div.padding-s > script:nth-child(2)")[0].innerHTML; return sc;')
@@ -52,7 +69,7 @@ class homespice(domainobject):
         # print sc['offers']
         # print json.load("'"+sk+"'")
         db.cat = ""
-        db.desc = self.driver.find_element(By.CSS_SELECTOR,"div.product__wrap > div.product__about > dl > dd").text.encode("utf-8")
+        db.desc = ""#self.driver.find_element(By.CSS_SELECTOR,"div.product__wrap > div.product__about > dl > dd").text.encode("utf-8")
         db.stock = ""
         db.sale = ""
         db.set = ""
@@ -69,7 +86,8 @@ class homespice(domainobject):
         db.dir400 = "Homespice400"
         db.dir160 = "Homespice160"
         try:
-            db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#zoom1").get_attribute("href")
+            # db.img400 = self.driver.find_element(By.CSS_SELECTOR,"#gallery-viewer > li:nth-child(1) > gallery-zoom-open > div > a").get_attribute("href")
+            db.img400 = src
         except Exception as e:
             print(e)
             self.time.sleep(3)
@@ -92,7 +110,7 @@ class homespice(domainobject):
                 # self.driver.find_element(By.NAME,"q").clear()
                 # self.driver.find_element(By.NAME,"q").send_keys(str(row))
                 # self.driver.find_element(By.NAME,"q").send_keys(Keys.ENTER)
-                self.driver.get(f"https://homespice.com/search/{str(row)}")
+                self.driver.get(f"https://homespice.com/search?options%5Bprefix%5D=last&q={str(row)}")
                 self.time.sleep(self.delay)
                 break
             except:
@@ -101,7 +119,7 @@ class homespice(domainobject):
                 continue
 
         try:
-            item = self.driver.find_element(By.CSS_SELECTOR,"#kuLandingProductsListUl > li > div.klevuImgWrap > a").get_attribute("href")
+            item = self.driver.find_element(By.CSS_SELECTOR,"#filter-results > ul > li > product-card > div.card__info-container.flex.flex-col.flex-auto.relative > div > div > p > a").get_attribute("href")
             print(item)
             return [item]
         except:

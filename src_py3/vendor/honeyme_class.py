@@ -4,8 +4,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 class honeyme(domainobject):
+    
+    def __init__(self,driver,scraper_mode):
+        super().__init__(driver)
+        self.mode = scraper_mode
 
     vendor = "Honey & Me"
     url = "http://www.honeyandme.com/shop/"
@@ -15,6 +20,7 @@ class honeyme(domainobject):
     delay = 1
     lastStop = "https://honeyandme.com/e170139-small-metal-wide-star-6-pc-set/"
     flag = False
+    links = []
     
         
     def init_login(self,un,pw):
@@ -97,29 +103,57 @@ class honeyme(domainobject):
         print(db)
         # self.time.sleep(5)
         return db
+
+    
         
         
     def search_item(self,row):
+        
+        url = 'https://honeyandme.com/spring-summer/view-by-collection/new-americana-yankee-doodles/'
+        
+        all_items = [] # list of all items found
+        max_page = 4
+        page_num = 1
+        
+        def nextPage():
+            nonlocal page_num # use the page_num variable from the outer function
+            if page_num > max_page:
+                return False
+
+            self.driver.get(url+str(page_num))
+            page_num += 1
+            return True
+        
         # self.driver.find_element(By.CSS_SELECTOR,"body > header > div.upper-header > button.upper-header-item.search-wrapper").click()
         # self.driver.find_element(By.CSS_SELECTOR,"button.upper-header-item:nth-child(3)").click()
         print("\nSearching for item: " + row+"\n")
-        while True:
-            try:
-                # self.driver.find_element(By.NAME,"search_query").clear()
-                # self.driver.find_element(By.NAME,"search_query").send_keys(str(row))
-                # self.driver.find_element(By.NAME,"search_query").send_keys(self.Keys.ENTER)
-                self.driver.get(f"https://honeyandme.com/search.php?search_query={row}")
-                self.time.sleep(2)
-                break
-            except:
-                self.driver.get(self.home)
-                self.time.sleep(1)
-                continue
+        # while True:
+        #     try:
+        #         # self.driver.find_element(By.NAME,"search_query").clear()
+        #         # self.driver.find_element(By.NAME,"search_query").send_keys(str(row))
+        #         # self.driver.find_element(By.NAME,"search_query").send_keys(self.Keys.ENTER)
+        #         self.driver.get(f"https://honeyandme.com/search.php?search_query={row}")
+        #         self.time.sleep(2)
+        #         break
+        #     except:
+        #         self.driver.get(self.home)
+        #         self.time.sleep(1)
+        #         continue
+        self.driver.get(f"{url}?page={page_num}")
+        self.time.sleep(2)
 
         try:
-            item = self.driver.find_element(By.CSS_SELECTOR,"body > main > section.catalog-wrapper.tab-search-results.tab-product-results.tab-selected > main > div > div.product-listing > article:nth-child(1) > div.product-item-info > h3 > a").get_attribute("href")
-            print(item)
-            return [item]
-        except:
+            self.driver.get(f"https://honeyandme.com/search.php?search_query={row}")
+            items_obj = self.driver.find_elements(By.XPATH,"/html/body/main/section/main/div/div[1]/article/div[2]/h3/a")
+            items = [item.get_attribute("href") for item in items_obj]
+            print(items)
+            all_items.extend(items)
+            page_num += 1
+            while nextPage():
+                items_obj = self.driver.find_elements(By.XPATH,"/html/body/main/section/main/div/div[1]/article/div[2]/h3/a")
+                items = [item.get_attribute("href") for item in items_obj]
+                print(items)
+                all_items.extend(items)
+            return list(set(all_items))
+        except NoSuchElementException:
             return None
-

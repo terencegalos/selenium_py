@@ -14,8 +14,8 @@ class carson(domainobject):
         self.mode = scraper_mode
 		
     vendor = "Carson Home Accents"
-    url = "https://www.carsonhomeaccents.com/security_logon.asp?autopage=%2Fdefault%2Easp"
-    home = "https://www.carsonhomeaccents.com/"
+    url = "https://carsongifts.com/my-account/"
+    home = "https://carsongifts.com"
     uname = "rstuart"
     passw = "Wolfville4"
     delay = 1
@@ -25,6 +25,8 @@ class carson(domainobject):
     # lastStop = "http://www.carsonhomeaccents.com/pc_product_detail.asp?key=A6769953FB8F453ABEE01EED6A50D991&catid="
     # lastStop = "http://www.carsonhomeaccents.com/pc_product_detail.asp?key=3BD0073C03754C2DA0D210175B754BED&catid="
     # lastStop = "http://www.carsonhomeaccents.com/pc_product_detail.asp?key=EBF4000AF2EE4DE2A553130CCDDCE0D5&catid="
+    # image path sample
+    # https://carsongifts.com/wp-content/uploads/products/78873.jpg
     lastStop = "http://www.carsonhomeaccents.com/pc_product_detail.asp?key=99654C631C1E4C43BCA179128FFB9CB6&catid="
     flag = False
     

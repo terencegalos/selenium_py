@@ -1,2 +1,108 @@
-#.gitignore
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables & Config
+.env
+.env.local
 src_py3/helper/config.py
+
+# Selenium & WebDriver
+debug.log
+geckodriver.log
+chrome_driver/
+firefox_driver/
+
+# Project-specific outputs
+src_py3/helper/csv/outfile/*.csv
+src_py3/helper/csv/outfile/*_output_fail_safe.csv
+!src_py3/helper/csv/outfile/.gitkeep
+
+# CSV data files (keep structure, ignore data)
+*.csv
+!requirements.txt
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Excel files (vendor catalogs and outputs)
+*.xls
+*.xlsx
+!**/template*.xlsx
+
+# Image files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+
+# Logs
+*.log
+scraper.log
+
+# Batch/temporary files
+*.bat
+!test.bat
+*.spec
+
+# Compressed files
+*.zip
+*.tar.gz
+*.rar
+
+# OS-specific
+Thumbs.db
+desktop.ini
+
+# Python compiled
+*.pyc
+*.pyo
+
+# Backup files
+*_backup.py
+*backup*.py
+*~
+
+# Test outputs
+filtered_mentions_output*.xls
+web scraper workspace/

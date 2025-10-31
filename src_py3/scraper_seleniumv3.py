@@ -46,7 +46,7 @@ class Scraper:
         
         # Initialize the database and counter
         self.active_record = ActiveRecord()
-        self.delay = 5
+        self.delay = 1
         self.counter = Counter()
 
     def run(self):
@@ -54,7 +54,7 @@ class Scraper:
         # Open a backup file for failed scrapes
         backup_file = open(
             os.path.dirname(__file__)+"/helper/csv/outfile/{}_output_fail_safe.csv".format(self.target_vendor.vendor),
-            "w"
+            "w", encoding="utf-8", newline=""
         )
         backup_file_writer = csv.writer(backup_file)
 
@@ -73,14 +73,18 @@ class Scraper:
         
         
 
+        # If results were found, loop through them
         if self.target_vendor.results(self.target_vendor.links):
             print(self.target_vendor.links)
             # Loop through results and scrape
+            
+            # index = self.target_vendor.links.index(self.target_vendor.lastStop) if self.target_vendor.lastStop is not None else 0
+            # print(f"Resuming from index: {index} and item: {self.target_vendor.lastStop}")
             for item in tqdm(self.target_vendor.links):
                 print(f"item: {item}")
                 self.target_vendor.navigate(item)
 
-                db = self.target_vendor.get_info(sku)
+                db = self.target_vendor.get_info()
                 time.sleep(self.delay)
 
                 # Save scraped data to database and backup file
@@ -98,21 +102,21 @@ class Scraper:
         else:
             # Directly attempt to get item info
             print("\nDirect get info attempt.\n")
-            try:
-                db = self.target_vendor.get_info(sku)
-                time.sleep(self.delay)
-                if db is not None:
-                    if isinstance(db, list):
-                        print("Multiple items detected..")
-                        for d in db:
-                            self.active_record.save(d)
-                            backup_file_writer.writerow(d.retrieve())
-                    else:
-                        print("Single item only..")
-                        self.active_record.save(db)
-                        backup_file_writer.writerow(db.retrieve())
-            except:
-                print("Item not found.")
+            # try:
+            db = self.target_vendor.get_info()
+            time.sleep(self.delay)
+            if db is not None:
+                if isinstance(db, list):
+                    print("Multiple items detected..")
+                    for d in db:
+                        self.active_record.save(d)
+                        backup_file_writer.writerow(d.retrieve())
+                else:
+                    print("Single item only..")
+                    self.active_record.save(db)
+                    backup_file_writer.writerow(db.retrieve())
+            # except:
+            #     print("Item not found.")
 
         # Close the backup file and wait before sending to database
         backup_file.close()
@@ -121,7 +125,7 @@ class Scraper:
         # Send scraped data to file and close the browser
         self.target_vendor.send_to_file(self.target_vendor.vendor, self.active_record)
         print("Execution finished at: {}".format(datetime.now()))
-        self.target_vendor.driver.close()
+        self.target_vendor.driver.quit()
 
 
 if __name__ == "__main__":

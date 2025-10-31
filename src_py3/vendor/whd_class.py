@@ -23,24 +23,18 @@ class whd(domainobject.domainobject):
     links = []
     flag = True
     now = ""
-    lastPage = "https://www.whdfloral.com/christmas-cardinal-house-flag-28x40in.html"
+    lastPage = None
         
     def nextPage(self):
-        
+        next_link = None
         try:
-            while True:
-                try:
-                    self.driver.find_element(By.CSS_SELECTOR,"div.product.details.product-item-details > strong > a")
-                    break
-                except:
-                    print("Marker not detected.")
-                    self.driver.refresh()
-                    self.time.sleep(1)
-                    continue
-            self.driver.find_elements(By.CSS_SELECTOR,"ul > li.item.pages-item-next > a")[-1].click()
+            self.driver.find_element(By.CSS_SELECTOR,"div.product.details.product-item-details > strong > a") # check if items exist
+            
+            print("Navigating to next page...")
+            next_link = self.driver.find_elements(By.CSS_SELECTOR,"ul > li.item.pages-item-next > a")[-1]
+            next_link.click()
             self.time.sleep(3) # 3 secs to load
             return True
-
         except:
             print("Page exhausted.")
             return False
@@ -70,6 +64,21 @@ class whd(domainobject.domainobject):
         print("Success.")
         self.time.sleep(5)
 
+    def get_all_items(self,cat_num):
+        print("Extracting links from sitemap...")
+        self.driver.get("https://www.janmichaelsartandhome.com/sitemap/categories/") #navigate categories
+        self.time.sleep(1) #delay 1 sec for page to load
+
+        #get all category links and loop each and navigate
+        cats = [cat.get_attribute("href") for cat in self.driver.find_elements(By.CSS_SELECTOR,"body > div.body > div.container > ul > li > ul > li > a")[:int(cat_num)]]# 
+        print(f'Categories: {" ".join(cats)}')
+        for cat in cats:
+            self.driver.get(cat)
+            self.time.sleep(1)
+            self.links.extend(self.get_links())
+            while self.nextPage():
+                self.links.extend(self.get_links())
+                
     def get_info(self,item=None):
         
         db = table_gateway.gateway()
@@ -166,37 +175,35 @@ class whd(domainobject.domainobject):
         
     def search_item(self,row):
         
-        new_2025 = ['https://www.whdfloral.com/everyday.html','https://www.whdfloral.com/pottery-vases.html','https://www.whdfloral.com/seasonal/everyday.html']
+        print("Searching for item: " + row)
         
-        self.links = []
+        self.links = [] # reset links
+        
+        # new_2025 = ['https://www.whdfloral.com/seasonal/christmas.html']
+        link = 'https://www.whdfloral.com/seasonal/christmas.html'
 
         # print("\nSearching for item: " + row+"\n")
         # print(self.search+row)
         
         
-        for link in new_2025:
+        # for link in new_2025:
 
-            self.driver.get(link)#self.search+row)
-            self.time.sleep(1)
+        self.driver.get(link)#self.search+row)
+        self.time.sleep(1)
 
+        items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]
+        print(items)
+        self.links.extend(items)
+        while self.nextPage():
             items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]
             print(items)
             self.links.extend(items)
-            while self.nextPage():
-                items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]
-                print(items)
-                self.links.extend(items)
-                
-                
             
+        # Remove duplicates and return
         if len(self.links) > 0:
             results = set(self.links)
             print(f"Total: {len(results)}")
             return results
-        
-        
-            
-        return
 
         # self.driver.get(r'https://whdfloral.com/catalogsearch/result/?q=" "')
         # https://whdfloral.com/catalogsearch/result/?q=""

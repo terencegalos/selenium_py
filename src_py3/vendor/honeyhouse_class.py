@@ -135,7 +135,17 @@ class honeyhouse(domainobject):
         print(db)
         return db
         
-        
+    def nextPage(self):
+        pages = self.driver.find_elements(By.CSS_SELECTOR,"#COMSrchPageTop > a")
+        if self.count >= len(pages):
+            print("Page exhausted.")
+            return False
+
+        self.driver.find_elements(By.CSS_SELECTOR,"#COMSrchPageTop > a")[self.count].click()
+        self.time.sleep(1)
+        self.count += 1
+        return True    
+    
     def search_item(self,row):
         
         print("\nSearching for item: " + row+"\n")
