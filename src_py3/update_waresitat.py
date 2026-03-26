@@ -1,5 +1,6 @@
 import xlwt,csv,os,sys,importlib
 import time
+from helper import config
 # from urllib2 import urlopen,HTTPError,URLError
 #!/usr/bin/env python # -*- coding: utf-8 -*-
 
@@ -182,7 +183,8 @@ def makeXLS(obj,vendor):
 				except:
 					row.write( index,v.encode("utf-8"))
 				
-	wbook.save(os.path.dirname(__file__)+"/xls/output/waresitat/auto_"+vendor.filename)
+	output_path = os.path.join(config.XLS_OUTPUT_WARESITAT, "auto_" + vendor.filename)
+	wbook.save(output_path)
 
 def main(vendor_ids):
 

@@ -1,4 +1,5 @@
 import xlrd, os, platform
+from helper import config
 
 # grabs file depending on which type and detects file attachment
 class TableData():
@@ -11,8 +12,7 @@ class TableData():
 		print("M code: "+str(mode))
 		if mode == None or mode == 0:
 			print("Normal mode.")
-			# self.path = "E:/Dropbox/Waresitat Files/2022 Upload/Waresitat Upload/"
-			self.path = r'C:/Users/USER/Dropbox/Waresitat Files/2022 Upload/Waresitat Upload/'
+			self.path = config.WARESITAT_UPLOAD_PATH + '/'
 			# Convert Windows path to WSL path if running on Linux
 			if platform.system() == 'Linux' and self.path.startswith('C:/'):
 				self.path = self.path.replace('C:/', '/mnt/c/', 1).replace('\\', '/')
@@ -30,8 +30,7 @@ class TableData():
 			self.filename = str(vendor.code)+".xls"
 		elif mode == 3:
 			print("BHBT mode.")
-			# self.path = "E:/Dropbox/Waresitat Files/2022 Upload/BuyHereBuyThere/"
-			self.path = r'c:/Users/USER/Dropbox/Waresitat Files/2022 Upload/BuyHereBuyThere/'
+			self.path = config.BHBT_UPLOAD_PATH + '/'
 			# Convert Windows path to WSL path if running on Linux
 			if platform.system() == 'Linux' and self.path.startswith('c:/'):
 				self.path = self.path.replace('c:/', '/mnt/c/', 1).replace('\\', '/')

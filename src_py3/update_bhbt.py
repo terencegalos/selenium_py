@@ -1,5 +1,6 @@
 import xlwt,csv,os,sys,time
 from openpyxl import Workbook # for working with xlsx 
+from helper import config
 # from urllib2 import urlopen,HTTPError,URLError
 
 
@@ -149,7 +150,8 @@ def makeXLS(wobj,vendor):
 			except:
 				row.write(index,v)
 	
-	wbook.save(os.path.dirname(__file__)+"/xls/output/bhbt/auto_"+vendor.bhbt.replace("xlsx","xls"))
+	output_path = os.path.join(config.XLS_OUTPUT_BHBT, "auto_" + vendor.bhbt.replace("xlsx", "xls"))
+	wbook.save(output_path)
 
 
 def main():
