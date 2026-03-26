@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 # from selenium_stealth import stealth
 
 import undetected_chromedriver as uc
+from webdriver_manager.chrome import ChromeDriverManager
 
 # capa = DesiredCapabilities.CHROME
 
@@ -38,8 +39,11 @@ def init_driver():
         chrome_options.add_argument('--window-size=1920,924') # set viewport size
         # chrome_options.add_argument('--user-data-dir=file:///C:/Users/USER/AppData/Local/Google/Chrome/User%20Data/Default/') 
     
+    # Use webdriver-manager to automatically download the correct ChromeDriver
+    driver_path = ChromeDriverManager().install()
+    
     # browser = webdriver.Chrome(options=chrome_options)#executable_path = path)#, options=chrome_options)
-    browser = uc.Chrome(options=chrome_options,use_subprocess=True)#executable_path = path)#, options=chrome_options)
+    browser = uc.Chrome(options=chrome_options, driver_executable_path=driver_path, use_subprocess=True)#executable_path = path)#, options=chrome_options)
     
     # Apply selenium-stealth to the driver
     # stealth(browser,

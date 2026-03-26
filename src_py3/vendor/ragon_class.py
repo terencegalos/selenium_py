@@ -1,6 +1,6 @@
 from helper.table_gateway import gateway
 from helper.domainobject import domainobject
-import datetime,csv
+import datetime,csv,os
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
@@ -15,6 +15,77 @@ class ragon(domainobject):
     def __init__(self,driver,scraper_mode):
         super().__init__(driver)
         self.mode = scraper_mode
+        self.resume_file = os.path.join(os.path.dirname(__file__), "..", "resume", f"{self.vendor.replace('/', '_')}_resume.txt")
+        self.last_processed_url = None
+        self._ensure_resume_directory()
+        self.mode = scraper_mode
+        self.resume_file = os.path.join(os.path.dirname(__file__), "..", "resume", f"{self.vendor.replace('/', '_')}_resume.txt")
+        self.last_processed_url = None
+        self._ensure_resume_directory()
+        self.load_resume_point()  # Load resume point for all modes
+
+    def _ensure_resume_directory(self):
+        """Ensure the resume directory exists"""
+        resume_dir = os.path.dirname(self.resume_file)
+        if not os.path.exists(resume_dir):
+            os.makedirs(resume_dir)
+
+    def save_resume_point(self, url):
+        """Save the last processed URL for resume functionality"""
+        try:
+            with open(self.resume_file, 'w', encoding='utf-8') as f:
+                f.write(url)
+            self.last_processed_url = url
+            print(f"💾 Resume point saved: {url}")
+        except Exception as e:
+            print(f"Warning: Could not save resume point: {e}")
+
+    def load_resume_point(self):
+        """Load the last processed URL from resume file"""
+        try:
+            if os.path.exists(self.resume_file):
+                with open(self.resume_file, 'r', encoding='utf-8') as f:
+                    url = f.read().strip()
+                    if url:
+                        self.last_processed_url = url
+                        print(f"📖 Resume point loaded: {url}")
+                        return url
+        except Exception as e:
+            print(f"Warning: Could not load resume point: {e}")
+        return None
+
+    def clear_resume_point(self):
+        """Clear the resume file when scraping is complete"""
+        try:
+            if os.path.exists(self.resume_file):
+                os.remove(self.resume_file)
+                print("🗑️ Resume point cleared - scraping completed successfully")
+        except Exception as e:
+            print(f"Warning: Could not clear resume point: {e}")
+
+    def get_resume_index(self, links):
+        """Find the index to resume from in the links list"""
+        if not self.last_processed_url:
+            return 0
+
+        try:
+            # Find the exact URL
+            if self.last_processed_url in links:
+                index = links.index(self.last_processed_url)
+                print(f"🎯 Found resume point at index {index}: {self.last_processed_url}")
+                return index + 1  # Start from the next item
+
+            # If exact match not found, try to find a similar URL (in case of slight changes)
+            for i, link in enumerate(links):
+                if self.last_processed_url.split('/')[-1] in link:  # Match by product slug
+                    print(f"🎯 Found similar resume point at index {i}: {link}")
+                    return i
+
+        except Exception as e:
+            print(f"Warning: Could not find resume index: {e}")
+
+        print("⚠️ Resume point not found in current links, starting from beginning")
+        return 0
 
     vendor = "Ragon House Collection"
     url = "http://ragonhouse.com/"
@@ -137,101 +208,84 @@ class ragon(domainobject):
 
 
     def search_item(self,row=None):
-        everydayfloral = ("https://ragonhouse.com/everyday/", "https://ragonhouse.com/rh-floral/")
-        self.driver.get('https://ragonhouse.com/sitemap')
+        """Search for items.
 
-        allSeasons = self.driver.find_element(By.CSS_SELECTOR,"#main-content > div.container > ul > li:nth-child(2) > ul")
-        allSeasons = [a.get_attribute("href") for a in allSeasons.find_elements(By.TAG_NAME,"a")]
-        print(allSeasons)
-        
+        Behavior:
+        - If `row` is provided, attempt a quick site search using the header search box.
+        - If no `row` provided, default to scraping the single collection page
+          https://ragonhouse.com/flameless-candles/ (per request).
+        Returns a deduplicated list of product page URLs.
+        """
         self.items = []
-        # if row:
-        #     print("\nSearching for item: " + row+"\n")
-        #     while True:
-        #         try:
-        #             self.driver.find_element(By.CSS_SELECTOR,"#quick-search-expand").click()
-        #             self.time.sleep(1)
-        #             self.driver.find_element(By.NAME,"nav-quick-search").clear()
-        #             self.driver.find_element(By.NAME,"nav-quick-search").send_keys(row)
-        #             self.driver.find_element(By.NAME,"nav-quick-search").send_keys(Keys.ENTER)
-        #             self.time.sleep(1)
-        #             # self.driver.get("https://ragonhouse.com/index.php?subcats=Y&pcode_from_q=Y&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y&q=+&dispatch=products.search&page=16")
-        #             break
-        #         except Exception as e:
-        #             print(e)
-        #             self.driver.refresh()
-        #             self.time.sleep(1)
-        #             continue
-        # else:
-        #     self.driver.get(self.sitemap)
-        #     self.time.sleep(1)
-        
-        def extract_urls():
-            # print("Loading...")
-            # self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            # self.time.sleep(1)
-            # item = [a.get_attribute("href") for a in self.driver.find_elements(By.XPATH,'//*[@id="product-listing-container"]/div[1]/ul/li/article/div/h3/a')]
-            # print("\n".join(item))
-            # if item:
-            #     return item
-            # return False
-            
-            # load items first that are lazy loaded before extracting URLs - it might load more items if we scroll down
-            while True:
-                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+        # If a row/sku is given, try the quick-search box (best-effort).
+        if row:
+            try:
+                print(f"Searching SKU/text: {row}")
+                WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, '#quick-search-expand'))).click()
+                self.time.sleep(1)
+                q = self.driver.find_element(By.NAME, 'nav-quick-search')
+                q.clear()
+                q.send_keys(row)
+                q.send_keys(Keys.ENTER)
                 self.time.sleep(2)
-                item = [a.get_attribute("href") for a in self.driver.find_elements(By.XPATH,'//*[@id="product-listing-container"]/div[1]/ul/li/article/div/h3/a')]
-                if len(item) >= self.counter: # if no more new items loaded, break the loop
+            except Exception as e:
+                print('Quick search failed:', e)
+
+        # Default to the single collection page requested by the user
+        pages = ['https://ragonhouse.com/flameless-candles/']
+
+        def extract_urls_from_current_page():
+            """Scroll to load lazy items and return product links found on the listing."""
+            prev_count = 0
+            for _ in range(8):  # try a few times to allow lazy loading
+                self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+                self.time.sleep(1.5)
+                # Try primary selector first, fall back to a common alternative
+                elems = self.driver.find_elements(By.XPATH, '//*[@id="product-listing-container"]/div[1]/ul/li/article/div/h3/a')
+                if not elems:
+                    elems = self.driver.find_elements(By.CSS_SELECTOR, '.card-title a')
+                links = [a.get_attribute('href') for a in elems if a.get_attribute('href')]
+                if len(links) == prev_count:
                     break
-                self.counter = len(item)
-            print("\n".join(item))
-            if item:
-                return item
-            return False
-        
-        def get_unique(items):
-            unique = [item for item in items if item not in self.items]
-            return unique
+                prev_count = len(links)
+            return links
 
-        for page in allSeasons: # loop through the pages
-            # Extract item URLs from the page
-            print("Extracting page: %s",page)
-            self.driver.get(page)
-            self.time.sleep(1)
-            items = extract_urls() # get all items in the page
-            if not items: # if no items found, skip to the next page
-                print("No items found.")
+        for page in pages:
+            try:
+                print('Opening collection page:', page)
+                self.driver.get(page)
+                self.time.sleep(1)
+            except Exception as e:
+                print('Failed to load page', page, e)
                 continue
-            unique = get_unique(items) # get unique items
-            self.items.extend(unique) # add unique items to the list
-            # previous_items = set(self.items)
-            # Continue to extract more items until no new items are found
-            # while True: 
-            #     try:
-            #         items = extract_urls()
-            #         unique = get_unique(items)
-            #         if not items or set(unique).issubset(previous_items):
-            #             break
-            #         self.items.extend(unique)
-            #         previous_items = set(self.items)
-            #         continue
-            #     except Exception as e:
-            #         print(e)
-            #         break
 
-        # self.items.extend(item)
+            try:
+                found = extract_urls_from_current_page()
+                if found:
+                    self.items.extend(found)
+            except Exception as e:
+                print('Error extracting URLs from', page, e)
 
-            while self.nextPage():
-                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-                self.time.sleep(2)
+            # Try to paginate (best-effort). If nextPage() finds a next button, gather links there too.
+            while True:
                 try:
-                    item = [a.get_attribute("href") for a in WebDriverWait(self.driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.card-title a')))]
-                except:
-                    item = []
-                print(item)
-                self.items.extend(item)
+                    has_next = self.nextPage()
+                except Exception:
+                    has_next = False
+                if not has_next:
+                    break
+                self.time.sleep(1)
+                try:
+                    found = extract_urls_from_current_page()
+                    if found:
+                        self.items.extend(found)
+                except Exception as e:
+                    print('Error extracting after pagination', e)
+                    break
 
-        return list(set(self.items))
+        # Deduplicate and return
+        return list(dict.fromkeys(self.items))
 
     def get_links(self):
         """Return product links found on the current listing page."""

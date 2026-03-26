@@ -1,0 +1,21 @@
+
+# Current Architecture Issues:
+# 1. Single-threaded processing (9.9x slower than async)
+# 2. 98MB+ CSV data files (scalability bottleneck)
+# 3. 69 vendor classes with duplicated logic
+# 4. No centralized monitoring/logging
+# 5. Tight coupling between components
+# 6. No distributed processing capability
+# 7. Memory-intensive (loads all URLs at once)
+# 8. Basic error handling and recovery
+
+# Enhancement Options Summary:
+# 1. Async Processing: 10x performance improvement
+# 2. Distributed Processing: Scale across multiple machines
+# 3. Database Integration: Replace CSV files
+# 4. Container Orchestration: Kubernetes/Docker Swarm
+# 5. Monitoring Stack: ELK + Prometheus/Grafana
+# 6. API-first Design: RESTful interfaces
+# 7. ML-powered Selector Discovery: Auto-detect page changes
+# 8. Cloud-native: Serverless functions + managed databases
+

@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 import re
 
 class whd(domainobject.domainobject):
@@ -39,45 +40,116 @@ class whd(domainobject.domainobject):
             print("Page exhausted.")
             return False
 
-    def init_login(self,un,pw):
+    def init_login(self, un, pw):
         self.driver.get(self.url)
-        self.time.sleep(1)
-        # print self.driver.find_element(By.CSS_SELECTOR,"#login-form").get_attribute("innerHTML")
+        self.time.sleep(2)
         
-        print("Logging in.")
-        self.driver.find_element(By.CSS_SELECTOR,"#login-form #email").send_keys(self.uname)
-        self.driver.find_element(By.CSS_SELECTOR,"#login-form #pass").send_keys(self.passw)
-        self.driver.find_element(By.CSS_SELECTOR,"#login-form #pass").send_keys(Keys.ENTER)
-        self.time.sleep(5)
-        # self.driver.find_element(By.CSS_SELECTOR,"#login-form #pass").send_keys(Keys.ENTER)
-        # ActionChains(self.driver).move_to_element(self.driver.find_element(By.CSS_SELECTOR,"#send2"))
-        # self.driver.find_element(By.CSS_SELECTOR,"#send2").click()
+        print("Logging in...")
+        
+        try:
+            # Try multiple selectors for email field
+            try:
+                email_field = self.driver.find_element(By.CSS_SELECTOR, "#login-form #email")
+            except NoSuchElementException:
+                try:
+                    email_field = self.driver.find_element(By.ID, "email")
+                except NoSuchElementException:
+                    email_field = self.driver.find_element(By.NAME, "login[username]")
+            
+            # Try multiple selectors for password field
+            try:
+                pass_field = self.driver.find_element(By.CSS_SELECTOR, "#login-form #pass")
+            except NoSuchElementException:
+                try:
+                    pass_field = self.driver.find_element(By.ID, "pass")
+                except NoSuchElementException:
+                    pass_field = self.driver.find_element(By.NAME, "login[password]")
+            
+            email_field.send_keys(self.uname)
+            pass_field.send_keys(self.passw)
+            pass_field.send_keys(Keys.ENTER)
+            
+            self.time.sleep(5)
+            
+        except Exception as e:
+            print(f"Login form error: {e}")
+            print("Please login manually in the browser...")
+        
+        # Manual confirmation for CAPTCHA or verification
         while True:
-            inp = input("Enter yes if done.")
-            if inp == "yes":
-                # self.driver.find_element_by_name("password").send_keys(Keys.ENTER)
+            inp = input("Login complete? Enter 'yes' to continue: ")
+            if inp.lower() == "yes":
                 self.time.sleep(1)
                 break
             else:
                 continue
         
-        print("Success.")
-        self.time.sleep(5)
+        print("Login successful.")
+        self.time.sleep(3)
 
-    def get_all_items(self,cat_num):
-        print("Extracting links from sitemap...")
-        self.driver.get("https://www.janmichaelsartandhome.com/sitemap/categories/") #navigate categories
-        self.time.sleep(1) #delay 1 sec for page to load
-
-        #get all category links and loop each and navigate
-        cats = [cat.get_attribute("href") for cat in self.driver.find_elements(By.CSS_SELECTOR,"body > div.body > div.container > ul > li > ul > li > a")[:int(cat_num)]]# 
-        print(f'Categories: {" ".join(cats)}')
-        for cat in cats:
-            self.driver.get(cat)
-            self.time.sleep(1)
-            self.links.extend(self.get_links())
-            while self.nextPage():
-                self.links.extend(self.get_links())
+    def get_all_items(self, cat_num=None):
+        """Scrape all product URLs from WHD categories"""
+        print("Starting sitewide scraping for Wholesale Home Decor...")
+        
+        # Main navigation links from homepage (priority order from nav bar)
+        categories = [
+            'https://www.whdfloral.com/new-2024.html',      # New 2025
+            'https://www.whdfloral.com/everyday-decor.html',       # Florals
+            'https://www.whdfloral.com/seasonal/fall.html',      # Fall
+            'https://www.whdfloral.com/seasonal/christmas.html',      # Christmas
+            'https://www.whdfloral.com/seasonal/spring.html', # Spring
+        ]
+        
+        # If cat_num provided, only scrape that many categories
+        if cat_num:
+            categories = categories[:int(cat_num)]
+        
+        print(f"Processing {len(categories)} categories...")
+        
+        for i, category_url in enumerate(categories, 1):
+            print(f"\n[{i}/{len(categories)}] Processing category: {category_url}")
+            
+            try:
+                self.driver.get(category_url)
+                self.time.sleep(self.delay)
+                
+                # Get items from first page
+                try:
+                    items = [
+                        item.get_attribute("href") 
+                        for item in self.driver.find_elements(By.CSS_SELECTOR, "div.product.details.product-item-details > strong > a")
+                        if item.get_attribute("href") and item.get_attribute("href") not in self.links
+                    ]
+                    print(f"Found {len(items)} products on page 1")
+                    self.links.extend(items)
+                except Exception as e:
+                    print(f"Error getting items from page: {e}")
+                
+                # Paginate through remaining pages
+                page_num = 1
+                while self.nextPage():
+                    page_num += 1
+                    print(f"Processing page {page_num}...")
+                    try:
+                        items = [
+                            item.get_attribute("href") 
+                            for item in self.driver.find_elements(By.CSS_SELECTOR, "div.product.details.product-item-details > strong > a")
+                            if item.get_attribute("href") and item.get_attribute("href") not in self.links
+                        ]
+                        print(f"Found {len(items)} products on page {page_num}")
+                        self.links.extend(items)
+                    except Exception as e:
+                        print(f"Error getting items from page {page_num}: {e}")
+                        break
+                
+            except Exception as e:
+                print(f"Error processing category {category_url}: {e}")
+                continue
+        
+        # Remove duplicates
+        self.links = list(set(self.links))
+        print(f"\n✓ Total unique products found: {len(self.links)}")
+        return self.links
                 
     def get_info(self,item=None):
         
@@ -93,7 +165,7 @@ class whd(domainobject.domainobject):
         db.sku = self.driver.find_element(By.XPATH,'//*[@id="maincontent"]/div[2]/div/div[1]/div[2]/div/div[3]/div[1]/div[2]/div').text
         db.cat = ""
         try:
-            db.desc = self.driver.find_element(By.CSS_SELECTOR,"#description > div > div").text.encode("utf-8")
+            db.desc = self.driver.find_element(By.CSS_SELECTOR,"#description > div > div").text
         except:
             db.desc = ""
 
@@ -173,37 +245,47 @@ class whd(domainobject.domainobject):
         return db
         
         
-    def search_item(self,row):
+    def search_item(self, row):
+        """Search for a specific item by SKU or keyword"""
+        print(f"Searching for item: {row}")
         
-        print("Searching for item: " + row)
+        self.links = []  # reset links
         
-        self.links = [] # reset links
+        # Navigate to search results
+        search_url = f"{self.search}{row}"
+        print(f"Navigating to: {search_url}")
         
-        # new_2025 = ['https://www.whdfloral.com/seasonal/christmas.html']
-        link = 'https://www.whdfloral.com/seasonal/christmas.html'
-
-        # print("\nSearching for item: " + row+"\n")
-        # print(self.search+row)
+        self.driver.get(search_url)
+        self.time.sleep(self.delay)
         
-        
-        # for link in new_2025:
-
-        self.driver.get(link)#self.search+row)
-        self.time.sleep(1)
-
-        items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]
-        print(items)
-        self.links.extend(items)
-        while self.nextPage():
-            items = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]
-            print(items)
+        try:
+            # Get items from first page
+            items = [
+                i.get_attribute("href") 
+                for i in self.driver.find_elements(By.CSS_SELECTOR, "div.product.details.product-item-details > strong > a")
+                if i.get_attribute("href") and i.get_attribute("href") not in self.links
+            ]
+            print(f"Found {len(items)} items on page 1")
             self.links.extend(items)
             
+            # Paginate if needed
+            while self.nextPage():
+                items = [
+                    i.get_attribute("href") 
+                    for i in self.driver.find_elements(By.CSS_SELECTOR, "div.product.details.product-item-details > strong > a")
+                    if i.get_attribute("href") and i.get_attribute("href") not in self.links
+                ]
+                print(f"Found {len(items)} items")
+                self.links.extend(items)
+        except Exception as e:
+            print(f"Error during search: {e}")
+            return None
+        
         # Remove duplicates and return
         if len(self.links) > 0:
-            results = set(self.links)
-            print(f"Total: {len(results)}")
+            results = list(set(self.links))
+            print(f"Total unique results: {len(results)}")
             return results
-
-        # self.driver.get(r'https://whdfloral.com/catalogsearch/result/?q=" "')
-        # https://whdfloral.com/catalogsearch/result/?q=""
+        
+        print("No results found")
+        return None

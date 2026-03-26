@@ -122,10 +122,10 @@ def updateMasterFile(vendor):
 			
 				# local.prod[line]['size'] == catalog.prod[line]['size'] and \
 				# local.prod[line]['name'] == catalog.prod[line]['name'] and \
-				# float(local.prod[line]['price1']) == float(catalog.prod[line]['price1']) and \
 			if local.prod[line]['stock'] == catalog.prod[line]['stock'] and \
 				local.prod[line]['sale'] == catalog.prod[line]['sale'] and \
 				float(local.prod[line]['min']) == float(catalog.prod[line]['min']) and \
+				float(local.prod[line]['price1']) == float(catalog.prod[line]['price1']) and \
 				local.prod[line]['min2'] == catalog.prod[line]['min2'] and \
 				local.prod[line]['price2'] == catalog.prod[line]['price2'] and \
 				local.prod[line]['min3'] == catalog.prod[line]['min3'] and \

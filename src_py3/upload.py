@@ -60,6 +60,20 @@ try:
             EC.visibility_of_element_located((By.CSS_SELECTOR, "input[value=\"Save List\"]"))
         ).click()  # save
 
+    # Robust check for upload success
+    try:
+        # Wait for success confirmation - look for common success indicators
+        WebDriverWait(br, 30).until(
+            lambda driver: "successful" in driver.page_source.lower() or 
+                          "uploaded" in driver.page_source.lower() or
+                          "complete" in driver.page_source.lower()
+        )
+        print("Upload verified as successful.")
+    except:
+        print("Warning: Upload may have failed - no success confirmation found on page.")
+        # Optionally, you could raise an exception here to stop the script
+        # raise Exception("Upload verification failed")
+
     print("Vendor uploaded.")
 except Exception as e:
     print(f"An error occurred during the upload process: {e}")

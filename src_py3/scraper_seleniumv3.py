@@ -20,6 +20,7 @@ class Scraper:
     def __init__(self, vendor_name,scraping_mode=None):
         self.browser = webdriver_config.init_driver()
         self.vendor_name = vendor_name
+        self.mode = scraping_mode
         
         # Import the vendor-specific class
         # contruct path
@@ -37,8 +38,8 @@ class Scraper:
         self.vendor_class = getattr(vendor_module, vendor_name)
         
         # Initialize the vendor and get missing items
-        self.target_vendor = self.vendor_class(self.browser,scraping_mode)
-        if 'sitewide' in mode:
+        self.target_vendor = self.vendor_class(self.browser,self.mode)
+        if self.mode and 'sitewide' in self.mode:
             self.target_vendor.get_all_items()
         else:
             self.missing = self.target_vendor.get_missing(self.target_vendor.vendor)
@@ -76,29 +77,58 @@ class Scraper:
         # If results were found, loop through them
         if self.target_vendor.results(self.target_vendor.links):
             print(self.target_vendor.links)
-            # Loop through results and scrape
             
-            # index = self.target_vendor.links.index(self.target_vendor.lastStop) if self.target_vendor.lastStop is not None else 0
-            # print(f"Resuming from index: {index} and item: {self.target_vendor.lastStop}")
-            for item in tqdm(self.target_vendor.links):
+            # Get resume index for sitewide mode
+            resume_index = 0
+            if 'sitewide' in self.mode and hasattr(self.target_vendor, 'get_resume_index'):
+                resume_index = self.target_vendor.get_resume_index(self.target_vendor.links)
+                print(f"▶️ Resuming from index: {resume_index}")
+            
+            # Loop through results and scrape
+            successful_items = 0
+            for i, item in enumerate(tqdm(self.target_vendor.links[resume_index:], initial=resume_index, total=len(self.target_vendor.links)), start=resume_index):
                 print(f"item: {item}")
-                self.target_vendor.navigate(item)
+                
+                # Validate URL before processing
+                if hasattr(self.target_vendor, 'is_valid_product_url') and not self.target_vendor.is_valid_product_url(item):
+                    print(f"⚠️ Skipping invalid URL: {item}")
+                    continue
+                
+                try:
+                    self.target_vendor.navigate(item)
+                    db = self.target_vendor.get_info()
+                    time.sleep(self.delay)
 
-                db = self.target_vendor.get_info()
-                time.sleep(self.delay)
-
-                # Save scraped data to database and backup file
-                if db is not None:
-                    if isinstance(db, list):
-                        print("Multiple items detected..")
-                        for d in db:
-                            if d is None:
-                                continue
-                            self.active_record.save(d)
-                            backup_file_writer.writerow(d.retrieve())
-                    else:
-                        self.active_record.save(db)
-                        backup_file_writer.writerow(db.retrieve())
+                    # Save scraped data to database and backup file
+                    if db is not None:
+                        if isinstance(db, list):
+                            print("Multiple items detected..")
+                            for d in db:
+                                if d is None:
+                                    continue
+                                self.active_record.save(d)
+                                backup_file_writer.writerow(d.retrieve())
+                        else:
+                            self.active_record.save(db)
+                            backup_file_writer.writerow(db.retrieve())
+                        
+                        # Save resume point after successful processing
+                        if hasattr(self.target_vendor, 'save_resume_point'):
+                            self.target_vendor.save_resume_point(item)
+                        successful_items += 1
+                        
+                except Exception as e:
+                    print(f"❌ Error processing item {item}: {e}")
+                    # Still save resume point even on error, so we don't reprocess failed items
+                    if hasattr(self.target_vendor, 'save_resume_point'):
+                        self.target_vendor.save_resume_point(item)
+                    continue
+            
+            # Clear resume point when scraping is complete
+            if hasattr(self.target_vendor, 'clear_resume_point'):
+                self.target_vendor.clear_resume_point()
+            
+            print(f"✅ Scraping completed! Successfully processed {successful_items} items.")
         else:
             # Directly attempt to get item info
             print("\nDirect get info attempt.\n")

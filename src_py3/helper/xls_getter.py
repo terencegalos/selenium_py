@@ -1,4 +1,4 @@
-import xlrd, os
+import xlrd, os, platform
 
 # grabs file depending on which type and detects file attachment
 class TableData():
@@ -13,6 +13,9 @@ class TableData():
 			print("Normal mode.")
 			# self.path = "E:/Dropbox/Waresitat Files/2022 Upload/Waresitat Upload/"
 			self.path = r'C:/Users/USER/Dropbox/Waresitat Files/2022 Upload/Waresitat Upload/'
+			# Convert Windows path to WSL path if running on Linux
+			if platform.system() == 'Linux' and self.path.startswith('C:/'):
+				self.path = self.path.replace('C:/', '/mnt/c/', 1).replace('\\', '/')
 			self.filename = vendor.filename
 		elif mode == 1:
 			print("SHST mode.")
@@ -29,6 +32,9 @@ class TableData():
 			print("BHBT mode.")
 			# self.path = "E:/Dropbox/Waresitat Files/2022 Upload/BuyHereBuyThere/"
 			self.path = r'c:/Users/USER/Dropbox/Waresitat Files/2022 Upload/BuyHereBuyThere/'
+			# Convert Windows path to WSL path if running on Linux
+			if platform.system() == 'Linux' and self.path.startswith('c:/'):
+				self.path = self.path.replace('c:/', '/mnt/c/', 1).replace('\\', '/')
 			if vendor.bhbt:
 				self.filename = vendor.bhbt
 		if self._paramcheck():

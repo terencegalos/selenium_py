@@ -5,9 +5,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-import requests, xmltodict
 
 class hannas(domainobject):
+
+    def __init__(self, driver, scraper_mode=None):
+        # Initialize base domainobject which will call init_login using
+        # class-level uname/passw attributes. Store optional mode.
+        super().__init__(driver)
+        self.mode = scraper_mode
 
     vendor = "Hanna's Handiworks"
     products = "https://www.hannashandiworks.com/products.html"
@@ -15,7 +20,7 @@ class hannas(domainobject):
     home = "http://www.hannashandiworks.com/"
     uname = "rick@waresitat.com"
     passw = "wolfville"
-    lastStop = "https://www.hannashandiworks.com/products.html?p=58"
+    lastStop = ""
     delay = 1
     flag = 0
     
@@ -36,13 +41,90 @@ class hannas(domainobject):
             return False
 
     def get_all_items(self):
-        # print link
-        xmlfile = requests.get("https://www.hannashandiworks.com/sitemap.xml")
-        self.time.sleep(1)
-        data = xmltodict.parse(xmlfile.content)
-        print(data)
-
-        self.links.extend([d['loc'] for d in data['urlset']['url'] if d['loc'] not in self.links])
+        """
+        Scrape product categories and paginate through each to collect all product links.
+        Replaces the sitemap approach with category-based scraping.
+        """
+        print("Navigating to products page to extract categories...")
+        self.driver.get(self.products)
+        self.time.sleep(self.delay)
+        
+        # Extract category links from the products page
+        # Common selectors: nav menu, sidebar, or category list
+        # Adjust CSS selectors based on site structure
+        categories = []
+        
+        try:
+            # Try to find category links in the main navigation or sidebar
+            # Attempt multiple selectors for robustness
+            category_elements = self.driver.find_elements(By.CSS_SELECTOR, "nav a[href*='/products/']")
+            
+            if not category_elements:
+                category_elements = self.driver.find_elements(By.CSS_SELECTOR, ".category-links a, .sidebar a[href*='/products/']")
+            
+            if not category_elements:
+                # Fallback: look for any links in a categories section
+                category_elements = self.driver.find_elements(By.CSS_SELECTOR, "a[href*='products']")
+            
+            # Filter and deduplicate category URLs
+            for elem in category_elements:
+                href = elem.get_attribute("href")
+                if href and "/products/" in href and href not in categories:
+                    categories.append(href)
+                    
+            # If no categories found, default to the main products page
+            if not categories:
+                print("No categories found, using main products page")
+                categories = [self.products]
+            else:
+                print(f"Found {len(categories)} categories: {categories[:5]}..." if len(categories) > 5 else f"Found {len(categories)} categories: {categories}")
+                
+        except Exception as e:
+            print(f"Error extracting categories: {e}")
+            categories = [self.products]
+        
+        # Iterate through each category and paginate
+        for category_url in categories:
+            print(f"\nScraping category: {category_url}")
+            self.driver.get(category_url)
+            self.time.sleep(self.delay)
+            
+            page_num = 1
+            while True:
+                print(f"  Page {page_num}...")
+                
+                try:
+                    # Extract product links from current page
+                    # Adjust selector based on site structure
+                    product_elements = self.driver.find_elements(
+                        By.CSS_SELECTOR,
+                        "#layer-product-list a.product-item-link, .product-item a.product-item-photo, .product-item-details a"
+                    )
+                    
+                    page_products = []
+                    for elem in product_elements:
+                        href = elem.get_attribute("href")
+                        if href and ".html" in href and href not in self.links:
+                            page_products.append(href)
+                            self.links.append(href)
+                    
+                    print(f"    Found {len(page_products)} products on this page")
+                    
+                    if not page_products:
+                        print("    No products found on this page, moving to next category")
+                        break
+                    
+                    # Try to go to next page
+                    if not self.nextPage():
+                        break
+                    
+                    page_num += 1
+                    
+                except Exception as e:
+                    print(f"    Error on page {page_num}: {e}")
+                    break
+        
+        print(f"\nTotal products collected: {len(self.links)}")
 
     def init_login(self,un,pw):
         self.driver.get("https://www.hannashandiworks.com/customer/account/login/")
@@ -74,7 +156,8 @@ class hannas(domainobject):
         db.sku = WebDriverWait(self.driver,2).until(EC.visibility_of_element_located((By.CSS_SELECTOR,"#maincontent > div.columns > div > div.product-info-main > div.product-info-price > div.product-info-stock-sku > div.product.attribute.sku > div"))).text
         db.cat = ""
         try:
-            db.desc = self.driver.find_element(By.CSS_SELECTOR,"#description > div").text.encode("latin-1")
+            # keep description as text (str) under Python 3
+            db.desc = self.driver.find_element(By.CSS_SELECTOR,"#description > div").text
         except:
             db.desc = ""
         try:
@@ -141,7 +224,6 @@ class hannas(domainobject):
         print("\nSearching for item: " + row+"\n")
         # self.driver.get("https://www.hannashandiworks.com/products/fall.html")
         # self.time.sleep(1)
-        self.links = []
         # while True:
         #     try:
         #         self.driver.find_element(By.NAME,"q").clear()
@@ -156,23 +238,16 @@ class hannas(domainobject):
 
         # try:
         self.driver.get(f"https://www.hannashandiworks.com/catalogsearch/result/?q={row}")
-        # self.time.sleep(1)
-        item = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#layer-product-list > div > div.products.wrapper.grid.columns4.products-grid > ol > li > div > div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]
-        # item = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#layer-product-list > div.products.wrapper.grid.columns4.products-grid > ol > li > div > div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]
-        print(item)
-        self.links.extend(item)
-        # while self.nextPage():
-        #     try:
-        #         item = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#layer-product-list > div.products.wrapper.grid.columns4.products-grid > ol > li > div > div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]
-        #     except:
-        #         self.driver.refresh()
-        #         self.time.sleep(1)
-        #         item = [i.get_attribute("href") for i in self.driver.find_elements(By.CSS_SELECTOR,"#layer-product-list > div.products.wrapper.grid.columns4.products-grid > ol > li > div > div.product.details.product-item-details > strong > a") if i.get_attribute("href") not in self.links]
-        #     print item
-        #     self.links.extend(item)
-            
-        return self.links
-
-        # except:
-        #     return None
+        self.time.sleep(self.delay)
+        try:
+            elems = self.driver.find_elements(By.CSS_SELECTOR, "#layer-product-list > div > div.products.wrapper.grid.columns4.products-grid > ol > li > div > div.product.details.product-item-details > strong > a")
+            item = [i.get_attribute("href") for i in elems if i.get_attribute("href")]
+            # filter out links we already have
+            new_items = [h for h in item if h not in self.links]
+            print(new_items)
+            return new_items
+        except Exception as e:
+            print(f"Error searching for item {row}: {e}")
+            return []
+        
 
