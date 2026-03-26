@@ -66,9 +66,6 @@ class Scraper:
             # 1. Collect links if in targeted mode
             if not self.mode or 'sitewide' not in self.mode:
                 for sku in tqdm(self.missing, desc="Searching SKUs"):
-                    # self.counter.subtotal += 1.0
-                    # print("Progress: {}%".format(int((self.counter.subtotal / self.total) * 100)))
-
                     items = self.target_vendor.search_item(sku)
                     if items:
                         self.links.extend(items)
@@ -145,21 +142,3 @@ if __name__ == "__main__":
     
     scraper = Scraper(v_name, v_mode)
     scraper.run()
-
-
-        # Close the backup file and wait before sending to database
-        backup_file.close()
-        time.sleep(3)
-
-        # Send scraped data to file and close the browser
-        self.target_vendor.send_to_file(self.target_vendor.vendor, self.active_record)
-        print("Execution finished at: {}".format(datetime.now()))
-        self.target_vendor.driver.quit()
-
-
-if __name__ == "__main__":
-    vendor_name = sys.argv[1]
-    mode = sys.argv[2]
-    scraper = Scraper(vendor_name,mode)
-    scraper.run()
-    # os.system('shutdown -s') # shutdown down the computer
