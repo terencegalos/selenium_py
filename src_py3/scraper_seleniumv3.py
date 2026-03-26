@@ -1,152 +1,151 @@
 import sys
-import csv,os,time#,imp
-from datetime import datetime
+import csv
+import os
+import time
 import importlib.util
+from datetime import datetime
 from tqdm import tqdm
 
 # Custom modules
 from helper.active_record import ActiveRecord
 import helper.webdriver_config as webdriver_config
+from helper import config
 
-
-# Class for keeping track of the subtotal
-class Counter:
-    def __init__(self):
-        self.subtotal = 0
-
-
-# Main class for scraping
 class Scraper:
-    def __init__(self, vendor_name,scraping_mode=None):
+    """
+    Consolidated Scraper class handling both targeted (missing items) 
+    and sitewide scraping modes.
+    """
+    def __init__(self, vendor_name, scraping_mode=None):
         self.browser = webdriver_config.init_driver()
         self.vendor_name = vendor_name
         self.mode = scraping_mode
+        self.delay = 1
         
-        # Import the vendor-specific class
-        # contruct path
-        vendor_class_name = "{}_class".format(vendor_name)
-        parent_dir = os.path.dirname(__file__)
-        vendor_module_path = os.path.join(parent_dir,"vendor","{}.py".format(vendor_class_name))
-        # vendor_module = imp.load_source(vendor_class_name,vendor_module_path)
+        # Dynamically load vendor-specific class
+        self.target_vendor = self._load_vendor_class(vendor_name)
+        
+        # Initialize scraping targets based on mode
+        self.links = []
+        if self.mode and 'sitewide' in self.mode:
+            print(f"🚀 Starting sitewide scraping for {vendor_name}...")
+            self.target_vendor.get_all_items()
+            self.links = self.target_vendor.links
+        else:
+            print(f"🔍 Starting targeted scraping for {vendor_name} (missing items)...")
+            self.missing = self.target_vendor.get_missing(self.target_vendor.vendor)
+            self.total_missing = len(self.missing)
 
-        # use importlib to dynamically load the module
-        spec = importlib.util.spec_from_file_location(vendor_class_name,vendor_module_path)
+        self.active_record = ActiveRecord()
+
+    def _load_vendor_class(self, vendor_name):
+        """Helper to resolve and instantiate the vendor class."""
+        vendor_class_filename = f"{vendor_name}_class"
+        vendor_module_path = os.path.join(os.path.dirname(__file__), "vendor", f"{vendor_class_filename}.py")
+        
+        if not os.path.exists(vendor_module_path):
+            raise FileNotFoundError(f"Vendor module not found: {vendor_module_path}")
+
+        spec = importlib.util.spec_from_file_location(vendor_class_filename, vendor_module_path)
         vendor_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(vendor_module)
-
-
-        self.vendor_class = getattr(vendor_module, vendor_name)
         
-        # Initialize the vendor and get missing items
-        self.target_vendor = self.vendor_class(self.browser,self.mode)
-        if self.mode and 'sitewide' in self.mode:
-            self.target_vendor.get_all_items()
-        else:
-            self.missing = self.target_vendor.get_missing(self.target_vendor.vendor)
-            self.total = len(self.missing)
-        
-        # Initialize the database and counter
-        self.active_record = ActiveRecord()
-        self.delay = 1
-        self.counter = Counter()
+        vendor_class = getattr(vendor_module, vendor_name)
+        return vendor_class(self.browser, self.mode)
 
     def run(self):
+        # Setup fail-safe backup file using path from central config
+        backup_filename = f"{self.target_vendor.vendor}_output_fail_safe.csv"
+        backup_path = os.path.join(config.CSV_OUTFILE_PATH, backup_filename)
         
-        # Open a backup file for failed scrapes
-        backup_file = open(
-            os.path.dirname(__file__)+"/helper/csv/outfile/{}_output_fail_safe.csv".format(self.target_vendor.vendor),
-            "w", encoding="utf-8", newline=""
-        )
-        backup_file_writer = csv.writer(backup_file)
-
-        if 'sitewide' not in mode:
-
-            # Loop through missing items to search
-            for sku in tqdm(self.missing):
-                print(sku)
-                # self.counter.subtotal += 1.0
-                # print("Progress: {}%".format(int((self.counter.subtotal / self.total) * 100)))
-
-                # Search for item
-                items = self.target_vendor.search_item(sku)
-                if items:
-                    self.target_vendor.links.extend(items)
+        os.makedirs(os.path.dirname(backup_path), exist_ok=True)
         
-        
+        with open(backup_path, "w", encoding="utf-8", newline="") as backup_file:
+            writer = csv.writer(backup_file)
 
-        # If results were found, loop through them
-        if self.target_vendor.results(self.target_vendor.links):
-            print(self.target_vendor.links)
+            # 1. Collect links if in targeted mode
+            if not self.mode or 'sitewide' not in self.mode:
+                for sku in tqdm(self.missing, desc="Searching SKUs"):
+                    # self.counter.subtotal += 1.0
+                    # print("Progress: {}%".format(int((self.counter.subtotal / self.total) * 100)))
+
+                    items = self.target_vendor.search_item(sku)
+                    if items:
+                        self.links.extend(items)
+
+            # 2. Process collected links
+            if self.target_vendor.results(self.links):
+                self._process_links(writer)
+            else:
+                # Fallback for single item or direct navigation
+                print("\n⚠️ No multiple links found, attempting direct info extraction...")
+                self._extract_and_save(writer)
+
+        # 3. Finalize and export
+        self._finalize()
+
+    def _process_links(self, writer):
+        """Iterates through links and handles resume logic."""
+        resume_index = 0
+        if self.mode and 'sitewide' in self.mode and hasattr(self.target_vendor, 'get_resume_index'):
+            resume_index = self.target_vendor.get_resume_index(self.links)
+            print(f"▶️ Resuming from index: {resume_index}")
+
+        successful_count = 0
+        pbar = tqdm(self.links[resume_index:], initial=resume_index, total=len(self.links), desc="Scraping Products")
+        
+        for item in pbar:
+            if hasattr(self.target_vendor, 'is_valid_product_url') and not self.target_vendor.is_valid_product_url(item):
+                continue
             
-            # Get resume index for sitewide mode
-            resume_index = 0
-            if 'sitewide' in self.mode and hasattr(self.target_vendor, 'get_resume_index'):
-                resume_index = self.target_vendor.get_resume_index(self.target_vendor.links)
-                print(f"▶️ Resuming from index: {resume_index}")
-            
-            # Loop through results and scrape
-            successful_items = 0
-            for i, item in enumerate(tqdm(self.target_vendor.links[resume_index:], initial=resume_index, total=len(self.target_vendor.links)), start=resume_index):
-                print(f"item: {item}")
+            try:
+                self.target_vendor.navigate(item)
+                self._extract_and_save(writer)
+                successful_count += 1
                 
-                # Validate URL before processing
-                if hasattr(self.target_vendor, 'is_valid_product_url') and not self.target_vendor.is_valid_product_url(item):
-                    print(f"⚠️ Skipping invalid URL: {item}")
-                    continue
-                
-                try:
-                    self.target_vendor.navigate(item)
-                    db = self.target_vendor.get_info()
-                    time.sleep(self.delay)
+                if hasattr(self.target_vendor, 'save_resume_point'):
+                    self.target_vendor.save_resume_point(item)
+                    
+            except Exception as e:
+                print(f"\n❌ Error on {item}: {e}")
+                continue
 
-                    # Save scraped data to database and backup file
-                    if db is not None:
-                        if isinstance(db, list):
-                            print("Multiple items detected..")
-                            for d in db:
-                                if d is None:
-                                    continue
-                                self.active_record.save(d)
-                                backup_file_writer.writerow(d.retrieve())
-                        else:
-                            self.active_record.save(db)
-                            backup_file_writer.writerow(db.retrieve())
-                        
-                        # Save resume point after successful processing
-                        if hasattr(self.target_vendor, 'save_resume_point'):
-                            self.target_vendor.save_resume_point(item)
-                        successful_items += 1
-                        
-                except Exception as e:
-                    print(f"❌ Error processing item {item}: {e}")
-                    # Still save resume point even on error, so we don't reprocess failed items
-                    if hasattr(self.target_vendor, 'save_resume_point'):
-                        self.target_vendor.save_resume_point(item)
-                    continue
-            
-            # Clear resume point when scraping is complete
-            if hasattr(self.target_vendor, 'clear_resume_point'):
-                self.target_vendor.clear_resume_point()
-            
-            print(f"✅ Scraping completed! Successfully processed {successful_items} items.")
-        else:
-            # Directly attempt to get item info
-            print("\nDirect get info attempt.\n")
-            # try:
-            db = self.target_vendor.get_info()
-            time.sleep(self.delay)
-            if db is not None:
-                if isinstance(db, list):
-                    print("Multiple items detected..")
-                    for d in db:
-                        self.active_record.save(d)
-                        backup_file_writer.writerow(d.retrieve())
-                else:
-                    print("Single item only..")
-                    self.active_record.save(db)
-                    backup_file_writer.writerow(db.retrieve())
-            # except:
-            #     print("Item not found.")
+        if hasattr(self.target_vendor, 'clear_resume_point'):
+            self.target_vendor.clear_resume_point()
+        
+        print(f"\n✅ Finished! Processed {successful_count} items.")
+
+    def _extract_and_save(self, writer):
+        """Extraction logic shared between modes."""
+        db_entries = self.target_vendor.get_info()
+        time.sleep(self.delay)
+
+        if db_entries:
+            entries = db_entries if isinstance(db_entries, list) else [db_entries]
+            for entry in entries:
+                if entry:
+                    self.active_record.save(entry)
+                    writer.writerow(entry.retrieve())
+
+    def _finalize(self):
+        """Export to final file and cleanup."""
+        time.sleep(2)
+        print(f"📦 Exporting results for {self.target_vendor.vendor}...")
+        self.target_vendor.send_to_file(self.target_vendor.vendor, self.active_record)
+        print(f"📅 Finished at: {datetime.now()}")
+        self.browser.quit()
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python scraper_seleniumv3.py <vendor_name> [mode]")
+        sys.exit(1)
+        
+    v_name = sys.argv[1]
+    v_mode = sys.argv[2] if len(sys.argv) > 2 else None
+    
+    scraper = Scraper(v_name, v_mode)
+    scraper.run()
+
 
         # Close the backup file and wait before sending to database
         backup_file.close()
