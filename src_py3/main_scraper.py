@@ -134,7 +134,7 @@ class Scraper:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python scraper_seleniumv3.py <vendor_name> [mode]")
+        print("Usage: python main_scraper.py <vendor_name> [mode]")
         sys.exit(1)
         
     v_name = sys.argv[1]

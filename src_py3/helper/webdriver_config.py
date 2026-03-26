@@ -40,10 +40,22 @@ def init_driver():
         # chrome_options.add_argument('--user-data-dir=file:///C:/Users/USER/AppData/Local/Google/Chrome/User%20Data/Default/') 
     
     # Use webdriver-manager to automatically download the correct ChromeDriver
+    from webdriver_manager.chrome import ChromeDriverManager
+    from selenium.webdriver.chrome.service import Service
+    
     driver_path = ChromeDriverManager().install()
     
-    # browser = webdriver.Chrome(options=chrome_options)#executable_path = path)#, options=chrome_options)
-    browser = uc.Chrome(options=chrome_options, driver_executable_path=driver_path, use_subprocess=True)#executable_path = path)#, options=chrome_options)
+    # Simple check to avoid webdriver-manager returning a directory or a metadata file
+    if not driver_path.endswith(".exe") and os.name == 'nt':
+        # Sometimes it returns a path to a folder or a text file in new versions
+        parent = os.path.dirname(driver_path)
+        for root, dirs, files in os.walk(parent):
+            for file in files:
+                if file == "chromedriver.exe":
+                    driver_path = os.path.join(root, file)
+                    break
+    
+    browser = uc.Chrome(options=chrome_options, driver_executable_path=driver_path, use_subprocess=True)
     
     # Apply selenium-stealth to the driver
     # stealth(browser,
